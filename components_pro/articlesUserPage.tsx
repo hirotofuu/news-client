@@ -1,12 +1,11 @@
-import CommentChoice from '../components/choices/commentChoice'
+import ArticleUserChoice from '../components/choices/articleUserChoice'
 import {useState} from "react"
 
-const CommentsPage=(props: any)=>{
-  const comments=props.comments;
-  const here=props.here;
+const ArticlesUserPage=(props: any)=>{
+  const articles=props.articles; 
   const [loadIndex, setLoadIndex] = useState(20);
-  const [currentPost, setCurrentPost] = useState(comments);
-  const [isEmpty, setIsEmpty] = useState(currentPost.length>5 ? false : true);
+  const [currentPost, setCurrentPost] = useState(articles);
+  const [isEmpty, setIsEmpty] = useState(currentPost.length>20 ? false : true);
 
   const displayMore = () => {
     if (loadIndex > currentPost.length) {
@@ -24,8 +23,8 @@ const CommentsPage=(props: any)=>{
     <>
       
       <div>
-          {comments.slice(0, loadIndex).map((comment: any)=>
-          <CommentChoice here={here} comment={comment}></CommentChoice>
+          {articles.slice(0, loadIndex).map((article: any)=>
+          <ArticleUserChoice article={article}></ArticleUserChoice>
           )}
 
           {!isEmpty ?<button className="w-full p-2 block  bg-white hover:bg-gray-100  ml-auto  mr-auto  text-blue-500" 
@@ -38,4 +37,4 @@ const CommentsPage=(props: any)=>{
   )
 }
 
-export default CommentsPage
+export default ArticlesUserPage

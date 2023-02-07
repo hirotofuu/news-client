@@ -12,7 +12,6 @@ import {GetServerSideProps} from 'next'
 import {createComment, getComments} from '../../../libs/commentFunction'
 import {getShowArticle} from '../../../libs/fetchFunction'
 import { useRouter } from 'next/router';
-import axios from "../../../libs/axios"
 import Comments from "../../../components_pro/comments"
 import CommentsPage from '../../../components_pro/commentspage'
 import CommentTitle from "../../../components/commentTitle"
@@ -71,7 +70,7 @@ const Comment: NextPage = ({content}: any) => {
 
   const deposit=async()=>{
     const a=await createComment(commentForm);
-    setCommentForm({ ...commentForm, comment:''});
+
     return ;
   }
 
@@ -84,13 +83,13 @@ const Comment: NextPage = ({content}: any) => {
     window.location.reload();
   };
 
-  
-  const commentsSample =content.comments.slice();
-  const commentsAll=commentsSample.sort((a, b)=> {
-    if(a.good_number < b.good_number) return +1;
-    else if(a.good_number > b.good_number) return -1;
-    return 0;
-  })
+  const goHot=()=>{
+    router.push({
+      pathname:`/article/${content.id}/loginComments`,
+      query: {type: "new"}
+    });
+  }
+
 
   return (
       <>
@@ -118,12 +117,12 @@ const Comment: NextPage = ({content}: any) => {
         <div className="flex justify-between bg-gray-600 border-b p-2 px-6 mt-2">
           <h1 className="font-semibold text-blue-300">{content.comments.length} <FontAwesomeIcon icon={faComment}></FontAwesomeIcon></h1>
           <h2 className=" flex gap-1 text-blue-300">
-            <button onClick={()=>router.push(`/article/${content.id}/loginComments`)} className={!content.type ? "text-orange-400" :""}>Hot</button>
+            <button onClick={()=>router.push(`/article/${content.id}/loginComments`)} >Hot</button>
              |
-            <button onClick={()=>router.push(`/article/${content.id}/loginNewComments`)} className={content.type ? "text-orange-400" :""}>New</button>  
+            <button className="text-orange-400">New</button>  
             </h2>
         </div>
-        {!content.commentsNumber ? <NotFound>ここには何もありません</NotFound> : <CommentsPage comments={commentsAll}></CommentsPage>}
+        {!content.commentsNumber ? <NotFound>ここには何もありません</NotFound> : <CommentsPage comments={content.comments}></CommentsPage>}
 
                
            

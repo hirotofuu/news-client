@@ -12,12 +12,24 @@ export async function getIndexArticle(){
     .catch((err: AxiosError) => console.log(err.response));
     return answer;
 }
+
+export async function getTimelineArticle(user_id: any){
+    const answer=axios
+    .get(`/api/fetchTimeline/${user_id}`)
+    .then((response: AxiosResponse) => {
+      console.log(response.data.data);
+      return response.data.data;
+    })
+    .catch((err: AxiosError) => console.log(err.response));
+    return answer;
+}
   
 
 export async function getShowArticle(id: any){
     const answer=await axios
     .get(`/api/showFetch/${id}`)
-    .then((response: AxiosResponse) => {
+    .then((response: AxiosResponse) =>{
+      console.log(response.data.data);
       return response.data.data;
     })
     .catch((err: AxiosError) => console.log(err.response));
@@ -57,6 +69,17 @@ export async function getUserArticle(user_id: any){
     return searchResult;
 }
 
+export async function getMyArticle(user_id: string | string[]){
+    const searchResult=await axios
+    .get(`/api/fetchMyArticle/${user_id}`)
+    .then((response: AxiosResponse) => {
+      console.log(response.data.data);
+      return response.data.data;
+    })
+    .catch((err: AxiosError) => console.log(err.response));
+    return searchResult;
+}
+
 
 export async function getUser(){
     const searchResult=await axios
@@ -72,7 +95,6 @@ export async function getUserSearch(user_name: any){
     const searchResult=await axios
     .get(`/api/fetchUserSearch/${user_name}`)
     .then((response: AxiosResponse) => {
-      console.log(response.data.data);
       return response.data.data;
     })
     .catch((err: AxiosError) => console.log(err.response));
@@ -82,6 +104,17 @@ export async function getUserSearch(user_name: any){
 export async function getUserInfo(user_id: any){
     const searchResult=await axios
     .get(`/api/fetchUserInfo/${user_id}`)
+    .then((response: AxiosResponse) => {
+      console.log(response.data.data);
+      return response.data.data;
+    })
+    .catch((err: AxiosError) => console.log(err.response));
+    return searchResult;
+}
+
+export async function getMypageInfo(id : any){
+    const searchResult=await axios
+    .get(`/api/fetchMypageInfo/${id}`)
     .then((response: AxiosResponse) => {
       console.log(response.data.data);
       return response.data.data;

@@ -6,7 +6,7 @@ export const useAuth = () => {
 
 
   const checkLoggedIn = async (): Promise<boolean> => {
-    if (user) {
+    if (user.id && user.name) {
       return true;
     }
 

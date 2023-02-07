@@ -6,8 +6,9 @@ import {getCategoryArticle} from "../../libs/fetchFunction"
 import { GetServerSideProps } from 'next'
 import Frame from "../../components/frame"
 import CategoryBar from "../../components/categoryBar"
-import Articles from "../../components_pro/articles"
 import NotFound from "../../components/notFound"
+import ArticlesPage from "../../components_pro/articlespage"
+
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const category=context.params.category;
   const categoryArticle: any=await getCategoryArticle(category);
@@ -29,7 +30,8 @@ const Category: NextPage = ({factor}: any) => {
       <>
         <Frame>
           <CategoryBar></CategoryBar>
-          {factor.number ? <Articles articles={factor.categoryArticle}></Articles> : <NotFound keyword={factor.category}></NotFound>}
+          <h1 className="p-2 text-lg font-semibold border-b-2 border-blue-500 bg-whitw">{factor.category}</h1>
+          {factor.number ? <ArticlesPage articles={factor.categoryArticle}></ArticlesPage> : <NotFound >{factor.category}には記事がありません</NotFound>}
 
         </Frame>
 

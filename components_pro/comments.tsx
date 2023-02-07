@@ -1,4 +1,4 @@
-import CommentChoice from '../components/commentChoice'
+import CommentChoice from '../components/choices/commentChoice'
 import {useState} from "react"
 
 const Comments=(props: any)=>{
@@ -27,9 +27,9 @@ const Comments=(props: any)=>{
           <CommentChoice comment={comment}></CommentChoice>
           )}
 
-          {!isEmpty ? <div className="p-3 bg-white"><button className="block  h-20 ml-auto rounded-lg p-6  mr-auto  text-blue-500" 
+          {!isEmpty ?<button className="w-full p-2 block  bg-white hover:bg-gray-100  ml-auto  mr-auto  text-blue-500" 
             disabled={isEmpty ? true : false}
-          onClick={displayMore}>more comments</button></div> : ''}
+          onClick={displayMore}>more comments</button> : ''}
       </div>
 
 

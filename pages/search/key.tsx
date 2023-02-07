@@ -2,27 +2,23 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
-import {useState} from 'react'
 import { useRouter } from 'next/router';
 import {getSearchArticle, getUserSearch} from "../../libs/fetchFunction"
 import { GetServerSideProps } from 'next'
 import Frame from "../../components/frame"
 import CategoryBar from "../../components/categoryBar"
-import Articles from "../../components_pro/articles"
 import NotFound from "../../components/notFound"
 import Users from "../../components_pro/users"
-
+import ArticlesPage from "../../components_pro/articlespage"
 
 export const getServerSideProps: GetServerSideProps= async (context) => {
-  const QWord=context.query.q;
-  const QType=context.query.type ? context.query.type : '';
-  const SearchResult: any=await getSearchArticle(QWord);
-  const articleNumber: number= await SearchResult.length;
-  const SearchUser: any=await getUserSearch(QWord);
-  const userNumber: number=await SearchUser.length;
+  const QWord: string | string[]=context.query.q;
+  const QType: string | string[]=context.query.type ? context.query.type : '';
+  const SearchResult: any=QType==='' ? await getSearchArticle(QWord) : [];
+  const SearchUser: any = QType!=='' ? await getUserSearch(QWord) : [];
   return{
     props: {
-      result:{SearchResult, articleNumber, SearchUser, userNumber, QWord, QType},
+      result:{SearchResult, SearchUser, QWord, QType},
     },
   };
 }
@@ -32,8 +28,8 @@ const Search: NextPage = ({result}: any) => {
   const router = useRouter();
 
 
-  const a=result.articleNumber ? <Articles articles={result.SearchResult}></Articles> : <NotFound keyword={result.QWord} what="articles">articles</NotFound>;
-  const u=result.userNumber?<Users users={result.SearchUser}></Users>: <NotFound keyword={result.QWord} what="users">users</NotFound>;
+  const a=result.SearchResult.length ? <ArticlesPage articles={result.SearchResult}></ArticlesPage> : <NotFound>ここに記事はありません</NotFound>;
+  const u=result.SearchUser.length?<Users users={result.SearchUser}></Users>: <NotFound>ここにユーザーはいません</NotFound>;
 
   const goUser=()=>{
     router.push({

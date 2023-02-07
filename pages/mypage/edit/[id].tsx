@@ -1,52 +1,45 @@
 import type { NextPage } from 'next'
-import axios from '../libs/axios';
+import axios from '../../../libs/axios';
 import { AxiosError, AxiosResponse } from 'axios';
 import { ChangeEvent, useState, useEffect, useLayoutEffect, useRef} from 'react';
+import {getShowArticle} from "../../../libs/fetchFunction";
+import {GetServerSideProps} from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import { useRouter } from 'next/router';
 import { useUserState } from 'atoms/userAtom';
 
+export const getServerSideProps: GetServerSideProps= async (context) => {
+  const id=context.params.id;
+  const IndexArticle: any=await getShowArticle(id);
 
+  return{
+    props: {
+     article: {id, IndexArticle}
+    },
+  };
+}
 
 type CreateForm={
+  id: number,
   title: string;
   content: string;
   category: string;
-  image_file?: File;
   comments_open: string;
-  day_time: string;
 };
 
-const Create: NextPage = () => {
+const Create: NextPage = ({article}: any) => {
   const router = useRouter();
+  const factor=article.IndexArticle;
 
   const [createForm, setCreateForm]=useState<CreateForm>({
-    title: '',
-    content: '',
-    category: '',
-    image_file: null,
-    comments_open: 'true',
-    day_time: '',
+    id: factor.id,
+    title: factor.title,
+    content: factor.content,
+    category: factor.category,
+    comments_open: "true",
   })
 
-  const [fileImage, setFileImage] = useState('');
-
-  const inputRef = useRef(null);
-
-  const onFileInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files) return;
-    const fileObject = e.target.files[0];
-    if (fileObject) {
-      setCreateForm({ ...createForm, [e.target.name]: fileObject });
-      setFileImage(window.URL.createObjectURL(fileObject));
-      console.log(fileObject);
-    }
-  };
-
-  const fileUpload = () => {
-    inputRef.current.click();
-  };
 
   const updateCreateForm=(e: ChangeEvent<HTMLInputElement>)=>{
     setCreateForm({ ...createForm, [e.target.name]: e.target.value });
@@ -65,18 +58,14 @@ const Create: NextPage = () => {
   }
 
 
-  const reset=()=>{
-    setCreateForm({...createForm, image_file: null});
-    setFileImage("");
-  }
 
   const {user}=useUserState();
 
   useEffect(()=>{
-    const now = new Date();
-    setCreateForm({ ...createForm, day_time: `${now.getFullYear()}/${(now.getMonth() + 1)}/${now.getDate()}` })
+    if(user.id!==factor.user_id){
+      router.push("/login");
+    }
   }, [])
-
 
 
   const create = () => {
@@ -85,19 +74,12 @@ const Create: NextPage = () => {
       'content-type': 'multipart/form-data'
       }
     };
-    const formData = new FormData();
-    formData.append("title", createForm.title );
-    formData.append("content", createForm.content );
-    formData.append("category", createForm.category );
-    formData.append("file", createForm.image_file);
-    formData.append("comments_open", createForm.comments_open );
-    formData.append("day_time", createForm.day_time );
     console.log(createForm);
     axios
       .get('/sanctum/csrf-cookie')
       .then((res: AxiosResponse) => {
         axios
-          .post('/api/create', formData,)
+          .post(`/api/editArticleText`, createForm)
           .then((response: AxiosResponse) => {
             console.log('seccess');
             
@@ -111,14 +93,14 @@ const Create: NextPage = () => {
   return (
     <>
       <div className="container mx-auto">
-        <div className="w-full xl:w-1/2 lg:w-[600px] md:w-[600px] sm:w-full p-5 mx-auto xl:border-4 lg:border-4 md:border-4 my-2 xl:my-10 lg:my-10 md:my-10   bg-white rounded-md">
+        <div className="-full xl:w-1/2 lg:w-[600px] md:w-[600px] sm:w-full p-5 mx-auto xl:border-4 lg:border-4 md:border-4 my-2 xl:my-10 lg:my-10 md:my-10   bg-white rounded-md">
           <div className="text-center">
-            <h1 className="my-3 text-3xl font-semibold text-gray-700">記事投稿</h1>
-            <p className="text-gray-400 mb-6">特定の人への誹謗中傷や性的な表現は控えましょう。あまりに過激なものや報告があった記事は削除の対象となります。</p>
+            <h1 className="my-3 text-3xl font-semibold text-gray-700">edit page</h1>
+            <p className="text-gray-400 mb-6">Refrain from slanderous or sexual expressions directed at specific people. Articles that are too extreme or have been reported will be subject to deletion</p>
           </div>
-
+          <div>
               <div className="mb-6">
-                <label id="title" className="text-sm text-gray-600">タイトル</label>
+                <label id="title" className="text-sm text-gray-600">title</label>
                 <input
                   type="text"
                   name="title"
@@ -131,7 +113,7 @@ const Create: NextPage = () => {
               </div>
               <div className="mb-6">
                 <label id="content" className="block mb-2 text-sm text-gray-600"
-                  >記事内容</label>
+                  >content</label>
                 <textarea
                   name="content"
                   placeholder="Your Message"
@@ -142,7 +124,7 @@ const Create: NextPage = () => {
               </div>
 
               <div>
-                <label id="category" className="block mb-2 text-sm text-gray-600">カテゴリー</label>
+                <label id="category" className="block mb-2 text-sm text-gray-600">category</label>
                 <select name="category" className=" border mb-6 border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 block w-full p-2.5 "
                 value={createForm.category}
                 onChange={updateSelectTextForm}
@@ -153,41 +135,16 @@ const Create: NextPage = () => {
                   <option value="DE">Germany</option>
                 </select>
               </div>
-              <div>
-                <label id="image_file" className="block mb-2 text-sm text-gray-600">画像</label>
-              </div>
-              <div className="flex ">
-                <button className="block w-36 text-sm text-black rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300" 
-                onClick={fileUpload}
-                >画像をアップロード</button>
-                <button onClick={reset} className="ml-3 border-2 rounded p-1 bg-gray-200 text-blue-500">reset</button>
-              </div>
-              <h1 className="mb-6">{createForm.image_file && createForm.image_file.name }</h1>
-
-              <input
-              hidden
-              ref={inputRef}
-              type="file"
-              accept="image/*"
-              name="image_file"
-              onChange={onFileInputChange}/>
-
-
-              <h1>selected pic</h1>
-              <div className="relative w-full h-96">
-                <Image src={fileImage} className="bg-gray-300" objectFit="cover" layout="fill" />
-              </div>
-
-
+      
 
               <div>
-                <label id="comment" className="block mb-2 text-sm text-gray-600">コメント</label>
+                <label id="comment" className="block mb-2 text-sm text-gray-600">comment open</label>
                 <select id="comment" className=" border mb-6 border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 block w-full p-2.5"
                 name="comments_open"
                 onChange={updateSelectTextForm}
                 >
-                  <option value='true'>公開</option>
-                  <option value='false'>非公開</option>
+                  <option value='true'>open</option>
+                  <option value='false'>close</option>
                 </select>
               </div>
 
@@ -196,12 +153,11 @@ const Create: NextPage = () => {
                   className="w-full px-2 py-4 text-white bg-indigo-500 rounded-md  focus:bg-indigo-600 focus:outline-none"
                   onClick={create}
                 >
-                  投稿
+                  update
                 </button>
               </div>
-
           </div>
-
+        </div>
       </div>
     </>
   )

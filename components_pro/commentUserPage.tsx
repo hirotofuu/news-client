@@ -1,9 +1,8 @@
-import CommentChoice from '../components/choices/commentChoice'
+import CommentUserChoice from '../components/choices/commentUserChoice'
 import {useState} from "react"
 
-const CommentsPage=(props: any)=>{
+const CommentsUserPage=(props: any)=>{
   const comments=props.comments;
-  const here=props.here;
   const [loadIndex, setLoadIndex] = useState(20);
   const [currentPost, setCurrentPost] = useState(comments);
   const [isEmpty, setIsEmpty] = useState(currentPost.length>5 ? false : true);
@@ -25,7 +24,7 @@ const CommentsPage=(props: any)=>{
       
       <div>
           {comments.slice(0, loadIndex).map((comment: any)=>
-          <CommentChoice here={here} comment={comment}></CommentChoice>
+          <CommentUserChoice comment={comment}></CommentUserChoice>
           )}
 
           {!isEmpty ?<button className="w-full p-2 block  bg-white hover:bg-gray-100  ml-auto  mr-auto  text-blue-500" 
@@ -38,4 +37,4 @@ const CommentsPage=(props: any)=>{
   )
 }
 
-export default CommentsPage
+export default CommentsUserPage

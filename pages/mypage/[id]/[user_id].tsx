@@ -3,30 +3,33 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import { useRouter } from 'next/router';
-import {getUserArticle, getUserInfo} from "../../libs/fetchFunction"
-import {getUserComments} from "../../libs/commentFunction"
+import {getMyArticle, getMypageInfo} from "../../../libs/fetchFunction"
+import {getMyComments} from "../../../libs/commentFunction"
 import { GetServerSideProps } from 'next'
-import {getFollowing} from "../../libs/followFunction"
-import Frame from "../../components/frame"
-import UserProfile from "../../components/userProfile"
-import ArticlesPage from "../../components_pro/articlespage"
-import NotFound from "../../components/notFound"
-import CommentsPage from "../../components_pro/commentspage"
+import { useUserState } from '../../../atoms/userAtom';
+import Frame from "../../../components/frame"
+import UserProfile from "../../../components/userProfile"
+import NotFound from "../../../components/notFound"
+import CommentsUserPage from "../../../components_pro/commentUserPage"
+import ArticlesUserPage from "../../../components_pro/articlesUserPage"
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const user_id: string | string[]=context.params.user_id;
-  const type: string | string[]=context.query.type ? context.query.type : '';
-  const user_following : any=await getFollowing(user_id);
-  const userArticle: any= type==='' ? await getUserArticle(user_id) : [] ;
-  const userComment: any= type!=='' ? await getUserComments(user_id) : [] ;
-  const userInfo: any=await getUserInfo(user_id);
-
+  const id: any=context.params.id;
+  const type : string | string[]=context.query.type ? context.query.type : '';
+  const userArticle: any= type==='' ? await getMyArticle(user_id) : [];
+  const userComment: any= type!=='' ? await getMyComments() : [];
+  const userInfo: any=await getMypageInfo(id);
+  const Anumber: number=await userArticle.length;
+  const Cnumber: number=await userComment.length;
   return{
     props: {
       factor: {
         userArticle,
         userComment,
         userInfo,
+        Anumber,
+        Cnumber,
         type,
         user_id,
       }
@@ -37,20 +40,28 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 const User: NextPage = ({factor}: any) => {
   const router = useRouter();
-  const article=factor.userArticle.length ? <ArticlesPage articles={factor.userArticle}></ArticlesPage> : <NotFound>ここには何もありません</NotFound>;
-  const comment=factor.userComment.length ? <CommentsPage comments={factor.userComment}></CommentsPage> : <NotFound>コメントをしていません</NotFound>;
+
+  const {user}=useUserState();
+
+  const article=factor.Anumber ? <ArticlesUserPage articles={factor.userArticle}></ArticlesUserPage> : <NotFound>ここには何もありません<a href="/create" className="text-blue-500">記事を書こう</a></NotFound>;
+
+  const comment=factor.Cnumber ? <CommentsUserPage comments={factor.userComment}></CommentsUserPage> : <NotFound>コメントをしていません</NotFound>;
+
   const goUser=()=>{
     router.push({
-      pathname:`/user/${factor.user_id}`,
+      pathname:`/mypage/${user.id}/${factor.user_id}`,
       query: {type: "user"}
     });
   }
 
   const goArticle=()=>{
     router.push({
-      pathname:`/user/${factor.user_id}`
+      pathname:`/mypage/${user.id}/${factor.user_id}`
     });
   }
+
+
+
   return (
       <>
         <Frame>

@@ -1,6 +1,5 @@
-import UserChoice from '../components/userChoice'
+import UserChoice from '../components/choices/userChoice'
 import {useState} from 'react';
-import InfiniteScroll from "react-infinite-scroller";
 const Users=(props: any)=>{
   const users=props.users;
 

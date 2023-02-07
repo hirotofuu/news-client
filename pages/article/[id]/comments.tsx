@@ -12,18 +12,24 @@ import {GetServerSideProps} from 'next'
 import {createComment, getComments} from '../../../libs/commentFunction'
 import {getShowArticle} from '../../../libs/fetchFunction'
 import { useRouter } from 'next/router';
-import Comments from "../../../components_pro/comments"
 import CommentsPage from '../../../components_pro/commentspage'
 import CommentTitle from "../../../components/commentTitle"
 import NotFound from "../../../components/notFound"
 
 
+type InputType={
+  comment: string;
+  day_time: string;
+  article_id: number;
+}
+
 export const getServerSideProps: GetServerSideProps= async (context) => {
   const id=context.params.id;
   const user_id=context.params.id
-  const getArticle: any=await getShowArticle(id);
+  const getArticle: InputType=await getShowArticle(id);
   const comments=await getComments(id);
-  const commentsNumber: number=await comments.length
+  const commentsNumber: number=await comments.length;
+  
   return{
     props: {
       content:{id, user_id, comments, getArticle, commentsNumber},
@@ -31,31 +37,19 @@ export const getServerSideProps: GetServerSideProps= async (context) => {
     },
   };
 }
-type InputType={
-  comment: string;
-  day_time: string;
-  article_id: number;
-}
+
 
 const NotUserComment: NextPage = ({content}: any) => {
  const router=useRouter();
 
 
 
-
-  const submit=()=>{
-    if(!content.user_id){
-      router.replace("/login");
-      return;
-    }
-
-  };
   return (
       <>
       <Frame>
           <CommentTitle article={content.getArticle}></CommentTitle>      
 
-        <div className="border-b-4 bg-white sticky top-0">
+        <div className="border-b-4 bg-white">
           <div  className=" pt-3 pb-3" >
             <div className=" ml-auto mr-auto text-center">
               <Link href="/login"><a  className="text-blue-500 hover:underline ">Please login to comment</a></Link>
@@ -66,7 +60,7 @@ const NotUserComment: NextPage = ({content}: any) => {
           <h1 className="font-semibold text-blue-300">{content.commentsNumber} <FontAwesomeIcon icon={faComment}></FontAwesomeIcon></h1>
           <h2 className="text-blue-300">Hot | New</h2>
         </div>
-        {!content.commentsNumber ? <NotFound></NotFound> :   <CommentsPage comments={content.comments}></CommentsPage> }
+        {!content.commentsNumber ? <NotFound>ここにコメントはございません</NotFound> :   <CommentsPage comments={content.comments}></CommentsPage> }
 
                
            
