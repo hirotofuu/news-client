@@ -17,7 +17,7 @@ const CommentUserChoice=(props: any)=>{
   const [isGood, setIsGood]=useState<boolean>(false);
   const [GoodNumber, setGoodNumber]=useState<number>(comment.good_number);
   const clickGood=()=>{
-    goodFunc(isGood, comment.id);
+    goodFunc(isGood, comment.id, user.api_token);
     if(isGood){
       setGoodNumber(GoodNumber-1);
       setIsGood(!isGood);

@@ -79,7 +79,7 @@ const Create: NextPage = ({article}: any) => {
       .get('/sanctum/csrf-cookie')
       .then((res: AxiosResponse) => {
         axios
-          .post(`/api/editArticleText`, createForm)
+          .post(`/api/editArticleText?api_token=${user.api_token}`, createForm)
           .then((response: AxiosResponse) => {
             console.log('seccess');
             

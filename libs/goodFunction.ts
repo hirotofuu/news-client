@@ -1,82 +1,109 @@
 import axios from './axios';
 import { AxiosError, AxiosResponse } from 'axios';
+import { useRouter } from 'next/router';
 
 
 
-async function getGood($id: number){
-    const answer=await axios
-    .get(`/api/goodSend/${$id}`)
+async function getGood($id: number, $api_token: string){
+  const router=useRouter()  
+  const answer=await axios
+    .get(`/api/goodSend/${$id}?api_token=${$api_token}`)
     .then((response: AxiosResponse) => {
       console.log("good!");
     })
-    .catch((err: AxiosError) => console.log(err.response));
+    .catch((err: AxiosError) => {
+      if(err.response.status===401){
+        router.push('/login')
+      }
+    });
     return answer;
 }
 
 
 
 
-async function deleteGood($id: number){
-    const answer=await axios
-    .delete(`/api/unGoodSend/${$id}`)
+async function deleteGood($id: number, $api_token: string){
+  const router=useRouter()  
+  const answer=await axios
+    .delete(`/api/unGoodSend/${$id}?api_token=${$api_token}`)
     .then((response: AxiosResponse) => {
     })
-    .catch((err: AxiosError) => console.log(err.response));
+    .catch((err: AxiosError) => {
+      if(err.response.status===401){
+        router.push('/login')
+      }
+    });
     return answer;
 }
 
 
 
-export async function goodFunc($bool: boolean, $id: number){
+export async function goodFunc($bool: boolean, $id: number, $api_token: string){
   if($bool){
-    deleteGood($id);
+    deleteGood($id, $api_token);
     return ;
   }else{
-    getGood($id);
+    getGood($id, $api_token);
     return ;
   }
 }
 
 // truth
-export async function getTruth($id: number){
-    const answer=await axios
-    .get(`/api/truthSend/${$id}`)
+export async function getTruth($id: number,  $api_token: string){
+  const router=useRouter()  
+  const answer=await axios
+    .get(`/api/truthSend/${$id}?api_token=${$api_token}`)
     .then((response: AxiosResponse) => {
       console.log("truth!");
     })
-    .catch((err: AxiosError) => console.log(err.response));
+    .catch((err: AxiosError) => {
+      if(err.response.status===401){
+        router.push('/login')
+      }
+    });
     return answer;
 }
 
 
 
 
-export async function deleteTruth($id: number){
+export async function deleteTruth($id: number,  $api_token: string){
+  const router=useRouter()  
     const answer=await axios
-    .delete(`/api/unTruthSend/${$id}`)
+    .delete(`/api/unTruthSend/${$id}?api_token=${$api_token}`)
     .then((response: AxiosResponse) => {
     })
-    .catch((err: AxiosError) => console.log(err.response));
+    .catch((err: AxiosError) => {
+      if(err.response.status===401){
+        router.push('/login')
+      }
+    });
     return answer;
 }
 
 // fake
-export async function getFake($id: number){
+export async function getFake($id: number,  $api_token: string){
+  const router=useRouter()  
     const answer=await axios
-    .get(`/api/fakeSend/${$id}`)
+    .get(`/api/fakeSend/${$id}?api_token=${$api_token}`)
     .then((response: AxiosResponse) => {
       console.log("fake!");
     })
-    .catch((err: AxiosError) => console.log(err.response));
+    .catch((err: AxiosError) => {
+      if(err.response.status===401){
+        router.push('/login')
+      }
+    });
     return answer;
 }
 
 
 
 
-export async function deleteFake($id: number){
+export async function deleteFake($id: number,  $api_token: string){
+  const router=useRouter()  
     const answer=await axios
-    .delete(`/api/unFakeSend/${$id}`)
+    .delete(`/api/unFakeSend/${$id}?api_token=${$api_token}`)
     .then((response: AxiosResponse) => {
     })
     .catch((err: AxiosError) => console.log(err.response));

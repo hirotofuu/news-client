@@ -4,11 +4,13 @@ import {faTrashCan} from '@fortawesome/free-solid-svg-icons'
 import {faPen} from '@fortawesome/free-solid-svg-icons'
 import {faImage} from '@fortawesome/free-solid-svg-icons'
 import {deleteArticle} from '../../libs/articleFunction'
+import {useUserState} from '../../atoms/userAtom'
 
 const ArticleUserChoice=(props: any)=>{
   const kiji=props.article;
+  const {user}=useUserState();
   const deleteUserArticle=async()=>{
-    const a=await deleteArticle(kiji.id);
+    const a=await deleteArticle(kiji.id, user.api_token);
   }
   return(
     <>

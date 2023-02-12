@@ -59,7 +59,7 @@ const Header=()=>{
 
           <div className="gap-5 hidden xl:flex lg:flex md:flex sm:flex items-center">
             <Link href={user.id ? "/create" : "/login"}><a><FontAwesomeIcon icon={faPlus} className="text-xl mr-2"/></a></Link>
-            <Link href={!user.id ? "/login" : `/mypage/${user.id}/${user.secret_id}`}><a className="flex items-center mr-10">
+            <Link href={!user.id ? "/login" : `/mypage/${user.id}`}><a className="flex items-center mr-10">
               <FontAwesomeIcon icon={faCircleUser} className="text-2xl"/>
               <h1 className="text-2xl mb-2 ml-1">{login ? user.name : ''}</h1>
               </a></Link>

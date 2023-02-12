@@ -1,20 +1,22 @@
 import Link from "next/link";
 import {useState, useEffect} from "react"
 import { useUserState } from 'atoms/userAtom';
+import { useRouter } from "next/router";
 import {getFollow, deleteFollow} from "../../libs/followFunction"
 
 const Users=(props: any)=>{
   const player=props.user;
+  const router=useRouter();
   const {user}=useUserState();
   const [isFollow, setIsFollow]=useState<boolean>(false);
 
 
   const Follow=async()=>{
     if(isFollow){
-      const b=await deleteFollow(player.id);
+      const b=await deleteFollow(player.id, user.api_token);
       setIsFollow(false);
     }else{
-      const a=await getFollow(player.id);
+      const a=await getFollow(player.id, user.api_token);
       setIsFollow(true);
     }
   }
@@ -40,7 +42,7 @@ const Users=(props: any)=>{
               </div>
             </div>
         </a></Link>
-        <button onClick={Follow} className="border-2 m-3 text-blue-500  text-sm h-8 font-semibold px-2  rounded-l-full rounded-r-full ">{isFollow ? "Following" : " Follow"}</button>
+        <button onClick={user.id ? Follow : ()=>{router.push('/login')}} className="border-2 m-3 text-blue-500  text-sm h-8 font-semibold px-2  rounded-l-full rounded-r-full ">{isFollow ? "Following" : " Follow"}</button>
         </div>
 
 

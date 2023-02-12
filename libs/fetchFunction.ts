@@ -69,9 +69,9 @@ export async function getUserArticle(user_id: any){
     return searchResult;
 }
 
-export async function getMyArticle(user_id: string | string[]){
+export async function getMyArticle(id: string | string[]){
     const searchResult=await axios
-    .get(`/api/fetchMyArticle/${user_id}`)
+    .get(`/api/fetchMyArticle/${id}`)
     .then((response: AxiosResponse) => {
       console.log(response.data.data);
       return response.data.data;

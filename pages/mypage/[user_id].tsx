@@ -3,23 +3,22 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import { useRouter } from 'next/router';
-import {getMyArticle, getMypageInfo} from "../../../libs/fetchFunction"
-import {getMyComments} from "../../../libs/commentFunction"
+import {getMyArticle, getMypageInfo} from "../../libs/fetchFunction"
+import {getMyComments} from "../../libs/commentFunction"
 import { GetServerSideProps } from 'next'
-import { useUserState } from '../../../atoms/userAtom';
-import Frame from "../../../components/frame"
-import UserProfile from "../../../components/userProfile"
-import NotFound from "../../../components/notFound"
-import CommentsUserPage from "../../../components_pro/commentUserPage"
-import ArticlesUserPage from "../../../components_pro/articlesUserPage"
+import { useUserState } from '../../atoms/userAtom';
+import Frame from "../../components/frame"
+import UserProfile from "../../components/userProfile"
+import NotFound from "../../components/notFound"
+import CommentsUserPage from "../../components_pro/commentUserPage"
+import ArticlesUserPage from "../../components_pro/articlesUserPage"
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const user_id: string | string[]=context.params.user_id;
-  const id: any=context.params.id;
   const type : string | string[]=context.query.type ? context.query.type : '';
   const userArticle: any= type==='' ? await getMyArticle(user_id) : [];
   const userComment: any= type!=='' ? await getMyComments() : [];
-  const userInfo: any=await getMypageInfo(id);
+  const userInfo: any=await getMypageInfo(user_id);
   const Anumber: number=await userArticle.length;
   const Cnumber: number=await userComment.length;
   return{
@@ -31,7 +30,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         Anumber,
         Cnumber,
         type,
-        user_id,
       }
     },
   };
@@ -49,14 +47,14 @@ const User: NextPage = ({factor}: any) => {
 
   const goUser=()=>{
     router.push({
-      pathname:`/mypage/${user.id}/${factor.user_id}`,
+      pathname:`/mypage/${user.id}`,
       query: {type: "user"}
     });
   }
 
   const goArticle=()=>{
     router.push({
-      pathname:`/mypage/${user.id}/${factor.user_id}`
+      pathname:`/mypage/${user.id}`
     });
   }
 

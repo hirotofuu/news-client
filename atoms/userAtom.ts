@@ -1,10 +1,10 @@
 import { atom, useRecoilState } from 'recoil';
 
-type UserState = { id: number, secret_id: string, name: string } | null;
+type UserState = { id: number, name: string, api_token: string } | null;
 
 const userState = atom<UserState>({
   key: 'user',
-  default: {id: null, secret_id: null, name: null},
+  default: {id: null, name: null, api_token: null},
 });
 
 export const useUserState = () => {

@@ -13,11 +13,11 @@ const UserProfile=(props: any)=>{
 
   const Follow=async()=>{
     if(isFollow){
-      const b=await deleteFollow(pro.id);
+      const b=await deleteFollow(pro.id, user.api_token);
       setFollowed_number(followed_number-1);
       setIsFollow(false);
     }else{
-      const a=await getFollow(pro.id);
+      const a=await getFollow(pro.id, user.api_token);
       setFollowed_number(followed_number+1);
       setIsFollow(true);
     }

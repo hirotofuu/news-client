@@ -97,13 +97,15 @@ const Create: NextPage = () => {
       .get('/sanctum/csrf-cookie')
       .then((res: AxiosResponse) => {
         axios
-          .post('/api/create', formData,)
+          .post(`/api/create?api_token=${user.api_token}`, formData,)
           .then((response: AxiosResponse) => {
             console.log('seccess');
             
         })
           .catch((err: AxiosError) => {
-            console.log(err.response);
+             if(err.response.status===401){
+              router.push("/login")
+             }
           });
       });
   };
