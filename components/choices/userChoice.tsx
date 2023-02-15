@@ -42,7 +42,7 @@ const Users=(props: any)=>{
               </div>
             </div>
         </a></Link>
-        <button onClick={user.id ? Follow : ()=>{router.push('/login')}} className="border-2 m-3 text-blue-500  text-sm h-8 font-semibold px-2  rounded-l-full rounded-r-full ">{isFollow ? "Following" : " Follow"}</button>
+        <button onClick={user.id ? Follow : ()=>{router.push("/login")}} className="border-2 m-3 text-blue-500  text-sm h-8 font-semibold px-2  rounded-l-full rounded-r-full ">{isFollow ? "Following" : " Follow"}</button>
         </div>
 
 

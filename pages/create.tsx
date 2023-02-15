@@ -106,6 +106,7 @@ const Create: NextPage = () => {
              if(err.response.status===401){
               router.push("/login")
              }
+             console.log(err);
           });
       });
   };

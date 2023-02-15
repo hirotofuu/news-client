@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import {useState, useEffect} from 'react'
 import { useRouter } from 'next/router';
 import { useUserState } from 'atoms/userAtom';
@@ -78,7 +79,8 @@ const Content=(props: any)=>{
   return(
     <>
       <section className="w-full  p-2 pt-4  bg-white">
-        {props.image_file ? <div className=" w-full aspect-video bg-black mb-3"></div>
+        {props.image_file ? <Image src={props.image_file} className="" objectFit="cover"   width={800}
+  height={475} />
         : ''}
         <div className=" leading-normal sm:leading-9 md:leading-9 lg:leading-9 xl:leading-9 leading-8 text-base font-normal">
           <p className="whitespace-pre-wrap">{article.content}</p>

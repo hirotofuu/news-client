@@ -27,6 +27,7 @@ const Register: NextPage = () => {
   })
 
 
+
   const updateRegisterForm = (e: ChangeEvent<HTMLInputElement>) => {
     setRegisterForm({ ...registerForm, [e.target.name]: e.target.value });
   };
