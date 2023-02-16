@@ -40,7 +40,6 @@ const Create: NextPage = () => {
     if (fileObject) {
       setCreateForm({ ...createForm, [e.target.name]: fileObject });
       setFileImage(window.URL.createObjectURL(fileObject));
-      console.log(fileObject);
     }
   };
 

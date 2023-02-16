@@ -79,10 +79,8 @@ const Content=(props: any)=>{
   return(
     <>
       <section className="w-full  p-2 pt-4  bg-white">
-        {props.image_file ? <Image src={props.image_file} className="" objectFit="cover"   width={800}
-  height={475} />
-        : ''}
-        <div className=" leading-normal sm:leading-9 md:leading-9 lg:leading-9 xl:leading-9 leading-8 text-base font-normal">
+        {props.image_file ? <Image src={`https://s3.ap-northeast-1.amazonaws.com/newbyte-s3/${props.image_file}`} className="" objectFit="cover"   width={800}  height={475} /> : ''}
+        <div className="mt-3 leading-normal sm:leading-9 md:leading-9 lg:leading-9 xl:leading-9 leading-8 text-base font-normal">
           <p className="whitespace-pre-wrap">{article.content}</p>
         </div>
         <div className="flex justify-between mt-6 mb-4">

@@ -35,7 +35,7 @@ const Create: NextPage = ({article}: any) => {
 
   })
 
-  const [fileImage, setFileImage] = useState('');
+  const [fileImage, setFileImage] = useState(article.IndexArticle.image_file ? `https://s3.ap-northeast-1.amazonaws.com/newbyte-s3/${article.IndexArticle.image_file}` : '');
 
   const inputRef = useRef(null);
 
@@ -61,7 +61,6 @@ const Create: NextPage = ({article}: any) => {
   }
 
   const {user}=useUserState();
-
 
 
 
@@ -98,7 +97,6 @@ const Create: NextPage = ({article}: any) => {
             <h1 className="my-3 text-3xl font-semibold text-gray-700">Picture edit</h1>
             <p className="text-gray-400 mb-6">Content that violates rights ,attacks a specific person or too sexual is subject to removal.</p>
           </div>
-          <h1>{article.IndexArticle.image_file}</h1>
 
               <div>
                 <label id="image_file" className="block mb-2 text-sm text-gray-600">画像</label>
