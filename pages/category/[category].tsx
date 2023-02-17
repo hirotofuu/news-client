@@ -4,6 +4,7 @@ import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import {getCategoryArticle} from "../../libs/fetchFunction"
 import { GetServerSideProps } from 'next'
+import type {Article} from "../../types/article"
 import Frame from "../../components/frame"
 import CategoryBar from "../../components/categoryBar"
 import NotFound from "../../components/notFound"
@@ -11,7 +12,7 @@ import ArticlesPage from "../../components_pro/articlespage"
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const category=context.params.category;
-  const categoryArticle: any=await getCategoryArticle(category);
+  const categoryArticle: Article[] | null=await getCategoryArticle(category);
   const number: number= categoryArticle.length;
   return{
     props: {

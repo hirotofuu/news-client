@@ -1,0 +1,15 @@
+export type Article={
+  id: number,
+  title: string,
+  content: string,
+  day_time: string,
+  view_number: number,
+  user_id: number,
+  user_name: string,
+  category: string, 
+  image_file: string | null,
+  is_truth:number[] | null,
+  is_fake:number[] | null,
+  truth_number: number,
+  fake_number: number,
+};

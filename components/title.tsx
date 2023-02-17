@@ -1,7 +1,13 @@
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faEye, faCalendarDays} from '@fortawesome/free-solid-svg-icons'
+import {Article} from "../types/article"
 import Link from "next/link";
-const Title=(props: any)=>{
+
+interface Props {
+  article: Article | null;
+}
+
+const Title: React.FC<Props> =(props: Props)=>{
   const factors=props.article;
   const user_id=factors.user_id;
   return(

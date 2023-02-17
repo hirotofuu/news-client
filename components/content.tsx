@@ -3,9 +3,14 @@ import Image from "next/image";
 import {useState, useEffect} from 'react'
 import { useRouter } from 'next/router';
 import { useUserState } from 'atoms/userAtom';
+import {Article} from "../types/article"
 import {getTruth, deleteTruth, getFake, deleteFake} from "../libs/goodFunction"
 
-const Content=(props: any)=>{
+interface Props {
+  content: Article | null;
+}
+
+const Content: React.FC<Props> =(props: Props)=>{
   const article=props.content;
   const router=useRouter();
   const {user}=useUserState();
@@ -63,13 +68,13 @@ const Content=(props: any)=>{
   useEffect(()=>{
     if(user.id){
       article.is_truth.map((truth :any)=>{
-        if(truth["user_id"]===user.id){
+        if(truth===user.id){
           setIsTruth(true);
           return;
         }
       })
       article.is_fake.map((fake :any)=>{
-        if(fake["user_id"]===user.id){
+        if(fake===user.id){
           setIsFake(true);
           return;
         }
@@ -79,7 +84,7 @@ const Content=(props: any)=>{
   return(
     <>
       <section className="w-full  p-2 pt-4  bg-white">
-        {props.image_file ? <Image src={`https://s3.ap-northeast-1.amazonaws.com/newbyte-s3/${props.image_file}`} className="" objectFit="cover"   width={800}  height={475} /> : ''}
+        {article.image_file ? <Image src={`https://s3.ap-northeast-1.amazonaws.com/newbyte-s3/${article.image_file}`} className="" objectFit="cover"   width={800}  height={475} /> : ''}
         <div className="mt-3 leading-normal sm:leading-9 md:leading-9 lg:leading-9 xl:leading-9 leading-8 text-base font-normal">
           <p className="whitespace-pre-wrap">{article.content}</p>
         </div>

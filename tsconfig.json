@@ -16,7 +16,7 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
-      "eslint": ["types/eslint"]
+      "eslint": ["dts/eslint"]
     },
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/user"],

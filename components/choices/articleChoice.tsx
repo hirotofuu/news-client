@@ -1,8 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
 import noImage from "../../images/no_image_square.jpg"
+import type {Article} from "../../types/article"
 
-const ArticleChoice=(props: any)=>{
+interface Props {
+  article: Article | null;
+}
+
+const ArticleChoice: React.FC<Props> =(props: Props)=>{
   const kiji=props.article;
   return(
     <>

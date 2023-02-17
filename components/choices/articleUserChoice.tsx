@@ -5,9 +5,14 @@ import {faPen} from '@fortawesome/free-solid-svg-icons'
 import {faImage} from '@fortawesome/free-solid-svg-icons'
 import {deleteArticle} from '../../libs/articleFunction'
 import {useUserState} from '../../atoms/userAtom'
+import type {Article} from "../../types/article"
 import ArticleChoice from "../choices/articleChoice"
 
-const ArticleUserChoice=(props: any)=>{
+interface Props {
+  article: Article | null;
+}
+
+const ArticleUserChoice: React.FC<Props> =(props: Props)=>{
   const kiji=props.article;
   const {user}=useUserState();
   const deleteUserArticle=async()=>{

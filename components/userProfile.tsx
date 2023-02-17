@@ -2,9 +2,14 @@ import {getFollow, deleteFollow} from "../libs/followFunction";
 import {useState, useEffect} from "react";
 import { useRouter } from 'next/router';
 import { useUserState } from 'atoms/userAtom';
+import type {User} from "../types/user"
 import Link from "next/link";
 
-const UserProfile=(props: any)=>{
+interface Props {
+  info: User | null;
+}
+
+const UserProfile:React.FC<Props> =(props: Props)=>{
   const pro=props.info;
   const {user}=useUserState();
   const router=useRouter();
@@ -29,8 +34,8 @@ const UserProfile=(props: any)=>{
   }
 
   useEffect(()=>{
-    pro.following.map((foll: any)=>{
-      if(user.id===foll.id){
+    pro.following.map((foll: number)=>{
+      if(user.id===foll){
         setIsFollow(true);
         return;
       }

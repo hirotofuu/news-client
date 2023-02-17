@@ -7,6 +7,8 @@ import {getMyArticle, getMypageInfo} from "../../libs/fetchFunction"
 import {getMyComments} from "../../libs/commentFunction"
 import { GetServerSideProps } from 'next'
 import { useUserState } from '../../atoms/userAtom';
+import type {Article} from "../../types/article"
+import type {User} from "../../types/user"
 import Frame from "../../components/frame"
 import UserProfile from "../../components/userProfile"
 import NotFound from "../../components/notFound"
@@ -16,10 +18,10 @@ import ArticlesUserPage from "../../components_pro/articlesUserPage"
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const user_id: string | string[]=context.params.user_id;
   const type : string | string[]=context.query.type ? context.query.type : '';
-  const userArticle: any= type==='' ? await getMyArticle(user_id) : [];
+  const userArticle: Article[] | null= type==='' ? await getMyArticle(user_id) : [];
   const userComment: any= type!=='' ? await getMyComments() : [];
-  const userInfo: any=await getMypageInfo(user_id);
-  const Anumber: number=await userArticle.length;
+  const userInfo: User | null=await getMypageInfo(user_id);
+  const Anumber: number= userArticle.length;
   const Cnumber: number=await userComment.length;
   return{
     props: {

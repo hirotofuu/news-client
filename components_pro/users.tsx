@@ -1,6 +1,12 @@
 import UserChoice from '../components/choices/userChoice'
-import {useState} from 'react';
-const Users=(props: any)=>{
+import {useState} from 'react'
+import type {User} from '../types/user'
+
+interface Props {
+  users: User[] | null;
+}
+
+const Users:React.FC<Props> =(props: Props)=>{
   const users=props.users;
 
 

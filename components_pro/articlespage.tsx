@@ -1,10 +1,15 @@
 import ArticleChoice from '../components/choices/articleChoice'
 import {useState} from "react"
+import {Article} from "../types/article"
 
-const ArticlesPage=(props: any)=>{
-  const articles=props.articles; 
+
+interface Props {
+  articles: Article[] | null;
+}
+
+const ArticlesPage: React.FC<Props> =(props: Props)=>{
   const [loadIndex, setLoadIndex] = useState(20);
-  const [currentPost, setCurrentPost] = useState(articles);
+  const [currentPost, setCurrentPost] = useState(props.articles);
   const [isEmpty, setIsEmpty] = useState(currentPost.length>20 ? false : true);
 
   const displayMore = () => {
@@ -23,7 +28,7 @@ const ArticlesPage=(props: any)=>{
     <>
       
       <div>
-          {articles.slice(0, loadIndex).map((article: any)=>
+          {props.articles.slice(0, loadIndex).map((article: Article)=>
           <ArticleChoice article={article}></ArticleChoice>
           )}
 

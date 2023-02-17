@@ -1,18 +1,19 @@
 import type { NextPage } from 'next'
 import axios from '../../../libs/axios';
+import Head from 'next/head'
+import Image from 'next/image'
 import { AxiosError, AxiosResponse } from 'axios';
 import { ChangeEvent, useState, useEffect, useLayoutEffect, useRef} from 'react';
-import Head from 'next/head'
 import {getShowArticle} from "../../../libs/fetchFunction";
 import {GetServerSideProps} from 'next'
-import Image from 'next/image'
 import { useRouter } from 'next/router';
 import { useUserState } from 'atoms/userAtom';
+import type {Article} from "../../../types/article"
 
 
 export const getServerSideProps: GetServerSideProps= async (context) => {
   const id=context.params.id;
-  const IndexArticle: any=await getShowArticle(id);
+  const IndexArticle: Article | null=await getShowArticle(id);
 
   return{
     props: {

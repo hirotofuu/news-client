@@ -14,26 +14,12 @@ import Title from "../../components/title"
 import Comments from "../../components_pro/comments"
 import Back from "../../components/back"
 import ArticlesUserPage from "../../components_pro/articlespage";
-
-
-
-type index={
-  id: number,
-  title: string,
-  content: string,
-  day_time: string,
-  view_number: number,
-  user_id: number,
-  user_name: string,
-  category: string, 
-  truth_number: number,
-  fake_number: number,
-};
+import {Article} from "../../types/article";
 
 export const getServerSideProps: GetServerSideProps= async (context) => {
   const id=context.params.id;
-  const IndexArticle: index=await getShowArticle(id);
-  const categoryArticle: index[]=await getCategoryArticle(IndexArticle.category);
+  const IndexArticle: Article | null=await getShowArticle(id);
+  const categoryArticle: Article[] | null=await getCategoryArticle(IndexArticle.category);
   const Commentarticle: any =await getComments(id);
 
   return{
@@ -53,7 +39,7 @@ const Comment: NextPage = ({article}: any) => {
           
           <CategoryBar></CategoryBar>
           <Title article={article.IndexArticle}></Title>
-          <Content content={article.IndexArticle} image_file={article.IndexArticle.image_file} ></Content>
+          <Content content={article.IndexArticle}  ></Content>
           <div className="flex justify-between bg-white border-t-2">
             <h1 className=" bg-white pt-4 pl-3 text-lg font-medium">comments ({article.Commentarticle.length})</h1>
             <Link href={user.id ? `/article/${article.id}/loginComments`:`/article/${article.id}/comments`}><a className="mt-4 mr-4 border-2 px-2 p-1 rounded-lg rounded-l-full rounded-r-full text-blue-500">write!!</a></Link>

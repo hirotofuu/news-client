@@ -44,7 +44,7 @@ export async function getFollowing($id: any){
 
 
 // get followers
-export async function getFollower($id: any){
+export async function getFollower($id:number){
   const answer=await axios
   .get(`/api/follower/${$id}`)
   .then((response: AxiosResponse) => {

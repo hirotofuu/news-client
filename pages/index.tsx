@@ -7,34 +7,26 @@ import { useUserState } from '../atoms/userAtom';
 import { useRouter } from 'next/router';
 import {getIndexArticle, getTimelineArticle} from "../libs/fetchFunction"
 import { GetServerSideProps } from 'next'
+import type {Article} from "../types/article"
 import Frame from "../components/frame"
 import CategoryBar from "../components/categoryBar"
 import ArticlesPage from "../components_pro/articlespage"
 
-type index={
-  id: number,
-  title: string,
-  content: string,
-  day_time: string,
-  view_number: number,
-  user_id: number,
-  user_name: string,
-  category: string, 
-  truth_number: number,
-  fake_number: number,
-};
+
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const id: string | string[]=context.query.id ? context.query.id : '';
-  const userArticle: index[] = id!=='' ? await getTimelineArticle(id) : [] ;
-  const IndexArticle: index[] = id==='' ? await getIndexArticle() : [] ;
+  const userArticle: Article[] | null= id!=='' ? await getTimelineArticle(id) : [] ;
+  const IndexArticle: Article[] | null= id==='' ? await getIndexArticle() : [] ;
   return{
     props: {
       factor:{
         IndexArticle,
         userArticle,
         id,
+
       }
+
     },
   };
 }

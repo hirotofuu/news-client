@@ -7,13 +7,14 @@ import { GetServerSideProps } from 'next'
 import {getFollowing} from "../../../libs/followFunction"
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faArrowLeft} from '@fortawesome/free-solid-svg-icons'
+import type {Article} from "../../../types/article"
 import Frame from "../../../components/frame"
 import Users from "../../../components_pro/users"
 import NotFound from "../../../components/notFound"
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const user_id: number=Number(context.params.user_id);
-  const user_following : any=await getFollowing(user_id);
+  const user_following : Article[] | null=await getFollowing(user_id);
   return{
     props: {
       factor: {

@@ -7,6 +7,8 @@ import {getUserArticle, getUserInfo} from "../../libs/fetchFunction"
 import {getUserComments} from "../../libs/commentFunction"
 import { GetServerSideProps } from 'next'
 import {getFollowing} from "../../libs/followFunction"
+import type {User} from "../../types/user"
+import type {Article} from "../../types/article"
 import Frame from "../../components/frame"
 import UserProfile from "../../components/userProfile"
 import ArticlesPage from "../../components_pro/articlespage"
@@ -16,10 +18,9 @@ import CommentsPage from "../../components_pro/commentspage"
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const user_id: string | string[]=context.params.user_id;
   const type: string | string[]=context.query.type ? context.query.type : '';
-  const user_following : any=await getFollowing(user_id);
-  const userArticle: any= type==='' ? await getUserArticle(user_id) : [] ;
+  const userArticle: Article[] | null= type==='' ? await getUserArticle(user_id) : [] ;
   const userComment: any= type!=='' ? await getUserComments(user_id) : [] ;
-  const userInfo: any=await getUserInfo(user_id);
+  const userInfo: User | null=await getUserInfo(user_id);
 
   return{
     props: {
