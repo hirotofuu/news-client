@@ -1,28 +1,17 @@
 import Link from "next/link";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faPlus, faMagnifyingGlass, faCircleUser} from '@fortawesome/free-solid-svg-icons'
+import {faPlus, faMagnifyingGlass, faUser} from '@fortawesome/free-solid-svg-icons'
 import {useState, ChangeEvent, useEffect} from 'react';
 import { useRouter } from 'next/router';
-import {useAuth} from "../hooks/useAuth";
-import { useUserState } from "atoms/userAtom";
+import { useCurrentUser } from "../hooks/useCurrentUser"
+
 
 const Header=()=>{
   const  [searchForm, setSearchForm]=useState({q: null});
-  const [login, setLogin]=useState<boolean>(false)
   const updateLoginForm=(e: ChangeEvent<HTMLInputElement>)=>{
     setSearchForm( {q: e.target.value});
   }
-  const {user}=useUserState();
-  const { checkLoggedIn } = useAuth();
-
-  useEffect(() => {
-    const init = async () => {
-
-      const res: boolean = await checkLoggedIn();
-      setLogin(true);
-    };
-    init();
-  }, []);
+  const { isAuthChecking, currentUser } = useCurrentUser();
 
   const router = useRouter();
 
@@ -43,26 +32,28 @@ const Header=()=>{
   }
 
 
-
+  
+    
 
   return(
     <>
       <div className="flex justify-between bg-white h-12 items-center border-b-2">
-
         <Link href="/"><a className="xl:text-4xl lg:text-4xl md:text-4xl sm:text-4xl text-3xl lg:ml-6 xl:ml-6 md:ml-6 sm:ml-6 ml-1">NewsByte</a></Link>
-
-
             <div className="flex mr-3">
               <input type="text" onKeyDown={escFunction} placeholder="Search" className="xl:w-96 lg:w-96 md:w-96 w-44 pl-2 h-8 rounded-l-lg bg-gray-200 " onChange={updateLoginForm}/>
               <button onClick={goSearch} className="h-8 bg-slate-200 rounded-r-3xl"><FontAwesomeIcon icon={faMagnifyingGlass} className="text-lg p-2 "/></button>
             </div>
 
           <div className="gap-5 hidden xl:flex lg:flex md:flex sm:flex items-center">
-            <Link href={user.id ? "/create" : "/login"}><a><FontAwesomeIcon icon={faPlus} className="text-xl mr-2"/></a></Link>
-            <Link href={!user.id ? "/login" : `/mypage/${user.id}`}><a className="flex items-center mr-10">
-              <FontAwesomeIcon icon={faCircleUser} className="text-2xl"/>
-              <h1 className="text-2xl mb-2 ml-1">{login ? user.name : ''}</h1>
-              </a></Link>
+            <Link href={"/create"}><a><FontAwesomeIcon icon={faPlus} className="text-xl mr-2"/></a></Link>
+            {isAuthChecking ? '' :
+            !currentUser ? <Link href={"/create"}><a><FontAwesomeIcon icon={faUser} className="text-xl mr-10"/></a></Link> : 
+            <Link href={`/mypage/articles`}><a className="flex items-center mr-10">
+              <img
+                className="rounded-full h-8 w-8 object-cover"
+                src={`https://s3.ap-northeast-1.amazonaws.com/newbyte-s3/${currentUser.avatar_image}` }
+              />
+            </a></Link>}
           </div>
 
         </div>

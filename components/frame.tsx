@@ -1,10 +1,9 @@
 import Link from "next/link";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faArrowUp} from '@fortawesome/free-solid-svg-icons'
-import { useUserState } from 'atoms/userAtom';
+
 
 const Frame=({children})=>{
-  const {user}=useUserState();
 
   const categories:string[]=["ネット","アニメ","漫画","ラノベ","ゲーム","サッカー","野球","スポーツ","政治","国際","音楽","グルメ","生活","地域","エンタメ","コラム", "まとめ", "その他"] 
 
@@ -40,7 +39,7 @@ const Frame=({children})=>{
           </div>
 
           <div className="sticky top-2 mt-3">
-            <Link href={user.id ?"/create" : "/login"}><a className="block w-full p-2 text-center text-white bg-orange-600 rounded-full hover:opacity-90">create article</a></Link>
+            <Link href={"/create"}><a className="block w-full p-2 text-center text-white bg-orange-600 rounded-full hover:opacity-90">create an article</a></Link>
            <button className="text-white w-full p-2 mt-2 bg-indigo-500 rounded-full text-center" onClick={returnTop}><FontAwesomeIcon icon={faArrowUp}/></button>
           </div>
         </div>

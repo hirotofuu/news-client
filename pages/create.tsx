@@ -1,11 +1,12 @@
 import type { NextPage } from 'next'
 import axios from '../libs/axios';
+import Axios from 'axios';
 import { AxiosError, AxiosResponse } from 'axios';
-import { ChangeEvent, useState, useEffect, useLayoutEffect, useRef} from 'react';
+import { ChangeEvent, useState, useEffect, useRef} from 'react';
+import { useRequireLogin } from "../hooks/useRequireLogin"
 import Head from 'next/head'
 import Image from 'next/image'
 import { useRouter } from 'next/router';
-import { useUserState } from 'atoms/userAtom';
 
 
 
@@ -16,6 +17,13 @@ type CreateForm={
   image_file?: File;
   comments_open: string;
   day_time: string;
+};
+
+type Validation={
+  title?: string,
+  content?: string,
+  file?: string ,
+  category?: string, 
 };
 
 const Create: NextPage = () => {
@@ -29,6 +37,8 @@ const Create: NextPage = () => {
     comments_open: 'true',
     day_time: '',
   })
+
+  const [validation, setValidation] = useState<Validation>({});
 
   const [fileImage, setFileImage] = useState('');
 
@@ -69,7 +79,6 @@ const Create: NextPage = () => {
     setFileImage("");
   }
 
-  const {user}=useUserState();
 
   useEffect(()=>{
     const now = new Date();
@@ -79,6 +88,7 @@ const Create: NextPage = () => {
 
 
   const create = () => {
+    setValidation({});
     const config = {
       headers: {
       'content-type': 'multipart/form-data'
@@ -92,35 +102,45 @@ const Create: NextPage = () => {
     formData.append("comments_open", createForm.comments_open );
     formData.append("day_time", createForm.day_time );
     console.log(createForm);
-    axios
-      .get('/sanctum/csrf-cookie')
-      .then((res: AxiosResponse) => {
         axios
-          .post(`/api/create?api_token=${user.api_token}`, formData,)
+          .post(`/api/create`, formData,)
           .then((response: AxiosResponse) => {
             console.log('seccess');
             
         })
           .catch((err: AxiosError) => {
+            if (Axios.isAxiosError(err) && err.response && err.response.status === 422) {
+              const errors=err.response?.data.errors;
+              const validationMessages: { [index: string]: string } = {}  as Validation;
+              Object.keys(errors).map((key: string) => {
+                validationMessages[key] = errors[key][0];
+              });
+              setValidation(validationMessages);
+          }
              if(err.response.status===401){
               router.push("/login")
              }
              console.log(err);
           });
-      });
   };
+
+
+  useRequireLogin()
 
   return (
     <>
       <div className="container mx-auto">
         <div className="w-full xl:w-1/2 lg:w-[600px] md:w-[600px] sm:w-full p-5 mx-auto xl:border-4 lg:border-4 md:border-4 my-2 xl:my-10 lg:my-10 md:my-10   bg-white rounded-md">
           <div className="text-center">
-            <h1 className="my-3 text-3xl font-semibold text-gray-700">記事投稿</h1>
-            <p className="text-gray-400 mb-6">特定の人への誹謗中傷や性的な表現は控えましょう。あまりに過激なものや報告があった記事は削除の対象となります。</p>
+            <h1 className="my-3 text-3xl font-semibold text-gray-700">upload article</h1>
+            <p className="text-gray-400 mb-6">Share knowledge, know the world</p>
           </div>
 
               <div className="mb-6">
-                <label id="title" className="text-sm text-gray-600">タイトル</label>
+                <div className="flex gap-10 text-sm text-gray-600 mb-2">
+                  <label id="title" className="">title</label>
+                  <h1 className={createForm.title.length>240? `text-red-500`: ''}>{`${createForm.title.length}/240`}</h1>
+                </div>
                 <input
                   type="text"
                   name="title"
@@ -130,10 +150,13 @@ const Create: NextPage = () => {
                   value={createForm.title}
                   onChange={updateCreateForm}
                 />
+                {validation.title && (<p className="text-sm  text-red-500">{validation.title}</p>)}
               </div>
               <div className="mb-6">
-                <label id="content" className="block mb-2 text-sm text-gray-600"
-                  >記事内容</label>
+                <div className="flex gap-10 text-sm text-gray-600 mb-2">
+                  <label id="title" className="">content</label>
+                  <h1 className={createForm.content.length>10000? `text-red-500`: ''}>{`${createForm.content.length}/10000`}</h1>
+                </div>
                 <textarea
                   name="content"
                   placeholder="Your Message"
@@ -141,11 +164,12 @@ const Create: NextPage = () => {
                   value={createForm.content}
                   onChange={updateCreateTextForm}
                 ></textarea>
+                {validation.content && (<p className="text-sm  text-red-500">{validation.content}</p>)}
               </div>
 
-              <div>
-                <label id="category" className="block mb-2 text-sm text-gray-600">カテゴリー</label>
-                <select name="category" className=" border mb-6 border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 block w-full p-2.5 "
+              <div className="mb-6">
+                <label id="category" className="block mb-2 text-sm text-gray-600">category</label>
+                <select name="category" className=" border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 block w-full p-2.5 "
                 value={createForm.category}
                 onChange={updateSelectTextForm}
                 >
@@ -154,16 +178,18 @@ const Create: NextPage = () => {
                   <option value="ネット">ネット</option>
                   <option value="DE">Germany</option>
                 </select>
+                {validation.category && (<p className="text-sm  text-red-500">{validation.category}</p>)}
               </div>
               <div>
-                <label id="image_file" className="block mb-2 text-sm text-gray-600">画像</label>
+                <label id="image_file" className="block mb-2 text-sm text-gray-600">image</label>
               </div>
               <div className="flex ">
                 <button className="block w-36 text-sm text-black rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300" 
                 onClick={fileUpload}
-                >画像をアップロード</button>
+                >upload image</button>
                 <button onClick={reset} className="ml-3 border-2 rounded p-1 bg-gray-200 text-blue-500">reset</button>
               </div>
+              {validation.file && (<p className="text-sm  text-red-500">{validation.file}</p>)}
               <h1 className="mb-6">{createForm.image_file && createForm.image_file.name }</h1>
 
               <input
@@ -181,24 +207,12 @@ const Create: NextPage = () => {
               </div>
 
 
-
-              <div>
-                <label id="comment" className="block mb-2 text-sm text-gray-600">コメント</label>
-                <select id="comment" className=" border mb-6 border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 block w-full p-2.5"
-                name="comments_open"
-                onChange={updateSelectTextForm}
-                >
-                  <option value='true'>公開</option>
-                  <option value='false'>非公開</option>
-                </select>
-              </div>
-
-              <div className="mb-6">
+              <div className="mb-6 mt-6">
                 <button
                   className="w-full px-2 py-4 text-white bg-indigo-500 rounded-md  focus:bg-indigo-600 focus:outline-none"
                   onClick={create}
                 >
-                  投稿
+                  upload
                 </button>
               </div>
 

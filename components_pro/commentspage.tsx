@@ -6,7 +6,7 @@ const CommentsPage=(props: any)=>{
   const here=props.here;
   const [loadIndex, setLoadIndex] = useState(20);
   const [currentPost, setCurrentPost] = useState(comments);
-  const [isEmpty, setIsEmpty] = useState(currentPost.length>5 ? false : true);
+  const [isEmpty, setIsEmpty] = useState(currentPost.length>20 ? false : true);
 
   const displayMore = () => {
     if (loadIndex > currentPost.length) {
@@ -25,7 +25,7 @@ const CommentsPage=(props: any)=>{
       
       <div>
           {comments.slice(0, loadIndex).map((comment: any)=>
-          <CommentChoice here={here} comment={comment}></CommentChoice>
+          <CommentChoice isMypage={props.isMypage} comment={comment}></CommentChoice>
           )}
 
           {!isEmpty ?<button className="w-full p-2 block  bg-white hover:bg-gray-100  ml-auto  mr-auto  text-blue-500" 

@@ -2,9 +2,9 @@ import Link from "next/link";
 import Image from "next/image";
 import {useState, useEffect} from 'react'
 import { useRouter } from 'next/router';
-import { useUserState } from 'atoms/userAtom';
 import {Article} from "../types/article"
 import {getTruth, deleteTruth, getFake, deleteFake} from "../libs/goodFunction"
+import { useCurrentUser } from "../hooks/useCurrentUser"
 
 interface Props {
   content: Article | null;
@@ -13,7 +13,7 @@ interface Props {
 const Content: React.FC<Props> =(props: Props)=>{
   const article=props.content;
   const router=useRouter();
-  const {user}=useUserState();
+  const { isAuthChecking, currentUser } = useCurrentUser();
   const [isTruth, setIsTruth]=useState<boolean>(false);
   const [isFake, setIsFake]=useState<boolean>(false);
   const [TruthNumber, setTruthNumber]=useState<number>(article.truth_number);
@@ -25,18 +25,18 @@ const Content: React.FC<Props> =(props: Props)=>{
 
   const truthClick= async ()=>{
       if(!isTruth && !isFake){
-        const a=await getTruth(article.id, user.api_token);
+        const a=await getTruth(article.id);
         setTruthNumber(TruthNumber+1);
         setIsTruth(true);
       }else if(!isTruth && isFake){
-        const a=await getTruth(article.id, user.api_token);
-        const b=await deleteFake(article.id, user.api_token);
+        const a=await getTruth(article.id);
+        const b=await deleteFake(article.id);
         setTruthNumber(TruthNumber+1);
         setIsTruth(true);
         setFakeNumber(FakeNumber-1);
         setIsFake(false);
       }else if(isTruth){
-        const b=await deleteTruth(article.id, user.api_token);
+        const b=await deleteTruth(article.id);
         setTruthNumber(TruthNumber-1);
         setIsTruth(false);
       }
@@ -45,18 +45,18 @@ const Content: React.FC<Props> =(props: Props)=>{
 
   const FakeClick= async ()=>{
       if(!isTruth && !isFake){
-        const a=await getFake(article.id, user.api_token);
+        const a=await getFake(article.id);
         setFakeNumber(FakeNumber+1);
         setIsFake(true);
       }else if(!isFake && isTruth){
-        const a=await getFake(article.id, user.api_token);
-        const b=await deleteTruth(article.id, user.api_token);
+        const a=await getFake(article.id);
+        const b=await deleteTruth(article.id);
         setFakeNumber(FakeNumber+1);
         setIsFake(true);
         setTruthNumber(TruthNumber-1);
         setIsTruth(false);
       }else if(isFake){
-        const b=await deleteFake(article.id, user.api_token);
+        const b=await deleteFake(article.id);
         setFakeNumber(FakeNumber-1);
         setIsFake(false);
       }
@@ -66,21 +66,25 @@ const Content: React.FC<Props> =(props: Props)=>{
 
 
   useEffect(()=>{
-    if(user.id){
+    if(!isAuthChecking && currentUser){
       article.is_truth.map((truth :any)=>{
-        if(truth===user.id){
+        if(truth===currentUser.id){
           setIsTruth(true);
           return;
         }
       })
       article.is_fake.map((fake :any)=>{
-        if(fake===user.id){
+        if(fake===currentUser.id){
           setIsFake(true);
           return;
         }
       })
     }
-    }, [user])
+    }, [isAuthChecking, currentUser])
+
+    if(isAuthChecking) return (<div>ログイン情報を確認中…</div>);
+  
+
   return(
     <>
       <section className="w-full  p-2 pt-4  bg-white">
@@ -91,8 +95,8 @@ const Content: React.FC<Props> =(props: Props)=>{
         <div className="flex justify-between mt-6 mb-4">
           <div></div>
           <div>
-            <button onClick={user.id ? truthClick : goLogin} className={!isTruth ? "p-1  border-2 border-red-600 text-red-600 rounded-lg" : "p-1 border-2 bg-red-600 border-red-600 text-white rounded-lg"}>truth {TruthNumber}</button>
-            <button onClick={user.id ? FakeClick : goLogin}  className={!isFake ? "p-1 ml-2 border-2 border-blue-800 text-blue-800 rounded-lg" : "p-1 ml-2 border-2 border-blue-800 bg-blue-800 text-white rounded-lg"}>fake {FakeNumber}</button>
+            <button onClick={currentUser ? truthClick : goLogin} className={!isTruth ? "p-1  border-2 border-red-600 text-red-600 rounded-lg" : "p-1 border-2 bg-red-600 border-red-600 text-white rounded-lg"}>truth {TruthNumber}</button>
+            <button onClick={currentUser ? FakeClick : goLogin}  className={!isFake ? "p-1 ml-2 border-2 border-blue-800 text-blue-800 rounded-lg" : "p-1 ml-2 border-2 border-blue-800 bg-blue-800 text-white rounded-lg"}>fake {FakeNumber}</button>
           </div>
         </div>
       </section>

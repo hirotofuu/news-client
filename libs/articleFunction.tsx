@@ -1,9 +1,9 @@
 import axios from './axios';
 import { AxiosError, AxiosResponse } from 'axios';
 
-export async function deleteArticle($id: number, $api_token: string){
+export async function deleteArticle($id: string){
   const answer=await axios
-  .delete(`/api/deleteArticle/${$id}?api_token=${$api_token}`)
+  .delete(`/api/deleteArticle/${$id}`)
   .then((response: AxiosResponse) => {
     console.log("delete article")
   })

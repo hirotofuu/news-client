@@ -3,15 +3,41 @@ import type { AppProps } from 'next/app'
 import Header from "../components/header"
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import {config} from '@fortawesome/fontawesome-svg-core'
-import {RecoilRoot} from 'recoil';
+import { useEffect, useCallback } from 'react';
+import { useSetRecoilState, RecoilRoot, } from 'recoil';
+import { currentUserState } from '../atoms/userAtom';
+import { fetchCurrentUser } from '../libs/account';
+import NextNprogress from 'nextjs-progressbar'
+
+
 config.autoAddCss=false
+function AppInit() {
+  const setCurrentUser = useSetRecoilState(currentUserState);
+
+  useEffect(useCallback(() => {
+    (async function () {
+
+        const currentUser = await fetchCurrentUser(); // サーバーへのリクエスト（未ログインの場合は401等を返すものとする）
+        if(currentUser===401 || currentUser===419){
+          setCurrentUser(null);
+          return
+        }
+        setCurrentUser(currentUser);
+    })();
+  },[]), [])
+  
+  return null;
+}
+
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
-      <RecoilRoot>
+        <RecoilRoot>  
+          <NextNprogress/>
           <Header></Header>
           <Component {...pageProps} />
-      </RecoilRoot>
+          <AppInit />
+        </RecoilRoot>
 
     </>
   

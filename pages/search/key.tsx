@@ -30,8 +30,8 @@ const Search: NextPage = ({result}: any) => {
   const router = useRouter();
 
 
-  const a=result.SearchResult.length ? <ArticlesPage articles={result.SearchResult}></ArticlesPage> : <NotFound>ここに記事はありません</NotFound>;
-  const u=result.SearchUser.length?<Users users={result.SearchUser}></Users>: <NotFound>ここにユーザーはいません</NotFound>;
+  const a=result.SearchResult.length ? <ArticlesPage articles={result.SearchResult}></ArticlesPage> : <NotFound>{`we couldn’t find any results for “${result.QWord}”`}</NotFound>;
+  const u=result.SearchUser.length?<Users users={result.SearchUser}></Users>: <NotFound>{`we couldn’t find any results for “${result.QWord}”`}</NotFound>;
 
   const goUser=()=>{
     router.push({

@@ -13,7 +13,7 @@ import Users from "../../../components_pro/users"
 import NotFound from "../../../components/notFound"
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const user_id: number=Number(context.params.user_id);
+  const user_id: any=context.params.user_id;
   const user_following : Article[] | null=await getFollower(user_id);
   return{
     props: {
@@ -36,7 +36,7 @@ const Following: NextPage = ({factor}: any) => {
       <>
         <Frame>
           <h1 className="p-2 text-blue-300 bg-gray-600"><button onClick={goBack} ><FontAwesomeIcon icon={faArrowLeft}></FontAwesomeIcon> back</button></h1>
-          {factor.user_following.length!==0?<Users users={factor.user_following}></Users>: <NotFound>ここにユーザーはいません</NotFound>}
+          {factor.user_following.length!==0?<Users users={factor.user_following}></Users>: <NotFound>we couldn’t find any results </NotFound>}
 
 
         </Frame>

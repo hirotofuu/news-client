@@ -5,7 +5,7 @@ const CommentsUserPage=(props: any)=>{
   const comments=props.comments;
   const [loadIndex, setLoadIndex] = useState(20);
   const [currentPost, setCurrentPost] = useState(comments);
-  const [isEmpty, setIsEmpty] = useState(currentPost.length>5 ? false : true);
+  const [isEmpty, setIsEmpty] = useState(currentPost.length>20 ? false : true);
 
   const displayMore = () => {
     if (loadIndex > currentPost.length) {

@@ -5,9 +5,9 @@ import { AxiosError, AxiosResponse } from 'axios';
 
 
 // follow
-export async function getFollow($id: number, $api_token : string){
+export async function getFollow($id: string){
   const answer=await axios
-  .get(`/api/followSend/${$id}?api_token=${$api_token}`)
+  .get(`/api/followSend/${$id}`)
   .then((response: AxiosResponse) => {
     console.log("follow!");
   })
@@ -18,9 +18,9 @@ export async function getFollow($id: number, $api_token : string){
 }
 
 // unfollow
-export async function deleteFollow($id: number, $api_token: string){
+export async function deleteFollow($id: string){
   const answer=await axios
-  .delete(`/api/unFollowSend/${$id}?api_token=${$api_token}`)
+  .delete(`/api/unFollowSend/${$id}`)
   .then((response: AxiosResponse) => {
     return;
   })
@@ -31,7 +31,7 @@ export async function deleteFollow($id: number, $api_token: string){
 }
 
 // get following
-export async function getFollowing($id: any){
+export async function getFollowing($id: string){
   const answer=await axios
   .get(`/api/following/${$id}`)
   .then((response: AxiosResponse) => {
@@ -44,7 +44,7 @@ export async function getFollowing($id: any){
 
 
 // get followers
-export async function getFollower($id:number){
+export async function getFollower($id:string){
   const answer=await axios
   .get(`/api/follower/${$id}`)
   .then((response: AxiosResponse) => {

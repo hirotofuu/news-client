@@ -1,10 +1,12 @@
 export type User={
-  id: number,
+  id: string,
+  secret_id: string,
   name: string,
-  api_token: string,
+  avatar_image: string,
+  profile: string,
   truth_number: number,
   fake_number: number,
-  following: number[] | null,
+  following: string[] | null,
   following_number: number,
   follower_number: number,
 };

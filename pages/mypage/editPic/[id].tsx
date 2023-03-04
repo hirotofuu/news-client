@@ -3,12 +3,12 @@ import axios from '../../../libs/axios';
 import Head from 'next/head'
 import Image from 'next/image'
 import { AxiosError, AxiosResponse } from 'axios';
-import { ChangeEvent, useState, useEffect, useLayoutEffect, useRef} from 'react';
+import { ChangeEvent, useState, useRef} from 'react';
 import {getShowArticle} from "../../../libs/fetchFunction";
 import {GetServerSideProps} from 'next'
 import { useRouter } from 'next/router';
-import { useUserState } from 'atoms/userAtom';
 import type {Article} from "../../../types/article"
+import { useIsMyInfoPage } from "../../../hooks/useMypageRoute"
 
 
 export const getServerSideProps: GetServerSideProps= async (context) => {
@@ -27,14 +27,17 @@ type CreateForm={
   image_file?: File;
 };
 
+
+
+
 const Create: NextPage = ({article}: any) => {
-  const router = useRouter();
 
   const [createForm, setCreateForm]=useState<CreateForm>({
     id: article.id,
     image_file: null,
 
   })
+
 
   const [fileImage, setFileImage] = useState(article.IndexArticle.image_file ? `https://s3.ap-northeast-1.amazonaws.com/newbyte-s3/${article.IndexArticle.image_file}` : '');
 
@@ -46,13 +49,16 @@ const Create: NextPage = ({article}: any) => {
     if (fileObject) {
       setCreateForm({ ...createForm, [e.target.name]: fileObject });
       setFileImage(window.URL.createObjectURL(fileObject));
-      console.log(fileObject);
     }
   };
 
   const fileUpload = () => {
     inputRef.current.click();
   };
+
+ 
+
+ 
 
 
 
@@ -61,7 +67,11 @@ const Create: NextPage = ({article}: any) => {
     setFileImage("");
   }
 
-  const {user}=useUserState();
+
+
+
+  useIsMyInfoPage(article.IndexArticle.user_id)
+
 
 
 
@@ -75,11 +85,8 @@ const Create: NextPage = ({article}: any) => {
     formData.append("file", createForm.image_file);
     formData.append("id", createForm.id);
     console.log(createForm);
-    axios
-      .get('/sanctum/csrf-cookie')
-      .then((res: AxiosResponse) => {
         axios
-          .post(`/api/editArticlePic?api_token=${user.api_token}`, formData,)
+          .post(`/api/editArticlePic`, formData,)
           .then((response: AxiosResponse) => {
             console.log('seccess');
             
@@ -87,7 +94,7 @@ const Create: NextPage = ({article}: any) => {
           .catch((err: AxiosError) => {
             console.log(err.response);
           });
-      });
+
   };
 
   return (

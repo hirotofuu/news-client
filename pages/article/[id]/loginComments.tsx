@@ -1,19 +1,19 @@
-import type { NextPage } from 'next'
+import type {  NextPage, GetStaticPaths, GetStaticProps  } from 'next'
 import Link from 'next/link'
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import Frame from "../../../components/frame"
-import { useUserState } from 'atoms/userAtom';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faComment, faAngleUp, faAngleDown} from '@fortawesome/free-solid-svg-icons'
+import {faComment, faRotateRight} from '@fortawesome/free-solid-svg-icons'
 import {useState, ChangeEvent, useEffect} from "react"
-import {GetServerSideProps} from 'next'
 import {createComment, getComments} from '../../../libs/commentFunction'
 import {getShowArticle} from '../../../libs/fetchFunction'
 import { useRouter } from 'next/router';
-import axios from "../../../libs/axios"
-import Comments from "../../../components_pro/comments"
+import { useCurrentUser } from "../../../hooks/useCurrentUser"
+import {Comment} from "../../../types/comment"
+import {Article} from "../../../types/article"
+import CommentUserChoice from '../../../components/choices/commentUserChoice'
 import CommentsPage from '../../../components_pro/commentspage'
 import CommentTitle from "../../../components/commentTitle"
 import NotFound from "../../../components/notFound"
@@ -21,43 +21,45 @@ import NotFound from "../../../components/notFound"
 
 
 
-export const getServerSideProps: GetServerSideProps= async (context) => {
+
+export const getStaticProps: GetStaticProps= async (context) => {
   const id=context.params.id;
-  const type=context.query.type ? context.query.type : '';
-  const getArticle: any=await getShowArticle(id);
-  const comments=await getComments(id);
-  const commentsNumber: number=await comments.length;
+  const getArticle: Article=await getShowArticle(id);
+  const comments : Comment[]=await getComments(id);
+  const commentsNumber: number=comments.length;
 
 
   return{
     props: {
-      content:{id , comments, getArticle, commentsNumber, type},
+      content:{id , comments, getArticle, commentsNumber},
 
     },
+    revalidate: 60,
   };
 }
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  return {
+    paths: [],
+    fallback: 'blocking',
+  };
+};
+
 type InputType={
   comment: string;
   day_time: string;
-  article_id: number;
+  article_id: string;
 }
 
 
 const Comment: NextPage = ({content}: any) => {
   const now = new Date();
+  const [indexComment, setIndexComment]=useState<Comment[] | null>(content.comments);
 
-  const {user, setUser}=useUserState();
 
   const router = useRouter();
 
-  const [myFactor, setMyFactor]=useState<boolean>(false);
-
-
-    const  myData=content.comments.filter((comment: any)=>{
-      return comment.user_id===user.id;
-    });
-  
-
+  const { isAuthChecking, currentUser } = useCurrentUser();
   
   const [commentForm, setCommentForm]=useState<InputType>({
     comment: '',
@@ -69,61 +71,62 @@ const Comment: NextPage = ({content}: any) => {
     setCommentForm({ ...commentForm, comment: e.target.value });
   }
 
+
   const deposit=async()=>{
     const a=await createComment(commentForm);
     setCommentForm({ ...commentForm, comment:''});
     return ;
   }
 
+
   const submit=async()=>{
-    if(!user){
+    if(!currentUser){
       router.replace("/login");
       return;
     }
     const a = await deposit();
-    window.location.reload();
-  };
 
+
+
+  };  
   
-  const commentsSample =content.comments.slice();
-  const commentsAll=commentsSample.sort((a, b)=> {
-    if(a.good_number < b.good_number) return +1;
-    else if(a.good_number > b.good_number) return -1;
-    return 0;
-  })
+  const fetchComment=async()=>{
+    const comments : Comment[]=await getComments(content.id);
+    setIndexComment(comments)
+  }
+  
+
+
+
+
+
+
+
+  if(isAuthChecking) return (<div>ログイン情報を確認中…</div>);
+  
+  if(!currentUser) return (<div>ログインしていません</div>);
 
   return (
       <>
       <Frame>
-          <CommentTitle article={content.getArticle}></CommentTitle>  
+        <CommentTitle article={content.getArticle}></CommentTitle>  
         <div className=" bg-white">
-          <div  className=" pt-3 pb-3" >
-            <div className="flex ml-auto mr-auto w-11/12">
-              <div className="bg-black  w-8 h-8 rounded-full">ssaeadsad</div>
-              <textarea placeholder="Comment" onChange={updateCommentForm} value={commentForm.comment} className="resize-none border border-gray-500 w-full ml-3 p-1"></textarea>
+          <div  className="p-3  flex " >
+              <button onClick={()=>fetchComment()} className="mr-3 text-xl"><FontAwesomeIcon icon={faRotateRight}></FontAwesomeIcon></button>
+              <textarea placeholder="Comment" onChange={updateCommentForm} value={commentForm.comment} className="resize-none border border-gray-500 w-full  p-1"></textarea>
               <button onClick={submit} className="p-1 bg-indigo-500 text-white rounded-r-sm">go</button>
-            </div>
           </div>
         </div>
 
-          <h2 onClick={()=>setMyFactor(!myFactor)} className="flex justify-between  bg-white p-3 text-lg font-medium hover: cursor-pointer">
-            <div>your comments ({myData.length})</div>
-            <div>{myFactor ? <FontAwesomeIcon icon={faAngleUp}></FontAwesomeIcon> : <FontAwesomeIcon icon={faAngleDown}></FontAwesomeIcon>}</div>
-            </h2>
-        <div className={!myFactor ? "hidden": ""}>
-          <Comments comments={myData}></Comments>
-        </div>
 
 
         <div className="flex justify-between bg-gray-600 border-b p-2 px-6 mt-2">
-          <h1 className="font-semibold text-blue-300">{content.comments.length} <FontAwesomeIcon icon={faComment}></FontAwesomeIcon></h1>
-          <h2 className=" flex gap-1 text-blue-300">
-            <button onClick={()=>router.push(`/article/${content.id}/loginComments`)} className={!content.type ? "text-orange-400" :""}>Hot</button>
-             |
-            <button onClick={()=>router.push(`/article/${content.id}/loginNewComments`)} className={content.type ? "text-orange-400" :""}>New</button>  
-            </h2>
+          <div className="font-semibold text-blue-300">
+            {indexComment.length} <FontAwesomeIcon icon={faComment}></FontAwesomeIcon>
+          </div>
+            <h1 className="text-blue-300">Hot</h1>
         </div>
-        {!content.commentsNumber ? <NotFound>ここには何もありません</NotFound> : <CommentsPage comments={commentsAll}></CommentsPage>}
+        {indexComment.length===0 ? <NotFound>ここには何もありません</NotFound> : <CommentsPage isMypage={false} comments={indexComment} ></CommentsPage>}
 
                
            

@@ -9,11 +9,11 @@ export async function getIndexArticle(){
     .then((response: AxiosResponse) => {
       return response.data.data;
     })
-    .catch((err: AxiosError) => console.log(err.response));
+    .catch((err: AxiosError) => console.log(err));
     return answer;
 }
 
-export async function getTimelineArticle(user_id: any){
+export async function getTimelineArticle(user_id: string | string[]){
     const answer=axios
     .get(`/api/fetchTimeline/${user_id}`)
     .then((response: AxiosResponse) => {
@@ -25,11 +25,10 @@ export async function getTimelineArticle(user_id: any){
 }
   
 
-export async function getShowArticle(id: any){
+export async function getShowArticle(id: string | string[]){
     const answer=await axios
     .get(`/api/showFetch/${id}`)
     .then((response: AxiosResponse) =>{
-      console.log(response.data.data);
       return response.data.data;
     })
     .catch((err: AxiosError) => console.log(err.response));
@@ -37,7 +36,7 @@ export async function getShowArticle(id: any){
 }
 
 
-export async function getCategoryArticle(category: any){
+export async function getCategoryArticle(category: string | string[]){
     const answer=await axios
     .get(`/api/categoryFetch/${category}`)
     .then((response: AxiosResponse) => {
@@ -48,7 +47,7 @@ export async function getCategoryArticle(category: any){
 }
 
 
-export async function getSearchArticle(search: any){
+export async function getSearchArticle(search: string | string[]){
     const searchResult=await axios
     .get(`/api/searchFetch/${search}`)
     .then((response: AxiosResponse) => {
@@ -59,7 +58,7 @@ export async function getSearchArticle(search: any){
 }
 
 
-export async function getUserArticle(user_id: any){
+export async function getUserArticle(user_id: string | string[]){
     const searchResult=await axios
     .get(`/api/fetchUserArticle/${user_id}`)
     .then((response: AxiosResponse) => {
@@ -73,10 +72,9 @@ export async function getMyArticle(id: string | string[]){
     const searchResult=await axios
     .get(`/api/fetchMyArticle/${id}`)
     .then((response: AxiosResponse) => {
-      console.log(response.data.data);
       return response.data.data;
     })
-    .catch((err: AxiosError) => console.log(err.response));
+    .catch((err: AxiosError) => console.log(err));
     return searchResult;
 }
 
@@ -91,7 +89,7 @@ export async function getUser(){
     return searchResult;
 }
 
-export async function getUserSearch(user_name: any){
+export async function getUserSearch(user_name: string | string[]){
     const searchResult=await axios
     .get(`/api/fetchUserSearch/${user_name}`)
     .then((response: AxiosResponse) => {
@@ -101,7 +99,7 @@ export async function getUserSearch(user_name: any){
     return searchResult;
 }
 
-export async function getUserInfo(user_id: any){
+export async function getUserInfo(user_id: string | string[]){
     const searchResult=await axios
     .get(`/api/fetchUserInfo/${user_id}`)
     .then((response: AxiosResponse) => {
@@ -112,13 +110,3 @@ export async function getUserInfo(user_id: any){
     return searchResult;
 }
 
-export async function getMypageInfo(id : any){
-    const searchResult=await axios
-    .get(`/api/fetchMypageInfo/${id}`)
-    .then((response: AxiosResponse) => {
-      console.log(response.data.data);
-      return response.data.data;
-    })
-    .catch((err: AxiosError) => console.log(err.response));
-    return searchResult;
-}

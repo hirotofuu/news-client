@@ -1,8 +1,8 @@
 import Link from "next/link";
 import {useState, useEffect} from "react"
-import { useUserState } from 'atoms/userAtom';
 import { useRouter } from "next/router";
 import {getFollow, deleteFollow} from "../../libs/followFunction"
+import { useCurrentUser } from "../../hooks/useCurrentUser"
 import type {User} from "../../types/user"
 
 interface Props {
@@ -12,42 +12,48 @@ interface Props {
 const Users:React.FC<Props> =(props: Props)=>{
   const player=props.user;
   const router=useRouter();
-  const {user}=useUserState();
+  const { isAuthChecking, currentUser } = useCurrentUser();
   const [isFollow, setIsFollow]=useState<boolean>(false);
 
 
   const Follow=async()=>{
     if(isFollow){
-      const b=await deleteFollow(player.id, user.api_token);
+      const b=await deleteFollow(player.id);
       setIsFollow(false);
     }else{
-      const a=await getFollow(player.id, user.api_token);
+      const a=await getFollow(player.id);
       setIsFollow(true);
     }
   }
 
   useEffect(()=>{
-    player.following.map((foll: number)=>{
-      if(user.id===foll){
+    if(currentUser && !isAuthChecking){
+    player.following.map((foll: string)=>{
+      if(currentUser.id===foll){
         setIsFollow(true);
         return;
       }
     })
-  }, [user])
+  }
+  }, [currentUser, isAuthChecking])
+
 
   return(
     <>
         <div className="flex border-b w-full bg-white">
-        <Link href={`/user/${player.id}`}><a className="p-3 flex justify-between bg-white w-11/12 ">
+        <Link href={`/user/${player.id}`}><a className="p-3 flex justify-between bg-white w-full ">
             <div className="flex">
-              <div className="bg-black  w-8 h-8 rounded-full">ssae</div>
+              <img
+                className="rounded-full h-12 w-12 object-cover"
+                src={`https://s3.ap-northeast-1.amazonaws.com/newbyte-s3/${player.avatar_image}` }
+              />
               <div className="ml-4">
                 <h1 className="pt-1 text-sm font-medium">{player.name}</h1>
-                <p className="mt-2 w-full text-sm"></p>
+                <p className="mt-1 w-full text-sm line-clamp-3 text-gray-500">{player.profile}</p>
               </div>
             </div>
         </a></Link>
-        <button onClick={user.id ? Follow : ()=>{router.push("/login")}} className="border-2 m-3 text-blue-500  text-sm h-8 font-semibold px-2  rounded-l-full rounded-r-full ">{isFollow ? "Following" : " Follow"}</button>
+        {currentUser && currentUser.id===player.id ? '' : <button onClick={currentUser ? Follow : ()=>{router.push("/login")}} className="block border-2 m-3 text-blue-500  text-sm h-8 font-semibold px-2  rounded-l-full rounded-r-full ">{isFollow ? "Following" : " Follow"}</button>}
         </div>
 
 

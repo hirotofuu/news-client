@@ -4,10 +4,10 @@ import { AxiosError, AxiosResponse } from 'axios';
 
 
 
-async function getGood($id: number, $api_token: string){
+async function getGood($id: string){
 
   const answer=await axios
-    .get(`/api/goodSend/${$id}?api_token=${$api_token}`)
+    .get(`/api/goodSend/${$id}`)
     .then((response: AxiosResponse) => {
       console.log("good!");
     })
@@ -20,10 +20,10 @@ async function getGood($id: number, $api_token: string){
 
 
 
-async function deleteGood($id: number, $api_token: string){
+async function deleteGood($id: string){
 
   const answer=await axios
-    .delete(`/api/unGoodSend/${$id}?api_token=${$api_token}`)
+    .delete(`/api/unGoodSend/${$id}`)
     .then((response: AxiosResponse) => {
     })
     .catch((err: AxiosError) => {
@@ -34,21 +34,21 @@ async function deleteGood($id: number, $api_token: string){
 
 
 
-export async function goodFunc($bool: boolean, $id: number, $api_token: string){
+export async function goodFunc($bool: boolean, $id: string){
   if($bool){
-    deleteGood($id, $api_token);
+    deleteGood($id, );
     return ;
   }else{
-    getGood($id, $api_token);
+    getGood($id);
     return ;
   }
 }
 
 // truth
-export async function getTruth($id: number,  $api_token: string){
+export async function getTruth($id: string){
 
   const answer=await axios
-    .get(`/api/truthSend/${$id}?api_token=${$api_token}`)
+    .get(`/api/truthSend/${$id}`)
     .then((response: AxiosResponse) => {
       console.log("truth!");
     })
@@ -61,10 +61,10 @@ export async function getTruth($id: number,  $api_token: string){
 
 
 
-export async function deleteTruth($id: number,  $api_token: string){
+export async function deleteTruth($id: string){
 
     const answer=await axios
-    .delete(`/api/unTruthSend/${$id}?api_token=${$api_token}`)
+    .delete(`/api/unTruthSend/${$id}`)
     .then((response: AxiosResponse) => {
     })
     .catch((err: AxiosError) => {
@@ -74,10 +74,10 @@ export async function deleteTruth($id: number,  $api_token: string){
 }
 
 // fake
-export async function getFake($id: number,  $api_token: string){
+export async function getFake($id: string){
 
     const answer=await axios
-    .get(`/api/fakeSend/${$id}?api_token=${$api_token}`)
+    .get(`/api/fakeSend/${$id}`)
     .then((response: AxiosResponse) => {
       console.log("fake!");
     })
@@ -90,10 +90,10 @@ export async function getFake($id: number,  $api_token: string){
 
 
 
-export async function deleteFake($id: number,  $api_token: string){
+export async function deleteFake($id: string){
 
     const answer=await axios
-    .delete(`/api/unFakeSend/${$id}?api_token=${$api_token}`)
+    .delete(`/api/unFakeSend/${$id}`)
     .then((response: AxiosResponse) => {
     })
     .catch((err: AxiosError) => console.log(err.response));

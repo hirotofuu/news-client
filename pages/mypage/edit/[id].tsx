@@ -3,12 +3,11 @@ import axios from '../../../libs/axios';
 import Head from 'next/head'
 import Image from 'next/image'
 import { AxiosError, AxiosResponse } from 'axios';
-import { ChangeEvent, useState, useEffect, useLayoutEffect, useRef} from 'react';
+import { ChangeEvent, useState} from 'react';
 import {getShowArticle} from "../../../libs/fetchFunction";
 import {GetServerSideProps} from 'next'
-import { useRouter } from 'next/router';
-import { useUserState } from 'atoms/userAtom';
 import type {Article} from "../../../types/article"
+import { useIsMyInfoPage } from "../../../hooks/useMypageRoute"
 
 export const getServerSideProps: GetServerSideProps= async (context) => {
   const id=context.params.id;
@@ -30,9 +29,7 @@ type CreateForm={
 };
 
 const Create: NextPage = ({article}: any) => {
-  const router = useRouter();
-  const factor=article.IndexArticle;
-
+  const factor=article.IndexArticle
   const [createForm, setCreateForm]=useState<CreateForm>({
     id: factor.id,
     title: factor.title,
@@ -59,14 +56,10 @@ const Create: NextPage = ({article}: any) => {
   }
 
 
+  useIsMyInfoPage(factor.user_id)
 
-  const {user}=useUserState();
 
-  useEffect(()=>{
-    if(user.id!==factor.user_id){
-      router.push("/login");
-    }
-  }, [])
+
 
 
   const create = () => {
@@ -76,11 +69,8 @@ const Create: NextPage = ({article}: any) => {
       }
     };
     console.log(createForm);
-    axios
-      .get('/sanctum/csrf-cookie')
-      .then((res: AxiosResponse) => {
         axios
-          .post(`/api/editArticleText?api_token=${user.api_token}`, createForm)
+          .post(`/api/editArticleText`, createForm)
           .then((response: AxiosResponse) => {
             console.log('seccess');
             
@@ -88,7 +78,6 @@ const Create: NextPage = ({article}: any) => {
           .catch((err: AxiosError) => {
             console.log(err.response);
           });
-      });
   };
 
   return (
