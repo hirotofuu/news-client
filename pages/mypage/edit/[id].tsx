@@ -1,3 +1,4 @@
+
 import type { NextPage } from 'next'
 import axios from '../../../libs/axios';
 import { AxiosError, AxiosResponse } from 'axios';
@@ -135,8 +136,8 @@ const Create: NextPage = ({article}: any) => {
                 value={createForm.category}
                 onChange={updateSelectTextForm}
                 >
-              {category_contents.map((c: any)=>
-              <option value={c}>{c}</option>
+              {category_contents.map((c: any, index: any)=>
+              <option key={index} value={c}>{c}</option>
               )}
                 </select>
               </div>
