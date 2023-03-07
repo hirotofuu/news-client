@@ -22,3 +22,12 @@ export function useIsMyInfoPage(user_id: string) {
     if(!currentUser || currentUser.id!=user_id) router.push("/"); // まだ確認中
   },[isAuthChecking, currentUser])
 }
+
+
+export function useRouteToMypage() {
+  const router = useRouter();
+  useEffect(()=>{
+    router.push("/mypage/articles");
+
+  }, [])
+}

@@ -1,19 +1,15 @@
 import type {  NextPage, GetStaticPaths, GetStaticProps  } from 'next'
-import Link from 'next/link'
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
 import Frame from "../../../components/frame"
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faComment, faRotateRight} from '@fortawesome/free-solid-svg-icons'
-import {useState, ChangeEvent, useEffect} from "react"
+import {useState, ChangeEvent} from "react"
 import {createComment, getComments} from '../../../libs/commentFunction'
-import {getShowArticle} from '../../../libs/fetchFunction'
+import {getTitleArticle} from '../../../libs/fetchFunction'
 import { useRouter } from 'next/router';
 import { useCurrentUser } from "../../../hooks/useCurrentUser"
 import {Comment} from "../../../types/comment"
 import {Article} from "../../../types/article"
-import CommentUserChoice from '../../../components/choices/commentUserChoice'
+import Meta from '../../../components/meta'
 import CommentsPage from '../../../components_pro/commentspage'
 import CommentTitle from "../../../components/commentTitle"
 import NotFound from "../../../components/notFound"
@@ -24,7 +20,7 @@ import NotFound from "../../../components/notFound"
 
 export const getStaticProps: GetStaticProps= async (context) => {
   const id=context.params.id;
-  const getArticle: Article=await getShowArticle(id);
+  const getArticle: Article=await getTitleArticle(id);
   const comments : Comment[]=await getComments(id);
   const commentsNumber: number=comments.length;
 
@@ -108,6 +104,7 @@ const Comment: NextPage = ({content}: any) => {
 
   return (
       <>
+      <Meta pageTitle={`${content.getArticle.title} comment - newsbyte`} pageDesc={`${content.getArticle.title} comment `} ></Meta>
       <Frame>
         <CommentTitle article={content.getArticle}></CommentTitle>  
         <div className=" bg-white">

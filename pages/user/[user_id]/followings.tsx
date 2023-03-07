@@ -8,6 +8,7 @@ import {getFollowing} from "../../../libs/followFunction"
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faArrowLeft} from '@fortawesome/free-solid-svg-icons'
 import type {Article} from "../../../types/article"
+import Meta from '../../../components/meta'
 import Frame from "../../../components/frame"
 import Users from "../../../components_pro/users"
 import NotFound from "../../../components/notFound"
@@ -34,6 +35,7 @@ const Following: NextPage = ({factor}: any) => {
   }
   return (
       <>
+        <Meta pageTitle={`following - newsbyte`} pageDesc="following"></Meta>
         <Frame>
           <h1 className="p-2 text-blue-300 bg-gray-600"><button onClick={goBack} ><FontAwesomeIcon icon={faArrowLeft}></FontAwesomeIcon> back</button></h1>
           {factor.user_following.length?<Users users={factor.user_following}></Users>: <NotFound>we couldn’t find any results </NotFound>}

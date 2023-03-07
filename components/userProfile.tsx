@@ -7,8 +7,6 @@ import type {User} from "../types/user"
 import Link from "next/link";
 import { useCurrentUser } from "../hooks/useCurrentUser"
 import {logout} from '../libs/account'
-import Image from "next/image";
-import Avatar from 'react-avatar';
 
 interface Props {
   info: User | null;
@@ -87,7 +85,7 @@ const UserProfile:React.FC<Props> =(props: Props)=>{
               <Link href={`/user/${pro.id}/followings`} ><a className="text-sm text-gray-500"><span className="font-bold text-black">{pro.following_number}</span> Following</a></Link>
             </div>
             <p dangerouslySetInnerHTML={{
-              __html: textToLink(`${pro.profile}`)
+              __html: textToLink(pro.profile ? `${pro.profile}` : '')
             }} className="mt-2 text-sm "></p>
           </div>
         </div>

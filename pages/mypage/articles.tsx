@@ -5,16 +5,10 @@ import styles from '../styles/Home.module.css'
 import axios from '../../libs/axios'
 import useSWR from "swr";
 import Link from 'next/link'
-import { useEffect, useState, useLayoutEffect } from 'react'
 import { useRouter } from 'next/router';
-import {getMyArticle} from "../../libs/fetchFunction"
-import {getMyComments} from "../../libs/commentFunction"
-import { GetServerSideProps } from 'next'
-import { useRequireLogin } from "../../hooks/useRequireLogin"
-import {currentUserState} from '../../atoms/userAtom'
-import type {Article} from "../../types/article"
 import type {User} from "../../types/user"
 import { useCurrentUser } from "../../hooks/useCurrentUser"
+import Meta from '../../components/meta'
 import Frame from "../../components/frame"
 import UserProfile from "../../components/userProfile"
 import NotFound from "../../components/notFound"
@@ -68,6 +62,7 @@ const User: NextPage = () => {
 
   return (
       <>
+        <Meta pageTitle={`master article page - newsbyte`} pageDesc={`you can check and delete your articles`}></Meta>
         <Frame>
         <UserProfile info={currentUser} mypage={true}></UserProfile>
           <div className="flex gap-2   pl-2">

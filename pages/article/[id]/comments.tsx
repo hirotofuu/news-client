@@ -6,11 +6,11 @@ import styles from '../styles/Home.module.css'
 import Frame from "../../../components/frame"
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faComment} from '@fortawesome/free-solid-svg-icons'
-import {GetServerSideProps} from 'next'
 import {getComments} from '../../../libs/commentFunction'
-import {getShowArticle} from '../../../libs/fetchFunction'
+import {getTitleArticle} from '../../../libs/fetchFunction'
 import {Comment} from "../../../types/comment"
 import { useRouter } from 'next/router';
+import Meta from '../../../components/meta'
 import CommentsPage from '../../../components_pro/commentspage'
 import CommentTitle from "../../../components/commentTitle"
 import NotFound from "../../../components/notFound"
@@ -25,7 +25,7 @@ type InputType={
 export const getStaticProps: GetStaticProps= async (context) => {
   const id=context.params.id;
   const user_id=context.params.id
-  const getArticle: InputType=await getShowArticle(id);
+  const getArticle: InputType=await getTitleArticle(id);
   const comments : Comment[]=await getComments(id);
   const commentsNumber: number=comments.length;
   
@@ -53,6 +53,7 @@ const NotUserComment: NextPage = ({content}: any) => {
 
   return (
       <>
+      <Meta pageTitle={`${content.getArticle.title} comment - newsbyte`} pageDesc={`${content.getArticle.title} comment `} ></Meta>
       <Frame>
           <CommentTitle article={content.getArticle}></CommentTitle>      
 

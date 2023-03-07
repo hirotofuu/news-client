@@ -59,9 +59,8 @@ const Header=()=>{
         </div>
 
       <div className="h-14 items-center bg-slate-400 flex gap-12 text-lg xl:hidden lg:hidden md:hidden sm:hidden">
-          <a href="../pages/create" className="ml-auto">投稿</a>
-          <h1>login</h1>
-          <h1 className="mr-auto mb-s">register</h1>
+          <a href="/create" className="ml-auto">create</a>
+          <a href="/login" className="mr-auto">login</a>
       </div>
     </>
   )

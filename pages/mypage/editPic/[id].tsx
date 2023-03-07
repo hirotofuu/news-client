@@ -1,19 +1,19 @@
 import type { NextPage } from 'next'
 import axios from '../../../libs/axios';
-import Head from 'next/head'
 import Image from 'next/image'
 import { AxiosError, AxiosResponse } from 'axios';
 import { ChangeEvent, useState, useRef} from 'react';
-import {getShowArticle} from "../../../libs/fetchFunction";
-import {GetServerSideProps} from 'next'
 import { useRouter } from 'next/router';
+import {getShowArticle, getEditPicArticle} from "../../../libs/fetchFunction";
+import {GetServerSideProps} from 'next'
 import type {Article} from "../../../types/article"
 import { useIsMyInfoPage } from "../../../hooks/useMypageRoute"
+import Meta from '../../../components/meta'
 
 
 export const getServerSideProps: GetServerSideProps= async (context) => {
   const id=context.params.id;
-  const IndexArticle: Article | null=await getShowArticle(id);
+  const IndexArticle: Article | null=await getEditPicArticle(id);
 
   return{
     props: {
@@ -32,9 +32,11 @@ type CreateForm={
 
 const Create: NextPage = ({article}: any) => {
 
+  const router=useRouter()
+
   const [createForm, setCreateForm]=useState<CreateForm>({
     id: article.id,
-    image_file: null,
+    image_file: article.image_file,
 
   })
 
@@ -88,7 +90,7 @@ const Create: NextPage = ({article}: any) => {
         axios
           .post(`/api/editArticlePic`, formData,)
           .then((response: AxiosResponse) => {
-            console.log('seccess');
+            router.push('/mypage/articles')
             
         })
           .catch((err: AxiosError) => {
@@ -99,11 +101,12 @@ const Create: NextPage = ({article}: any) => {
 
   return (
     <>
+      <Meta pageTitle={`editting ${article.IndexArticle.title} picture - newsbyte`} pageDesc={`editting ${article.IndexArticle.title} picture`}></Meta>
       <div className="container mx-auto">
         <div className="w-full xl:w-1/2 lg:w-[600px] md:w-[600px] sm:w-full p-5 mx-auto xl:border-4 lg:border-4 md:border-4 my-2 xl:my-10 lg:my-10 md:my-10   bg-white rounded-md">
           <div className="text-center">
             <h1 className="my-3 text-3xl font-semibold text-gray-700">Picture edit</h1>
-            <p className="text-gray-400 mb-6">Content that violates rights ,attacks a specific person or too sexual is subject to removal.</p>
+            <p className="text-gray-400 mb-6">Share knowledge, know the world</p>
           </div>
 
               <div>

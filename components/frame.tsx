@@ -1,11 +1,10 @@
 import Link from "next/link";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faArrowUp} from '@fortawesome/free-solid-svg-icons'
+import {category_contents} from '../libs/category_contents'
 
 
 const Frame=({children})=>{
-
-  const categories:string[]=["ネット","アニメ","漫画","ラノベ","ゲーム","サッカー","野球","スポーツ","政治","国際","音楽","グルメ","生活","地域","エンタメ","コラム", "まとめ", "その他"] 
 
   const returnTop = () => {
     window.scrollTo({
@@ -32,7 +31,7 @@ const Frame=({children})=>{
 
           <div className="grid   border border-gray-200 bg-white rounded-sm">
             <h1 className="bg-white font-bold p-2">Category</h1>
-            {categories.map((category: string)=>
+            {category_contents.map((category: string)=>
             
             <Link href={'/category/'+`${category}`} key={`${category}`}><a className="black w-full p-1 pl-2 pt-2 text-sm text-blue-600 hover:bg-gray-300">{category}</a></Link>
             )}

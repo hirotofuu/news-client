@@ -17,7 +17,6 @@ export async function getTimelineArticle(user_id: string | string[]){
     const answer=axios
     .get(`/api/fetchTimeline/${user_id}`)
     .then((response: AxiosResponse) => {
-      console.log(response.data.data);
       return response.data.data;
     })
     .catch((err: AxiosError) => console.log(err.response));
@@ -35,6 +34,36 @@ export async function getShowArticle(id: string | string[]){
     return answer;
 }
 
+export async function getTitleArticle(id: string | string[]){
+    const answer=await axios
+    .get(`/api/titleFetch/${id}`)
+    .then((response: AxiosResponse) =>{
+      return response.data.data;
+    })
+    .catch((err: AxiosError) => console.log(err.response));
+    return answer;
+}
+
+export async function getEditTextArticle(id: string | string[]){
+    const answer=await axios
+    .get(`/api/editTextFetch/${id}`)
+    .then((response: AxiosResponse) =>{
+      return response.data.data;
+    })
+    .catch((err: AxiosError) => console.log(err.response));
+    return answer;
+}
+
+export async function getEditPicArticle(id: string | string[]){
+    const answer=await axios
+    .get(`/api/editPicFetch/${id}`)
+    .then((response: AxiosResponse) =>{
+      return response.data.data;
+    })
+    .catch((err: AxiosError) => console.log(err.response));
+    return answer;
+}
+
 
 export async function getCategoryArticle(category: string | string[]){
     const answer=await axios
@@ -43,6 +72,16 @@ export async function getCategoryArticle(category: string | string[]){
       return response.data.data;
     })
     .catch((err: AxiosError) => console.log(err.response));
+    return answer;
+}
+
+export async function getRecommendArticle(category: string | string[]){
+    const answer=await axios
+    .get(`/api/recommendFetch/${category}`)
+    .then((response: AxiosResponse) => {
+      return response.data.data;
+    })
+    .catch((err: AxiosError) => console.log(err));
     return answer;
 }
 
@@ -103,7 +142,6 @@ export async function getUserInfo(user_id: string | string[]){
     const searchResult=await axios
     .get(`/api/fetchUserInfo/${user_id}`)
     .then((response: AxiosResponse) => {
-      console.log(response.data.data);
       return response.data.data;
     })
     .catch((err: AxiosError) => console.log(err.response));

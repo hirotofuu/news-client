@@ -4,6 +4,7 @@ import {useState, useEffect} from 'react'
 import { useRouter } from 'next/router';
 import {Article} from "../types/article"
 import {getTruth, deleteTruth, getFake, deleteFake} from "../libs/goodFunction"
+import {textToLink} from "../libs/textLink"
 import { useCurrentUser } from "../hooks/useCurrentUser"
 
 interface Props {
@@ -99,8 +100,15 @@ const Content: React.FC<Props> =(props: Props)=>{
             <button onClick={currentUser ? FakeClick : goLogin}  className={!isFake ? "p-1 ml-2 border-2 border-blue-800 text-blue-800 rounded-lg" : "p-1 ml-2 border-2 border-blue-800 bg-blue-800 text-white rounded-lg"}>fake {FakeNumber}</button>
           </div>
         </div>
+        {article.source ? 
+        <div className="border-t-2">
+          <h1 className=" bg-white pt-1 pb-1 pl-3 text-lg font-medium">source</h1>
+          <p dangerouslySetInnerHTML={{
+              __html: textToLink(article.source ? `${article.source}` : '')
+            }} className="mt-2 text-sm "></p>
+        </div> 
+        : ''}
       </section>
-
     </>
   )
 }

@@ -1,6 +1,6 @@
 import { NextPage } from 'next';
-import Head from 'next/head'
-import Image from 'next/image';
+
+import Meta from "../../components/meta"
 import axios from '../../libs/axios';
 import Axios from 'axios';
 import { AxiosError, AxiosResponse } from 'axios';
@@ -8,7 +8,6 @@ import React, { ChangeEvent, useCallback, useRef, useState, useEffect } from 're
 import { useSetRecoilState } from 'recoil';
 import { useCurrentUser } from "../../hooks/useCurrentUser"
 import { currentUserState } from '../../atoms/userAtom';
-import { useRequireLogin } from "../../hooks/useRequireLogin"
 import { useRouter } from 'next/router';
 import Avatar from 'react-avatar';
 import { IconEditor } from '../../components/IconEditor';
@@ -124,11 +123,9 @@ const editPro: NextPage = () => {
     if(!currentUser) return (<div>ログインしていません</div>);
   return (
     <>
+      <Meta pageTitle={`edit profile - newsbyte`} pageDesc="you can edit your profile here"></Meta>
       <div>
-        <Head>
-          <title>Create Next App</title>
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
+        
 
         <main >
         <div className="container mx-auto mb-5">

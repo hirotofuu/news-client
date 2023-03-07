@@ -4,21 +4,13 @@ import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import axios from '../../libs/axios'
 import useSWR from "swr";
-import { useEffect, useState, useLayoutEffect } from 'react'
 import { useRouter } from 'next/router';
-import {getMyArticle} from "../../libs/fetchFunction"
-import {getMyComments} from "../../libs/commentFunction"
-import { GetServerSideProps } from 'next'
-import { useRequireLogin } from "../../hooks/useRequireLogin"
-import {currentUserState} from '../../atoms/userAtom'
-import type {Article} from "../../types/article"
 import type {User} from "../../types/user"
 import { useCurrentUser } from "../../hooks/useCurrentUser"
-import {logout} from '../../libs/account'
+import Meta from "../../components/meta"
 import Frame from "../../components/frame"
 import UserProfile from "../../components/userProfile"
 import NotFound from "../../components/notFound"
-import ArticlesUserPage from "../../components_pro/articlesUserPage"
 import CommentsUserPage from "../../components_pro/commentUserPage"
 
 
@@ -66,13 +58,14 @@ const User: NextPage = () => {
 
   return (
       <>
+        <Meta pageTitle={`master comment page - newsbyte`} pageDesc={`you can check and delete your comments`}></Meta>
         <Frame>
         <UserProfile info={currentUser} mypage={true}></UserProfile>
           <div className="flex gap-2   pl-2">
               <button onClick={goArticle}>
                 <div className="p-2 hover:bg-gray-300">articles</div>
               </button>
-                <div className={"text-blue-500 p-2 hover:bg-gray-300 border-b-2 border-blue-500"}>comments</div>
+                <h1 className={"text-blue-500 p-2 hover:bg-gray-300 border-b-2 border-blue-500"}>comments</h1>
           </div>
           {comment}
 

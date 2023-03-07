@@ -1,17 +1,18 @@
 import type { NextPage } from 'next'
 import axios from '../../../libs/axios';
-import Head from 'next/head'
-import Image from 'next/image'
 import { AxiosError, AxiosResponse } from 'axios';
 import { ChangeEvent, useState} from 'react';
-import {getShowArticle} from "../../../libs/fetchFunction";
+import { useRouter } from 'next/router';
+import {getShowArticle, getEditTextArticle} from "../../../libs/fetchFunction";
 import {GetServerSideProps} from 'next'
 import type {Article} from "../../../types/article"
 import { useIsMyInfoPage } from "../../../hooks/useMypageRoute"
+import {category_contents} from "../../../libs/category_contents"
+import Meta from '../../../components/meta'
 
 export const getServerSideProps: GetServerSideProps= async (context) => {
   const id=context.params.id;
-  const IndexArticle: Article | null=await getShowArticle(id);
+  const IndexArticle: Article | null=await getEditTextArticle(id);
 
   return{
     props: {
@@ -21,22 +22,26 @@ export const getServerSideProps: GetServerSideProps= async (context) => {
 }
 
 type CreateForm={
-  id: number,
+  id: string,
   title: string;
   content: string;
+  source: string | null;
   category: string;
   comments_open: string;
 };
 
 const Create: NextPage = ({article}: any) => {
   const factor=article.IndexArticle
+  const router=useRouter()
   const [createForm, setCreateForm]=useState<CreateForm>({
-    id: factor.id,
+    id: article.id,
     title: factor.title,
     content: factor.content,
+    source: factor.source,
     category: factor.category,
     comments_open: "true",
   })
+
 
 
   const updateCreateForm=(e: ChangeEvent<HTMLInputElement>)=>{
@@ -47,6 +52,7 @@ const Create: NextPage = ({article}: any) => {
     setCreateForm({ ...createForm, [e.target.name]: e.target.value });
   }
 
+
   const updateSelectTextForm=(e: ChangeEvent<HTMLSelectElement>)=>{
     const files = e.target.value
     if (files) {
@@ -55,8 +61,6 @@ const Create: NextPage = ({article}: any) => {
     }
   }
 
-
-  useIsMyInfoPage(factor.user_id)
 
 
 
@@ -68,29 +72,39 @@ const Create: NextPage = ({article}: any) => {
       'content-type': 'multipart/form-data'
       }
     };
-    console.log(createForm);
-        axios
-          .post(`/api/editArticleText`, createForm)
-          .then((response: AxiosResponse) => {
-            console.log('seccess');
-            
+      axios
+        .post(`/api/editArticleText`, createForm)
+        .then((response: AxiosResponse) => {  
+          router.push('/mypage/articles')    
         })
-          .catch((err: AxiosError) => {
-            console.log(err.response);
-          });
+        .catch((err: AxiosError) => {
+          console.log(err.response);
+          return;
+        });
   };
+  
+  
+  
+  
+  useIsMyInfoPage(factor.user_id)
+
 
   return (
     <>
+      <Meta pageTitle={`editting ${article.IndexArticle.title} - newsbyte`} pageDesc={`editting ${article.IndexArticle.title} `}></Meta>
+
       <div className="container mx-auto">
         <div className="-full xl:w-1/2 lg:w-[600px] md:w-[600px] sm:w-full p-5 mx-auto xl:border-4 lg:border-4 md:border-4 my-2 xl:my-10 lg:my-10 md:my-10   bg-white rounded-md">
           <div className="text-center">
             <h1 className="my-3 text-3xl font-semibold text-gray-700">edit page</h1>
-            <p className="text-gray-400 mb-6">Refrain from slanderous or sexual expressions directed at specific people. Articles that are too extreme or have been reported will be subject to deletion</p>
+            <p className="text-gray-400 mb-6">Share knowledge, know the world</p>
           </div>
           <div>
               <div className="mb-6">
-                <label id="title" className="text-sm text-gray-600">title</label>
+              <div className="flex gap-10 text-sm text-gray-600 mb-2">
+                  <label id="title" className="">title</label>
+                  <h1 className={createForm.title.length>240? `text-red-500`: ''}>{`${createForm.title.length}/240`}</h1>
+                </div>
                 <input
                   type="text"
                   name="title"
@@ -102,8 +116,10 @@ const Create: NextPage = ({article}: any) => {
                 />
               </div>
               <div className="mb-6">
-                <label id="content" className="block mb-2 text-sm text-gray-600"
-                  >content</label>
+              <div className="flex gap-10 text-sm text-gray-600 mb-2">
+                  <label id="title" className="">content</label>
+                  <h1 className={createForm.content.length>10000? `text-red-500`: ''}>{`${createForm.content.length}/10000`}</h1>
+                </div>
                 <textarea
                   name="content"
                   placeholder="Your Message"
@@ -119,24 +135,30 @@ const Create: NextPage = ({article}: any) => {
                 value={createForm.category}
                 onChange={updateSelectTextForm}
                 >
-                  <option value="US">United States</option>
-                  <option value="CA">Canada</option>
-                  <option value="ネット">ネット</option>
-                  <option value="DE">Germany</option>
+              {category_contents.map((c: any)=>
+              <option value={c}>{c}</option>
+              )}
                 </select>
               </div>
-      
 
-              <div>
-                <label id="comment" className="block mb-2 text-sm text-gray-600">comment open</label>
-                <select id="comment" className=" border mb-6 border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 block w-full p-2.5"
-                name="comments_open"
-                onChange={updateSelectTextForm}
-                >
-                  <option value='true'>open</option>
-                  <option value='false'>close</option>
-                </select>
+
+
+              <div className="mb-6 mt-6">
+                <div className="flex gap-10 text-sm text-gray-600 mb-2">
+                  <label id="source" className="">source</label>
+                  {createForm.source!==null ? <h1 className={createForm.source.length>1000? `text-red-500`: ''}>{`${createForm.source.length}/1000`}</h1> : ''}
+                </div>
+                <textarea
+                  name="source"
+                  placeholder="write url or other information"
+                  className="h-30 w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md  focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300"
+                  value={createForm.source}
+                  onChange={updateCreateTextForm}
+                ></textarea>
               </div>
+
+
+      
 
               <div className="mb-6">
                 <button

@@ -6,16 +6,15 @@ import styles from '../styles/Home.module.css'
 import Frame from "../../../components/frame"
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faComment} from '@fortawesome/free-solid-svg-icons'
-import {useState, ChangeEvent} from "react"
 import {GetServerSideProps} from 'next'
 import {getComments} from '../../../libs/commentFunction'
 import {getShowArticle} from '../../../libs/fetchFunction'
 import {Comment} from "../../../types/comment"
-import { useCurrentUser } from "../../../hooks/useCurrentUser"
 import CommentTitle from "../../../components/commentTitle"
 import NotFound from "../../../components/notFound"
 import CommentsPage from '../../../components_pro/commentspage'
-import { useIsMyInfoPage } from "../../../hooks/useMypageRoute"
+import { useIsMyInfoPage,  } from "../../../hooks/useMypageRoute"
+import Meta from '../../../components/meta'
 
 
 
@@ -46,6 +45,7 @@ const AdminComment: NextPage = ({content}: any) => {
 
   return (
       <>
+      <Meta pageTitle={`${content.getArticle.title} comment admin page   - newsbyte`} pageDesc={`${content.getArticle.title} comment admin page `}></Meta>
       <Frame>
           <CommentTitle article={content.getArticle}></CommentTitle>      
 

@@ -1,0 +1,1 @@
+export const category_contents=["internet","anime","manga","light novel","game","football","baseball","sports","politics","international","music","food","life hack","health","gossip","colunm", "matome", "other"] 

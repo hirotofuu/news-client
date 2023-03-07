@@ -7,6 +7,7 @@ import {getSearchArticle, getUserSearch} from "../../libs/fetchFunction"
 import { GetServerSideProps } from 'next'
 import type {Article} from "../../types/article"
 import type {User} from "../../types/user"
+import Meta from  '../../components/meta'
 import Frame from "../../components/frame"
 import CategoryBar from "../../components/categoryBar"
 import NotFound from "../../components/notFound"
@@ -49,6 +50,7 @@ const Search: NextPage = ({result}: any) => {
 
   return (
       <>
+        <Meta pageTitle={`search results for "${result.QWord}" - newsbyte`} pageDesc={`${result.SearchResult.length} search results for "${result.QWord}" - newsbyte`}></Meta>
         <Frame>
           <CategoryBar></CategoryBar>
           <div className="flex gap-2 m-4">

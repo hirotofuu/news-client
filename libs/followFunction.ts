@@ -9,7 +9,6 @@ export async function getFollow($id: string){
   const answer=await axios
   .get(`/api/followSend/${$id}`)
   .then((response: AxiosResponse) => {
-    console.log("follow!");
   })
   .catch((err: AxiosError) => {
 
@@ -35,7 +34,6 @@ export async function getFollowing($id: string){
   const answer=await axios
   .get(`/api/following/${$id}`)
   .then((response: AxiosResponse) => {
-    console.log(response.data.data.following);
     return response.data.data.following;
   })
   .catch((err: AxiosError) => console.log(err.response));
@@ -48,7 +46,6 @@ export async function getFollower($id:string){
   const answer=await axios
   .get(`/api/follower/${$id}`)
   .then((response: AxiosResponse) => {
-    console.log(response.data.data.follower);
     return response.data.data.follower;
   })
   .catch((err: AxiosError) => console.log(err.response));

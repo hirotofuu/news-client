@@ -4,7 +4,8 @@ import Axios from 'axios';
 import { AxiosError, AxiosResponse } from 'axios';
 import { ChangeEvent, useState, useEffect, useRef} from 'react';
 import { useRequireLogin } from "../hooks/useRequireLogin"
-import Head from 'next/head'
+import {category_contents} from "../libs/category_contents"
+import Meta from '../components/meta'
 import Image from 'next/image'
 import { useRouter } from 'next/router';
 
@@ -13,6 +14,7 @@ import { useRouter } from 'next/router';
 type CreateForm={
   title: string;
   content: string;
+  source: string;
   category: string;
   image_file?: File;
   comments_open: string;
@@ -22,6 +24,7 @@ type CreateForm={
 type Validation={
   title?: string,
   content?: string,
+  source?: string,
   file?: string ,
   category?: string, 
 };
@@ -32,6 +35,7 @@ const Create: NextPage = () => {
   const [createForm, setCreateForm]=useState<CreateForm>({
     title: '',
     content: '',
+    source: '',
     category: '',
     image_file: null,
     comments_open: 'true',
@@ -97,6 +101,7 @@ const Create: NextPage = () => {
     const formData = new FormData();
     formData.append("title", createForm.title );
     formData.append("content", createForm.content );
+    formData.append("source", createForm.source );
     formData.append("category", createForm.category );
     formData.append("file", createForm.image_file);
     formData.append("comments_open", createForm.comments_open );
@@ -105,7 +110,7 @@ const Create: NextPage = () => {
         axios
           .post(`/api/create`, formData,)
           .then((response: AxiosResponse) => {
-            console.log('seccess');
+            router.push('/mypage/articles')
             
         })
           .catch((err: AxiosError) => {
@@ -125,10 +130,13 @@ const Create: NextPage = () => {
   };
 
 
+
   useRequireLogin()
 
   return (
     <>
+      <Meta pageTitle="create - newsbyte" pageDesc="newsbyte create page. you can share your knowledge, view and know world "></Meta>
+
       <div className="container mx-auto">
         <div className="w-full xl:w-1/2 lg:w-[600px] md:w-[600px] sm:w-full p-5 mx-auto xl:border-4 lg:border-4 md:border-4 my-2 xl:my-10 lg:my-10 md:my-10   bg-white rounded-md">
           <div className="text-center">
@@ -173,10 +181,10 @@ const Create: NextPage = () => {
                 value={createForm.category}
                 onChange={updateSelectTextForm}
                 >
-                  <option value="US">United States</option>
-                  <option value="CA">Canada</option>
-                  <option value="ネット">ネット</option>
-                  <option value="DE">Germany</option>
+              {category_contents.map((c: any)=>
+              <option value={c}>{c}</option>
+              )}
+
                 </select>
                 {validation.category && (<p className="text-sm  text-red-500">{validation.category}</p>)}
               </div>
@@ -204,6 +212,21 @@ const Create: NextPage = () => {
               <h1>selected pic</h1>
               <div className="relative w-full h-96">
                 <Image src={fileImage} className="bg-gray-300" objectFit="cover" layout="fill" />
+              </div>
+
+              <div className="mb-6 mt-6">
+                <div className="flex gap-10 text-sm text-gray-600 mb-2">
+                  <label id="source" className="">source</label>
+                  <h1 className={createForm.content.length>1000? `text-red-500`: ''}>{`${createForm.content.length}/1000`}</h1>
+                </div>
+                <textarea
+                  name="source"
+                  placeholder="write url or other information"
+                  className="h-30 w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md  focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300"
+                  value={createForm.source}
+                  onChange={updateCreateTextForm}
+                ></textarea>
+                {validation.content && (<p className="text-sm  text-red-500">{validation.source}</p>)}
               </div>
 
 

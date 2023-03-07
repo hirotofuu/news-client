@@ -2,6 +2,7 @@ export type Article={
   id: string,
   title: string,
   content: string,
+  source: string,
   day_time: string,
   view_number: number,
   user_id: string,

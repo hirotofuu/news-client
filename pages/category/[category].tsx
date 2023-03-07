@@ -4,6 +4,7 @@ import styles from '../styles/Home.module.css'
 import {getCategoryArticle} from "../../libs/fetchFunction"
 import { GetStaticProps, GetStaticPaths, NextPage } from 'next'
 import type {Article} from "../../types/article"
+import Meta from "../../components/meta"
 import Frame from "../../components/frame"
 import CategoryBar from "../../components/categoryBar"
 import NotFound from "../../components/notFound"
@@ -36,6 +37,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 const Category: NextPage = ({factor}: any) => {
   return (
       <>
+        <Meta pageTitle={`${factor.category} - newsbyte`} pageDesc={`${factor.category} page`} ></Meta>
         <Frame>
           <CategoryBar></CategoryBar>
           <h1 className="p-2 text-lg font-semibold border-b-2 border-blue-500 bg-whitw">{factor.category}</h1>

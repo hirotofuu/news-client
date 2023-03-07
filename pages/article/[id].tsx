@@ -5,11 +5,12 @@ import styles from '../styles/Home.module.css'
 import Link from 'next/link'
 import Frame from "../../components/frame"
 import CategoryBar from "../../components/categoryBar"
-import {getShowArticle, getCategoryArticle} from "../../libs/fetchFunction"
+import {getShowArticle, getRecommendArticle} from "../../libs/fetchFunction"
 import { NextPage, GetStaticPaths, GetStaticProps } from 'next'
 import { useCurrentUser } from "../../hooks/useCurrentUser"
 import {getComments} from '../../libs/commentFunction'
 import {useEffect, useState} from 'react'
+import Meta from '../../components/meta'
 import Content from "../../components/content"
 import Title from "../../components/title"
 import ArticlesUserPage from "../../components_pro/articlespage";
@@ -20,7 +21,7 @@ import {Comment} from "../../types/comment"
 export const  getStaticProps: GetStaticProps= async (context) => {
   const id=context.params.id;
   const IndexArticle: Article | null=await getShowArticle(id);
-  const categoryArticle: Article[] | null=await getCategoryArticle(IndexArticle.category);
+  const categoryArticle: Article[] | null=await getRecommendArticle(IndexArticle.category);
   const Commentarticle: Comment[] =await getComments(id);
 
   
@@ -67,6 +68,7 @@ const Comment: NextPage = ({factor}: any) => {
 
   return (
       <>
+        <Meta pageTitle={`${factor.IndexArticle.title} - newsbyte`} pageDesc={`${factor.IndexArticle.content}`} ></Meta>
         <Frame>
           <CategoryBar></CategoryBar>
           <Title article={article}></Title>
@@ -80,8 +82,6 @@ const Comment: NextPage = ({factor}: any) => {
                 <CommentsPage isMypage={false} comments={factor.Commentarticle}></CommentsPage>
             </>
             : <h1 className="p-3 pb-4 text-center bg-white">There are no comments</h1>}
-            <div className="bg-white">
-          </div>
           <h1 className="bg-white pt-4 pb-4 pl-3 text-lg font-medium border-t-2">recommend</h1>
           <ArticlesUserPage articles={factor.categoryArticle} ></ArticlesUserPage>
 

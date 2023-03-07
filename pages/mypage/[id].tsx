@@ -6,6 +6,7 @@ import Link from 'next/link'
 import {getTimelineArticle} from "../../libs/fetchFunction"
 import { GetServerSideProps } from 'next'
 import type {Article} from "../../types/article"
+import Meta from '../../components/meta'
 import NotFound from "../../components/notFound"
 import Frame from "../../components/frame"
 import CategoryBar from "../../components/categoryBar"
@@ -34,6 +35,7 @@ const Home: NextPage = ({factor}: any) => {
 
   return (
       <>
+            <Meta pageTitle={`following articles - newsbyte`} pageDesc={`you can check following user's articles`}></Meta>
           
             <Frame>
               <CategoryBar></CategoryBar>

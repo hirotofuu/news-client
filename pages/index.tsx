@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 import {getIndexArticle} from "../libs/fetchFunction"
 import { GetStaticProps, GetStaticPaths } from 'next'
 import type {Article} from "../types/article"
+import Meta from "../components/meta"
 import NotFound from "../components/notFound"
 import Frame from "../components/frame"
 import CategoryBar from "../components/categoryBar"
@@ -25,7 +26,6 @@ export const getStaticProps: GetStaticProps = async () => {
         userArticle,
 
       }
-
     },
     revalidate: 150,
   };
@@ -40,6 +40,7 @@ const Home: NextPage = ({factor}: any) => {
       <>
           
             <Frame>
+              <Meta pageTitle="newsbyte" pageDesc="newsbyte home. you can share your knowledge, view and know world "></Meta>
               <CategoryBar></CategoryBar>
               <div className="flex mb-1">
                 <div className={"w-1/2 border-b-2 border-blue-500"}>

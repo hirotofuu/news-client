@@ -44,7 +44,6 @@ const CommentChoice: React.FC<Props> =(props: Props)=>{
 
   const updateCommentForm=(e: ChangeEvent<HTMLTextAreaElement>)=>{
     setReplyForm({ ...replyForm, comment: e.target.value });
-    console.log(replyForm)
   }
 
   const deposit=async()=>{

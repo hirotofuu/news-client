@@ -12,6 +12,7 @@ import UserProfile from "../../components/userProfile"
 import ArticlesPage from "../../components_pro/articlespage"
 import NotFound from "../../components/notFound"
 import CommentsPage from "../../components_pro/commentspage"
+import Meta from '../../components/meta'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const user_id: string | string[]=context.params.user_id;
@@ -58,6 +59,7 @@ const User: NextPage = ({factor}: any) => {
 
   return (
       <>
+        <Meta pageTitle={`${factor.userInfo.name} - newsbyte`} pageDesc={factor.userInfo.profile}></Meta>
         <Frame>
           <UserProfile info={factor.userInfo} mypage={false}></UserProfile>
           <div className="flex gap-2   pl-2">

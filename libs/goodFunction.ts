@@ -9,7 +9,6 @@ async function getGood($id: string){
   const answer=await axios
     .get(`/api/goodSend/${$id}`)
     .then((response: AxiosResponse) => {
-      console.log("good!");
     })
     .catch((err: AxiosError) => {
 
@@ -50,7 +49,6 @@ export async function getTruth($id: string){
   const answer=await axios
     .get(`/api/truthSend/${$id}`)
     .then((response: AxiosResponse) => {
-      console.log("truth!");
     })
     .catch((err: AxiosError) => {
 
@@ -79,7 +77,6 @@ export async function getFake($id: string){
     const answer=await axios
     .get(`/api/fakeSend/${$id}`)
     .then((response: AxiosResponse) => {
-      console.log("fake!");
     })
     .catch((err: AxiosError) => {
 
