@@ -137,6 +137,9 @@ const Create: NextPage = ({article}: any) => {
                 onChange={updateSelectTextForm}
                 >
                 </select>
+                {category_contents.map((c: any)=>
+              <option key={c} value={c}>{c}</option>
+              )}
               </div>
 
 
