@@ -41,7 +41,7 @@ const Category: NextPage = ({factor}: any) => {
         <Frame>
           <CategoryBar></CategoryBar>
           <h1 className="p-2 text-lg font-semibold border-b-2 border-blue-500 bg-whitw">{factor.category}</h1>
-          {factor.number ? <ArticlesPage articles={factor.categoryArticle}></ArticlesPage> : <NotFound >we couldn't find any resylts for {factor.category}</NotFound>}
+          {factor.number ? <ArticlesPage articles={factor.categoryArticle}></ArticlesPage> : <NotFound >we could not  find any resylts for {factor.category}</NotFound>}
 
         </Frame>
 
