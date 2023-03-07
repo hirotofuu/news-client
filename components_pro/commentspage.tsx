@@ -24,8 +24,8 @@ const CommentsPage=(props: any)=>{
     <>
       
       <div>
-          {comments.slice(0, loadIndex).map((comment: any)=>
-          <CommentChoice isMypage={props.isMypage} comment={comment}></CommentChoice>
+          {comments.slice(0, loadIndex).map((comment: any, index: any)=>
+          <CommentChoice key={index} isMypage={props.isMypage} comment={comment}></CommentChoice>
           )}
 
           {!isEmpty ?<button className="w-full p-2 block  bg-white hover:bg-gray-100  ml-auto  mr-auto  text-blue-500" 

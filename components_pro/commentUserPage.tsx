@@ -23,8 +23,8 @@ const CommentsUserPage=(props: any)=>{
     <>
       
       <div>
-          {comments.slice(0, loadIndex).map((comment: any)=>
-          <CommentUserChoice comment={comment}></CommentUserChoice>
+          {comments.slice(0, loadIndex).map((comment: any, index: any)=>
+          <CommentUserChoice key={index} comment={comment}></CommentUserChoice>
           )}
 
           {!isEmpty ?<button className="w-full p-2 block  bg-white hover:bg-gray-100  ml-auto  mr-auto  text-blue-500" 

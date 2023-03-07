@@ -28,8 +28,8 @@ const ArticlesUserPage: React.FC<Props> =(props: Props)=>{
     <>
       
       <div>
-          {props.articles.slice(0, loadIndex).map((article: any)=>
-          <ArticleUserChoice article={article}></ArticleUserChoice>
+          {props.articles.slice(0, loadIndex).map((article: any, index: any)=>
+          <ArticleUserChoice key={index} article={article}></ArticleUserChoice>
           )}
 
           {!isEmpty ?<button className="w-full p-2 block  bg-white hover:bg-gray-100  ml-auto  mr-auto  text-blue-500" 

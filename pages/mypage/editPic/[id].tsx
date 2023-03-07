@@ -131,7 +131,7 @@ const Create: NextPage = ({article}: any) => {
 
               <h1>selected pic</h1>
               <div className="relative w-full h-96">
-                <Image src={fileImage} className="bg-gray-300" objectFit="cover" layout="fill" />
+                <Image src={fileImage} alt="image" className="bg-gray-300" objectFit="cover" layout="fill" />
               </div>
 
 

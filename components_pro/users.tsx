@@ -14,8 +14,8 @@ const Users:React.FC<Props> =(props: Props)=>{
     <>
       
 
-        {users.map((user: any)=>
-        <UserChoice user={user}></UserChoice>
+        {users.map((user: any, index: any)=>
+        <UserChoice key={index} user={user}></UserChoice>
         )}
 
 
