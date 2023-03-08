@@ -17,7 +17,7 @@ const ArticleChoice: React.FC<Props> =(props: Props)=>{
       <Link href={`/article/${kiji.id}`} key={`${kiji.id}`}><a>
         <div className="group hover:bg-gray-100 flex p-3 border-b bg-white"  key={kiji.id}>
           <div className="">
-            <Image className="" src={kiji.image_file ? `https://s3.ap-northeast-1.amazonaws.com/newbyte-s3/${kiji.image_file}` : noImage} layout="fixed" objectFit="cover" width={110} height={110} unoptimized/>
+            <Image className="" alt="article image" src={kiji.image_file ? `https://s3.ap-northeast-1.amazonaws.com/newbyte-s3/${kiji.image_file}` : noImage} layout="fixed" objectFit="cover" width={110} height={110} unoptimized/>
           </div>
 
 

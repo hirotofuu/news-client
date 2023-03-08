@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faPlus, faMagnifyingGlass, faUser} from '@fortawesome/free-solid-svg-icons'
 import {useState, ChangeEvent, useEffect} from 'react';
@@ -49,8 +50,11 @@ const Header=()=>{
             {isAuthChecking ? '' :
             !currentUser ? <Link href={"/create"}><a><FontAwesomeIcon icon={faUser} className="text-xl mr-10"/></a></Link> : 
             <Link href={`/mypage/articles`}><a className="flex items-center mr-10">
-              <img
-                className="rounded-full h-8 w-8 object-cover"
+              <Image
+                className="rounded-full"
+                width="32"
+                height="32"
+                alt="user image"
                 src={`https://s3.ap-northeast-1.amazonaws.com/newbyte-s3/${currentUser.avatar_image}` }
               />
             </a></Link>}
@@ -59,8 +63,8 @@ const Header=()=>{
         </div>
 
       <div className="h-14 items-center bg-slate-400 flex gap-12 text-lg xl:hidden lg:hidden md:hidden sm:hidden">
-          <a href="/create" className="ml-auto">create</a>
-          <a href="/login" className="mr-auto">login</a>
+        <Link href="/create"><a className="ml-auto">create</a></Link>
+        <Link href="/login"><a className="mr-auto">login</a></Link>
       </div>
     </>
   )

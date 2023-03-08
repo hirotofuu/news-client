@@ -31,9 +31,9 @@ const Frame=({children})=>{
 
           <div className="grid   border border-gray-200 bg-white rounded-sm">
             <h1 className="bg-white font-bold p-2">Category</h1>
-            {category_contents.map((category: string)=>
+            {category_contents.map((category: string, index: any)=>
             
-            <Link href={'/category/'+`${category}`} key={`${category}`}><a className="black w-full p-1 pl-2 pt-2 text-sm text-blue-600 hover:bg-gray-300">{category}</a></Link>
+            <Link key={index} href={'/category/'+`${category}`}><a className="black w-full p-1 pl-2 pt-2 text-sm text-blue-600 hover:bg-gray-300">{category}</a></Link>
             )}
           </div>
 

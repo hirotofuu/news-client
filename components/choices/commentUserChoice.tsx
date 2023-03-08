@@ -42,7 +42,7 @@ const CommentUserChoice: React.FC<Props> =(props: Props)=>{
         }
       })
     }
-    }, [isAuthChecking, currentUser])
+    }, [isAuthChecking, currentUser, comment.is_good])
 
 
   const deleteComment=()=>{

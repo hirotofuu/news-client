@@ -40,7 +40,7 @@ export const IconEditor: React.FC<Props> = (props: Props) => {
         onChangeIcon(nextFile);
         handleCloseIsOpen();
       }
-    });
+    },[handleCloseIsOpen]);
 
   }, [previewIcon, onChangeIcon]);
 

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import {useState, useEffect} from "react"
 import { useRouter } from "next/router";
 import {getFollow, deleteFollow} from "../../libs/followFunction"
@@ -35,7 +36,7 @@ const Users:React.FC<Props> =(props: Props)=>{
       }
     })
   }
-  }, [currentUser, isAuthChecking])
+  }, [currentUser, isAuthChecking, player.following])
 
 
   return(
@@ -43,8 +44,11 @@ const Users:React.FC<Props> =(props: Props)=>{
         <div className="flex border-b w-full bg-white">
         <Link href={`/user/${player.id}`}><a className="p-3 flex justify-between bg-white w-full ">
             <div className="flex">
-              <img
-                className="rounded-full h-12 w-12 object-cover"
+              <Image
+              className="rounded-full"
+                height="30"
+                width="30"
+                alt="avatar image"
                 src={`https://s3.ap-northeast-1.amazonaws.com/newbyte-s3/${player.avatar_image}` }
               />
               <div className="ml-4">

@@ -79,9 +79,9 @@ const Content: React.FC<Props> =(props: Props)=>{
           setIsFake(true);
           return;
         }
-      })
+      }, [article.is_truth, ])
     }
-    }, [isAuthChecking, currentUser])
+    }, [isAuthChecking, currentUser, article.is_fake, article.is_truth])
 
     if(isAuthChecking) return (<div>ログイン情報を確認中…</div>);
   

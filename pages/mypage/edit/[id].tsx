@@ -4,7 +4,7 @@ import axios from '../../../libs/axios';
 import { AxiosError, AxiosResponse } from 'axios';
 import { ChangeEvent, useState} from 'react';
 import { useRouter } from 'next/router';
-import {getShowArticle, getEditTextArticle} from "../../../libs/fetchFunction";
+import { getEditTextArticle} from "../../../libs/fetchFunction";
 import {GetServerSideProps} from 'next'
 import type {Article} from "../../../types/article"
 import { useIsMyInfoPage } from "../../../hooks/useMypageRoute"

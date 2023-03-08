@@ -87,7 +87,7 @@ const Create: NextPage = () => {
   useEffect(()=>{
     const now = new Date();
     setCreateForm({ ...createForm, day_time: `${now.getFullYear()}/${(now.getMonth() + 1)}/${now.getDate()}` })
-  }, [])
+  }, [createForm])
 
 
 
@@ -181,7 +181,9 @@ const Create: NextPage = () => {
                 value={createForm.category}
                 onChange={updateSelectTextForm}
                 >
-  
+                  {category_contents.map((category: string, index: any)=>
+                  <option key={index} value={category}>{category}</option>
+                  )}
 
                 </select>
                 {validation.category && (<p className="text-sm  text-red-500">{validation.category}</p>)}
@@ -215,7 +217,7 @@ const Create: NextPage = () => {
               <div className="mb-6 mt-6">
                 <div className="flex gap-10 text-sm text-gray-600 mb-2">
                   <label id="source" className="">source</label>
-                  <h1 className={createForm.content.length>1000? `text-red-500`: ''}>{`${createForm.content.length}/1000`}</h1>
+                  <h1 className={createForm.source.length>1000? `text-red-500`: ''}>{`${createForm.source.length}/1000`}</h1>
                 </div>
                 <textarea
                   name="source"

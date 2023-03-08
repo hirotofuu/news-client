@@ -7,6 +7,7 @@ import type {User} from "../types/user"
 import Link from "next/link";
 import { useCurrentUser } from "../hooks/useCurrentUser"
 import {logout} from '../libs/account'
+import Avatar from "react-avatar";
 
 interface Props {
   info: User | null;
@@ -54,7 +55,7 @@ const UserProfile:React.FC<Props> =(props: Props)=>{
         }
       })
     }
-  }, [currentUser, isAuthChecking])
+  }, [currentUser, isAuthChecking, pro.following])
 
   const followButton=<button onClick={currentUser===null ? goLogin : Follow } className="block bg-blue-500  text-sm text-white h-6 font-semibold px-2 mt-2  rounded-l-full rounded-r-full">{isFollow ? "Following" : " Follow"}</button>
 
@@ -66,10 +67,13 @@ const UserProfile:React.FC<Props> =(props: Props)=>{
   return(
     <>
       <div  className="p-3 border-b-2  bg-white pt-5 pb-14" key={pro.id}>
-          <img
-            className="ml-5 rounded-full h-20 w-20 object-cover"
-            src={`https://s3.ap-northeast-1.amazonaws.com/newbyte-s3/${pro.avatar_image}` }
-          />
+      <Avatar
+                size="30"
+                round
+                alt="image"
+                className="mb-4 cursor-pointer"
+                src={`https://s3.ap-northeast-1.amazonaws.com/newbyte-s3/${pro.avatar_image}`}
+              />
           <div className="flex ml-auto mr-auto w-full">
             <div className="ml-5">
                 <h1 className="pt-1  text-xl font-medium mr-6">{pro.name}</h1>

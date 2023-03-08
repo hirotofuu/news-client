@@ -24,7 +24,7 @@ function AppInit() {
         }
         setCurrentUser(currentUser);
     })();
-  },[]), [])
+  },[]), [setCurrentUser])
   
   return null;
 }
