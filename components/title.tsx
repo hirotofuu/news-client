@@ -20,7 +20,7 @@ const Title: React.FC<Props> =(props: Props)=>{
           <Link href={`/user/${factors.user_id}`}><a className="text-sm hover:underline">
             <div className="flex gap-1">
             <Avatar className="inline object-cover"
-            size="30"
+            size="20"
             round
             alt="image"
             src={`https://s3.ap-northeast-1.amazonaws.com/newbyte-s3/${factors.avatar_image}`}/> 

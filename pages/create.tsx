@@ -87,7 +87,7 @@ const Create: NextPage = () => {
   useEffect(()=>{
     const now = new Date();
     setCreateForm({ ...createForm, day_time: `${now.getFullYear()}/${(now.getMonth() + 1)}/${now.getDate()}` })
-  }, [createForm])
+  }, [])
 
 
 
@@ -211,7 +211,7 @@ const Create: NextPage = () => {
 
               <h1>selected pic</h1>
               <div className="relative w-full h-96">
-                <Image src={fileImage} className="bg-gray-300" objectFit="cover" layout="fill" />
+                <Image src={fileImage} alt="image" className="bg-gray-300" objectFit="cover" layout="fill" />
               </div>
 
               <div className="mb-6 mt-6">

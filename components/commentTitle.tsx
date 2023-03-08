@@ -16,7 +16,7 @@ const CommentTitle=(props: any)=>{
         <div className="flex gap-5 pt-3 text-gray-500 items-center">
           <Link href={`/user/${factors.user_id}`}><a className="text-sm">
             <Avatar className="inline object-cover"
-            size="30"
+            size="20"
             round
             alt="image"
             src={`https://s3.ap-northeast-1.amazonaws.com/newbyte-s3/${factors.avatar_image}`}/> 

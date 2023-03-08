@@ -86,7 +86,6 @@ const Create: NextPage = ({article}: any) => {
     const formData = new FormData();
     formData.append("file", createForm.image_file);
     formData.append("id", createForm.id);
-    console.log(createForm);
         axios
           .post(`/api/editArticlePic`, formData,)
           .then((response: AxiosResponse) => {
@@ -94,7 +93,7 @@ const Create: NextPage = ({article}: any) => {
             
         })
           .catch((err: AxiosError) => {
-            console.log(err.response);
+            console.log(err);
           });
 
   };

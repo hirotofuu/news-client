@@ -38,6 +38,7 @@ export async function getTitleArticle(id: string | string[]){
     const answer=await axios
     .get(`/api/titleFetch/${id}`)
     .then((response: AxiosResponse) =>{
+      console.log(response.data.data)
       return response.data.data;
     })
     .catch((err: AxiosError) => console.log(err.response));

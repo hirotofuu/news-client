@@ -136,12 +136,12 @@ const Create: NextPage = ({article}: any) => {
                 value={createForm.category}
                 onChange={updateSelectTextForm}
                 >
+                  {category_contents.map((category: string, index: any)=>
+                    <option key={index} value={category}>{category}</option>
+                  )}
                 </select>
 
 
-                {category_contents.map((category: string, index: any)=>
-                  <option key={index} value={category}>{category}</option>
-                )}
 
               </div>
 

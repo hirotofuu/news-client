@@ -116,7 +116,7 @@ const EditPro: NextPage = () => {
     () => {
       if(!isAuthChecking && currentUser)
       setEditForm({profile: currentUser.profile ? currentUser.profile : '', name: currentUser.name, id: currentUser.id});
-    },[currentUser])
+    },[currentUser, isAuthChecking])
 
     if(isAuthChecking) return (<div>ログイン情報を確認中…</div>);
   
