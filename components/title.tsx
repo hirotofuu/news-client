@@ -3,6 +3,7 @@ import {faEye, faCalendarDays} from '@fortawesome/free-solid-svg-icons'
 
 import {Article} from "../types/article"
 import Link from "next/link";
+import Avatar from 'react-avatar';
 
 interface Props {
   article: Article | null;
@@ -18,11 +19,12 @@ const Title: React.FC<Props> =(props: Props)=>{
         <div className="flex gap-5 text-gray-500">
           <Link href={`/user/${factors.user_id}`}><a className="text-sm hover:underline">
             <div className="flex gap-1">
-              <img
-                className="rounded-full h-5 w-5 object-cover"
-                src={`https://s3.ap-northeast-1.amazonaws.com/newbyte-s3/${factors.avatar_image}`}
-              />
-              {factors.user_name}
+            <Avatar className="inline object-cover"
+            size="30"
+            round
+            alt="image"
+            src={`https://s3.ap-northeast-1.amazonaws.com/newbyte-s3/${factors.avatar_image}`}/> 
+            {factors.user_name}
             </div>
           </a></Link>
           <h3 className="text-sm"><FontAwesomeIcon icon={faEye}></FontAwesomeIcon> {factors.view_number}</h3>

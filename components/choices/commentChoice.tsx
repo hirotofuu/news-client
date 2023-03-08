@@ -94,7 +94,7 @@ const CommentChoice: React.FC<Props> =(props: Props)=>{
       })
     }
     setIsReply(false)
-    }, [isAuthChecking, currentUser, comment.id, comment.article_id])
+    }, [isAuthChecking, currentUser, comment.is_good, comment.article_id])
 
 
     const deleteComment=()=>{

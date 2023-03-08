@@ -62,7 +62,7 @@ const Comment: NextPage = ({factor}: any) => {
       reFetchArticle();
       return
     }
-  }, [isMine])
+  }, [factor.id, isMine])
 
   if(isAuthChecking)return (<h1>loading..</h1>)
 

@@ -19,7 +19,8 @@ const CommentTitle=(props: any)=>{
             size="30"
             round
             alt="image"
-            src={`https://s3.ap-northeast-1.amazonaws.com/newbyte-s3/${factors.avatar_image}`}/> {factors.user_name}
+            src={`https://s3.ap-northeast-1.amazonaws.com/newbyte-s3/${factors.avatar_image}`}/> 
+            {factors.user_name}
           </a></Link>
           <h3 className="text-sm">
           <FontAwesomeIcon icon={faEye}></FontAwesomeIcon> {factors.view_number}</h3>

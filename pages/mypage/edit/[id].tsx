@@ -138,6 +138,11 @@ const Create: NextPage = ({article}: any) => {
                 >
                 </select>
 
+
+                {category_contents.map((category: string, index: any)=>
+                  <option key={index} value={category}>{category}</option>
+                )}
+
               </div>
 
 
