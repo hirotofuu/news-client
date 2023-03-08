@@ -16,7 +16,7 @@ import CommentsUserPage from "../../components_pro/commentUserPage"
 
 
 
-const User: NextPage = () => {
+const Comment: NextPage = () => {
   const router = useRouter();
   const { isAuthChecking, currentUser } = useCurrentUser();
   const fetcher = (url: string) => axios.get(url).then(res => res.data.data);
@@ -77,4 +77,4 @@ const User: NextPage = () => {
   );
 }
 
-export default User
+export default Comment

@@ -23,7 +23,7 @@ type Validation={
   profile?: string,
 };
 
-const editPro: NextPage = () => {
+const EditPro: NextPage = () => {
   const router=useRouter()
   const { isAuthChecking, currentUser } = useCurrentUser();
   const setCurrentUser = useSetRecoilState(currentUserState);
@@ -209,4 +209,4 @@ const editPro: NextPage = () => {
   )
 }
 
-export default editPro
+export default EditPro
