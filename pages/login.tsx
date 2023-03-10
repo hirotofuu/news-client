@@ -43,39 +43,6 @@ const Login: NextPage = () => {
     }
 
 
-
-    const login = () => {
-        setValidation({});
-        axios
-          .get('/sanctum/csrf-cookie')
-          .then((res: AxiosResponse) => {
-            axios
-              .post('/api/login', loginForm)
-              .then(async(response: AxiosResponse) => {
-                try {
-                    const currentUser = await fetchCurrentUser(); 
-                    setCurrentUser(currentUser);
-                  } catch {
-                    setCurrentUser(null);
-                  }
-                router.push('/')
-            })
-              .catch((err: AxiosError) => {
-                if (Axios.isAxiosError(err) && err.response && err.response.status === 422) {
-                    const errors=err.response?.data.errors;
-                    const validationMessages: { [index: string]: string } = {}  as Validation;
-                    Object.keys(errors).map((key: string) => {
-                      validationMessages[key] = errors[key][0];
-                    });
-                    setValidation(validationMessages);
-                }
-                if(Axios.isAxiosError(err) && err.response && err.response.status === 500){
-                    setValidation({ loginFailed: "アドレスまたはパスワードが間違っています" });
-                }
-              });
-          });
-      };
-
       const googleLogin  = async() => {
         axios.get ( '/sanctum/csrf-cookie', { withCredentials: true } )
         await axios

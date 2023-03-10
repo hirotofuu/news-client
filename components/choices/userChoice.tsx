@@ -49,7 +49,7 @@ const Users:React.FC<Props> =(props: Props)=>{
                 height="30"
                 width="30"
                 alt="avatar image"
-                src={`https://s3.ap-northeast-1.amazonaws.com/newbyte-s3/${player.avatar_image}` }
+                src={`https://s3.us-east-1.amazonaws.com/newsbyte/${player.avatar_image}` }
               />
               <div className="ml-4">
                 <h1 className="pt-1 text-sm font-medium">{player.name}</h1>

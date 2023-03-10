@@ -55,7 +55,7 @@ const Header=()=>{
                 width="32"
                 height="32"
                 alt="user image"
-                src={`https://s3.ap-northeast-1.amazonaws.com/newbyte-s3/${currentUser.avatar_image}` }
+                src={`https://s3.us-east-1.amazonaws.com/newsbyte/${currentUser.avatar_image}` }
               />
             </a></Link>}
           </div>

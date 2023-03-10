@@ -32,7 +32,6 @@ export const getStaticProps: GetStaticProps = async () => {
 }
 
 const Home: NextPage = ({factor}: any) => {
-  const router = useRouter();
   const { isAuthChecking, currentUser } = useCurrentUser();
 
   if(isAuthChecking)return(<div>....login tyousa</div>)

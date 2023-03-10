@@ -70,7 +70,7 @@ const CommentUserChoice: React.FC<Props> =(props: Props)=>{
                 size="30"
                 round
                 className="mb-4 cursor-pointer"
-                src={`https://s3.ap-northeast-1.amazonaws.com/newbyte-s3/${comment.avatar_image}`}
+                src={`https://s3.us-east-1.amazonaws.com/newsbyte/${comment.avatar_image}`}
               />
         </a></Link>
         <div className="ml-5">

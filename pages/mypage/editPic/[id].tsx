@@ -41,7 +41,7 @@ const Create: NextPage = ({article}: any) => {
   })
 
 
-  const [fileImage, setFileImage] = useState(article.IndexArticle.image_file ? `https://s3.ap-northeast-1.amazonaws.com/newbyte-s3/${article.IndexArticle.image_file}` : '');
+  const [fileImage, setFileImage] = useState(article.IndexArticle.image_file ? `https://s3.us-east-1.amazonaws.com/newsbyte/${article.IndexArticle.image_file}` : '');
 
   const inputRef = useRef(null);
 

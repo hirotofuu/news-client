@@ -68,11 +68,11 @@ const UserProfile:React.FC<Props> =(props: Props)=>{
     <>
       <div  className="p-3 border-b-2  bg-white pt-5 pb-14" key={pro.id}>
       <Avatar
-                size="30"
+                size="90"
                 round
                 alt="image"
-                className="mb-4 cursor-pointer"
-                src={`https://s3.ap-northeast-1.amazonaws.com/newbyte-s3/${pro.avatar_image}`}
+                className="mb-4 cursor-pointer ml-2"
+                src={`https://s3.us-east-1.amazonaws.com/newsbyte/${pro.avatar_image}`}
               />
           <div className="flex ml-auto mr-auto w-full">
             <div className="ml-5">

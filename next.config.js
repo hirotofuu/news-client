@@ -6,7 +6,7 @@ module.exports = {
     scrollRestoration: true,
   },
   images: {
-    domains: ['s3.ap-northeast-1.amazonaws.com'],
+    domains: ['s3.us-east-1.amazonaws.com'],
   },
 };
 
