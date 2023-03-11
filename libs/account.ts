@@ -15,7 +15,7 @@ export const logout = () => {
 export const fetchCurrentUser = () => {
 
   const answer=axios
-        .get('/api/user' )
+        .get('/api/user')
         .then((response: AxiosResponse) => {
           return response.data.data
       })

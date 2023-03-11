@@ -17,11 +17,9 @@ function AppInit() {
   useEffect(useCallback(() => {
     (async function () {
 
-        const currentUser = await fetchCurrentUser(); // サーバーへのリクエスト（未ログインの場合は401等を返すものとする）
-        console.log(currentUser);
-        if(currentUser===401 || currentUser===419 || currentUser===500){
-          setCurrentUser(null);
-          return
+        const currentUser = await fetchCurrentUser(); 
+        if(currentUser===null){
+          setCurrentUser(null)
         }
         setCurrentUser(currentUser);
     })();
