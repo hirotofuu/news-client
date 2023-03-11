@@ -64,7 +64,7 @@ const Comment: NextPage = ({factor}: any) => {
     }
   }, [factor.id, isMine])
 
-  if(isAuthChecking)return (<h1>loading..</h1>)
+  if(isAuthChecking)return(<div>....login tyousa</div>)
 
   return (
       <>
