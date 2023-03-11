@@ -14,9 +14,9 @@ type InputReplyType={
 
 }
 
-export async function createComment(content: InputType){
+export async function createComment(content: InputType, api_token: string){
   const a=await axios
-        .post(`/api/createComment`, content)
+        .post(`/api/createComment?api_token=${api_token}`, content)
         .then((response: AxiosResponse) => {
       })
         .catch((err: AxiosError) => {
@@ -25,9 +25,9 @@ export async function createComment(content: InputType){
 
 }
 
-export async function replyComment(content: InputReplyType){
+export async function replyComment(content: InputReplyType, api_token: string){
   const a=await axios
-        .post(`/api/replyComment`, content)
+        .post(`/api/replyComment?api_token=${api_token}`, content)
         .then((response: AxiosResponse) => {
           return response.data;
       })
@@ -80,9 +80,9 @@ export async function getUserComments(id: any){
   return searchResult;
 }
 
-export async function DeleteComment(id: any){
+export async function DeleteComment(id: any, api_token: string){
   const searchResult=await axios
-  .delete(`/api/deleteComment/${id}`)
+  .delete(`/api/deleteComment/${id}?api_token=${api_token}`)
   .then((response: AxiosResponse) => {
   })
   .catch((err: AxiosError) => console.log(err.response));

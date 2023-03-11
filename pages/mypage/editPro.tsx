@@ -74,7 +74,7 @@ const EditPro: NextPage = () => {
 
 
           axios
-            .post(`/api/editProfile`, PicData,)
+            .post(`/api/editProfile?api_token=${currentUser.api_token}`, PicData,)
             .then((response: AxiosResponse) => {
               console.log("success")
               console.log(response.data)
@@ -91,7 +91,7 @@ const EditPro: NextPage = () => {
   const edit = () => {
     console.log(editForm)
         axios
-          .post(`/api/editTextProfile`, editForm)
+          .post(`/api/editTextProfile?api_token=${currentUser.api_token}`, editForm)
           .then((response: AxiosResponse) => {
             console.log('seccess');
             setCurrentUser( {...currentUser, name: editForm.name, profile: editForm.profile})
@@ -141,7 +141,7 @@ const EditPro: NextPage = () => {
                 size="160"
                 round
                 className="mb-4 cursor-pointer"
-                src={icon!==null ? URL.createObjectURL(icon) : `https://s3.ap-northeast-1.amazonaws.com/newbyte-s3/${currentUser.avatar_image}`}
+                src={icon!==null ? URL.createObjectURL(icon) : `https://s3.us-east-1.amazonaws.com/newsbyte/${currentUser.avatar_image}`}
               />
               <div>
                 <div className="mb-6">

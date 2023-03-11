@@ -21,7 +21,7 @@ const User: NextPage = () => {
   const router = useRouter();
   const { isAuthChecking, currentUser } = useCurrentUser();
   const fetcher = (url: string) => axios.get(url).then(res => res.data.data);
-  const { data: articles } = useSWR(currentUser ? `/api/fetchMyArticle/${currentUser.id}`: null, fetcher
+  const { data: articles } = useSWR(currentUser ? `/api/fetchMyArticle/${currentUser.id}?api_token=${currentUser.api_token}`: null, fetcher
   );
 
 

@@ -69,7 +69,7 @@ const Comment: NextPage = ({content}: any) => {
 
 
   const deposit=async()=>{
-    const a=await createComment(commentForm);
+    const a=await createComment(commentForm, currentUser.api_token);
     setCommentForm({ ...commentForm, comment:''});
     return ;
   }

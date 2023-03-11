@@ -47,7 +47,7 @@ const CommentChoice: React.FC<Props> =(props: Props)=>{
   }
 
   const deposit=async()=>{
-    const a=await replyComment(replyForm);
+    const a=await replyComment(replyForm, currentUser.api_token);
     setReplyForm({ ...replyForm, comment:''});
     return ;
   }
@@ -67,7 +67,7 @@ const CommentChoice: React.FC<Props> =(props: Props)=>{
 
 
   const clickGood=()=>{
-    goodFunc(isGood, comment.id);
+    goodFunc(isGood, comment.id, currentUser.api_token);
     if(isGood){
       setGoodNumber(GoodNumber-1);
       setIsGood(!isGood);
@@ -98,7 +98,7 @@ const CommentChoice: React.FC<Props> =(props: Props)=>{
 
 
     const deleteComment=()=>{
-      DeleteComment(comment.id);
+      DeleteComment(comment.id, currentUser.api_token);
       setIsDelete(true);
     }
 

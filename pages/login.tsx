@@ -44,7 +44,6 @@ const Login: NextPage = () => {
 
 
       const googleLogin  = async() => {
-        axios.get ( '/sanctum/csrf-cookie', { withCredentials: true } )
         await axios
           .get ( '/auth/redirect' )
           .then ( ( response ) => {

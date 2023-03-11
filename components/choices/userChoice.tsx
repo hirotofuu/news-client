@@ -19,10 +19,10 @@ const Users:React.FC<Props> =(props: Props)=>{
 
   const Follow=async()=>{
     if(isFollow){
-      const b=await deleteFollow(player.id);
+      const b=await deleteFollow(player.id,  currentUser.api_token);
       setIsFollow(false);
     }else{
-      const a=await getFollow(player.id);
+      const a=await getFollow(player.id,  currentUser.api_token);
       setIsFollow(true);
     }
   }

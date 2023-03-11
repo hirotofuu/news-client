@@ -5,6 +5,7 @@ import { AxiosError, AxiosResponse } from 'axios';
 import { ChangeEvent, useState, useEffect, useRef} from 'react';
 import { useRequireLogin } from "../hooks/useRequireLogin"
 import {category_contents} from "../libs/category_contents"
+import { useCurrentUser } from "../hooks/useCurrentUser"
 import Meta from '../components/meta'
 import Image from 'next/image'
 import { useRouter } from 'next/router';
@@ -31,7 +32,7 @@ type Validation={
 
 const Create: NextPage = () => {
   const router = useRouter();
-
+  const { isAuthChecking, currentUser } = useCurrentUser();
   const [createForm, setCreateForm]=useState<CreateForm>({
     title: '',
     content: '',
@@ -108,9 +109,9 @@ const Create: NextPage = () => {
     formData.append("day_time", createForm.day_time );
     console.log(createForm);
         axios
-          .post(`/api/create`, formData,)
+          .post(`/api/create?api_token=${currentUser.api_token}`, formData,)
           .then((response: AxiosResponse) => {
-            router.push('/mypage/articles')
+            router.push(`/mypage/articles`)
             
         })
           .catch((err: AxiosError) => {

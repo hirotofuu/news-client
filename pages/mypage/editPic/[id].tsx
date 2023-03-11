@@ -5,6 +5,7 @@ import { AxiosError, AxiosResponse } from 'axios';
 import { ChangeEvent, useState, useRef} from 'react';
 import { useRouter } from 'next/router';
 import {getShowArticle, getEditPicArticle} from "../../../libs/fetchFunction";
+import { useCurrentUser } from "../../../hooks/useCurrentUser"
 import {GetServerSideProps} from 'next'
 import type {Article} from "../../../types/article"
 import { useIsMyInfoPage } from "../../../hooks/useMypageRoute"
@@ -33,6 +34,8 @@ type CreateForm={
 const Create: NextPage = ({article}: any) => {
 
   const router=useRouter()
+
+  const { currentUser } = useCurrentUser();
 
   const [createForm, setCreateForm]=useState<CreateForm>({
     id: article.id,
@@ -87,7 +90,7 @@ const Create: NextPage = ({article}: any) => {
     formData.append("file", createForm.image_file);
     formData.append("id", createForm.id);
         axios
-          .post(`/api/editArticlePic`, formData,)
+          .post(`/api/editArticlePic?api_token=${currentUser.api_token}`, formData,)
           .then((response: AxiosResponse) => {
             router.push('/mypage/articles')
             

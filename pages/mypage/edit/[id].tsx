@@ -4,6 +4,7 @@ import axios from '../../../libs/axios';
 import { AxiosError, AxiosResponse } from 'axios';
 import { ChangeEvent, useState} from 'react';
 import { useRouter } from 'next/router';
+import { useCurrentUser } from "../../../hooks/useCurrentUser"
 import { getEditTextArticle} from "../../../libs/fetchFunction";
 import {GetServerSideProps} from 'next'
 import type {Article} from "../../../types/article"
@@ -34,6 +35,7 @@ type CreateForm={
 const Create: NextPage = ({article}: any) => {
   const factor=article.IndexArticle
   const router=useRouter()
+  const { currentUser } = useCurrentUser();
   const [createForm, setCreateForm]=useState<CreateForm>({
     id: article.id,
     title: factor.title,
@@ -74,7 +76,7 @@ const Create: NextPage = ({article}: any) => {
       }
     };
       axios
-        .post(`/api/editArticleText`, createForm)
+        .post(`/api/editArticleText?api_token=${currentUser.api_token}`, createForm)
         .then((response: AxiosResponse) => {  
           router.push('/mypage/articles')    
         })

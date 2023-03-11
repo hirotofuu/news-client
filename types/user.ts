@@ -1,6 +1,7 @@
 export type User={
   id: string,
   secret_id: string,
+  api_token: string,
   name: string,
   avatar_image: string,
   profile: string,

@@ -5,9 +5,9 @@ import { AxiosError, AxiosResponse } from 'axios';
 
 
 // follow
-export async function getFollow($id: string){
+export async function getFollow($id: string, api_token: string){
   const answer=await axios
-  .get(`/api/followSend/${$id}`)
+  .get(`/api/followSend/${$id}?api_token=${api_token}`)
   .then((response: AxiosResponse) => {
   })
   .catch((err: AxiosError) => {
@@ -17,9 +17,9 @@ export async function getFollow($id: string){
 }
 
 // unfollow
-export async function deleteFollow($id: string){
+export async function deleteFollow($id: string, api_token: string){
   const answer=await axios
-  .delete(`/api/unFollowSend/${$id}`)
+  .delete(`/api/unFollowSend/${$id}?api_token=${api_token}`)
   .then((response: AxiosResponse) => {
     return;
   })

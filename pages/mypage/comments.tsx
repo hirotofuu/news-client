@@ -20,7 +20,7 @@ const Comment: NextPage = () => {
   const router = useRouter();
   const { isAuthChecking, currentUser } = useCurrentUser();
   const fetcher = (url: string) => axios.get(url).then(res => res.data.data);
-  const { data: comments } = useSWR(currentUser ? `/api/fetchMyComments/${currentUser.id}`: null, fetcher
+  const { data: comments } = useSWR(currentUser ? `/api/fetchMyComments/${currentUser.id}?api_token=${currentUser.api_token}`: null, fetcher
   );
 
   

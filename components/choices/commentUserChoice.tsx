@@ -23,7 +23,7 @@ const CommentUserChoice: React.FC<Props> =(props: Props)=>{
   const [isGood, setIsGood]=useState<boolean>(false);
   const [GoodNumber, setGoodNumber]=useState<number>(comment.good_number);
   const clickGood=()=>{
-    goodFunc(isGood, comment.id);
+    goodFunc(isGood, comment.id, currentUser.api_token);
     if(isGood){
       setGoodNumber(GoodNumber-1);
       setIsGood(!isGood);
@@ -46,7 +46,7 @@ const CommentUserChoice: React.FC<Props> =(props: Props)=>{
 
 
   const deleteComment=()=>{
-    DeleteComment(comment.id);
+    DeleteComment(comment.id, currentUser.api_token);
     setIsDelete(true);
   }
 

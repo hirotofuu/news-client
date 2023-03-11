@@ -5,6 +5,7 @@ import {faTrashCan, faComment} from '@fortawesome/free-solid-svg-icons'
 import {faPen} from '@fortawesome/free-solid-svg-icons'
 import {faImage} from '@fortawesome/free-solid-svg-icons'
 import {deleteArticle} from '../../libs/articleFunction'
+import { useCurrentUser } from "../../hooks/useCurrentUser"
 import type {Article} from "../../types/article"
 import ArticleChoice from "../choices/articleChoice"
 
@@ -14,9 +15,10 @@ interface Props {
 
 const ArticleUserChoice: React.FC<Props> =(props: Props)=>{
   const [isDelete, setIsDelete]=useState<boolean>(false);
+  const { currentUser } = useCurrentUser();
   const kiji=props.article;
   const deleteUserArticle=async()=>{
-    const a=await deleteArticle(kiji.id);
+    const a=await deleteArticle(kiji.id, currentUser.api_token);
     setIsDelete(true);
   }
 
