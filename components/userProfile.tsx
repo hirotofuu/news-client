@@ -23,11 +23,11 @@ const UserProfile:React.FC<Props> =(props: Props)=>{
 
   const Follow=async()=>{
     if(isFollow){
-      const b=await deleteFollow(pro.id);
+      const b=await deleteFollow(pro.id, currentUser.api_token);
       setFollowed_number(followed_number-1);
       setIsFollow(false);
     }else{
-      const a=await getFollow(pro.id);
+      const a=await getFollow(pro.id, currentUser.api_token);
       setFollowed_number(followed_number+1);
       setIsFollow(true);
     }
