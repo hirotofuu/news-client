@@ -5,7 +5,7 @@ import { AxiosError, AxiosResponse } from 'axios';
 
 export async function getIndexArticle(){
     const answer=axios
-    .get('/api/indexFetch/')
+    .get('/api/indexFetch')
     .then((response: AxiosResponse) => {
       return response.data.data;
     })
