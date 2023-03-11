@@ -56,7 +56,6 @@ const User: NextPage = () => {
 
 
     
-  if(isAuthChecking) return (<div>ログイン情報を確認中…</div>);
   
   if(!currentUser) return (<div>ログインしていません</div>);
 

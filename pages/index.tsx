@@ -34,7 +34,6 @@ export const getStaticProps: GetStaticProps = async () => {
 const Home: NextPage = ({factor}: any) => {
   const { isAuthChecking, currentUser } = useCurrentUser();
 
-  if(isAuthChecking) return (<div>ログイン情報を確認中…</div>);
 
   
   return (

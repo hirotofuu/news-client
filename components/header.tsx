@@ -47,7 +47,7 @@ const Header=()=>{
 
           <div className="gap-5 hidden xl:flex lg:flex md:flex sm:flex items-center">
             <Link href={"/create"}><a><FontAwesomeIcon icon={faPlus} className="text-xl mr-2"/></a></Link>
-            {!currentUser ? <Link href={"/create"}><a><FontAwesomeIcon icon={faUser} className="text-xl mr-10"/></a></Link> : 
+            {!currentUser ? <Link href={"/login"}><a><FontAwesomeIcon icon={faUser} className="text-xl mr-10"/></a></Link> : 
             <Link href={`/mypage/articles`}><a className="flex items-center mr-10">
               <Image
                 className="rounded-full"
