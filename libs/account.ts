@@ -17,7 +17,7 @@ export const fetchCurrentUser = () => {
   const answer=axios
         .get('/api/user')
         .then((response: AxiosResponse) => {
-          return response.data.data
+          return response.data
       })
         .catch((err: AxiosError) => {
           console.log(err)
