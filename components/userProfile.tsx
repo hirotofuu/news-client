@@ -47,13 +47,8 @@ const UserProfile:React.FC<Props> =(props: Props)=>{
   }
 
   useEffect(()=>{
-    if(!isAuthChecking && currentUser){
-      pro.following.map((foll: string)=>{
-        if(currentUser.id===foll){
-          setIsFollow(true);
-          return;
-        }
-      })
+    if(currentUser!==null && currentUser!==undefined){
+      console.log(currentUser)
     }
   }, [currentUser, isAuthChecking, pro.following])
 

@@ -58,7 +58,7 @@ const User: NextPage = () => {
     
   
   if(!currentUser) return (<div>ログインしていません</div>);
-
+  if(isAuthChecking) return (<div>ログイン情報を確認中…</div>);
   return (
       <>
         <Meta pageTitle={`master article page - newsbyte`} pageDesc={`you can check and delete your articles`}></Meta>
