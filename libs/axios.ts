@@ -1,7 +1,7 @@
 import Axios from 'axios'
  
 const axios = Axios.create({
-    baseURL: 'https://newsapi.info',
+    baseURL: 'https://newsbyteapi.info',
     headers: {
         'X-Requested-With': 'XMLHttpRequest',
         'Content-Type': 'application/json'
