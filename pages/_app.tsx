@@ -5,6 +5,7 @@ import '@fortawesome/fontawesome-svg-core/styles.css'
 import {config} from '@fortawesome/fontawesome-svg-core'
 import { useEffect, useCallback } from 'react';
 import { useSetRecoilState, RecoilRoot, } from 'recoil';
+import {getIndexArticle} from '../libs/fetchFunction'
 import { currentUserState } from '../atoms/userAtom';
 import { fetchCurrentUser } from '../libs/account';
 import NextNprogress from 'nextjs-progressbar'
@@ -16,6 +17,7 @@ function AppInit() {
   useEffect(()=>{
     const fetch =async()=>{
       const i  = await fetchCurrentUser(); 
+      const a  = await getIndexArticle();
       setCurrentUser(i);
     }
     fetch()
