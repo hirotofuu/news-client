@@ -14,14 +14,15 @@ export const logout = () => {
 
 export const fetchCurrentUser = () => {
 
-  const answer=axios
+  const currentUser=axios
         .get('/api/user')
         .then((response: AxiosResponse) => {
+          console.log(response.data)
           return response.data
       })
         .catch((err: AxiosError) => {
           console.log(err)
         });
 
-        return answer
+        return currentUser
 };

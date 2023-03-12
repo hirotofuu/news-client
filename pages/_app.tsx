@@ -13,19 +13,14 @@ import NextNprogress from 'nextjs-progressbar'
 config.autoAddCss=false
 function AppInit() {
   const setCurrentUser = useSetRecoilState(currentUserState);
-
-  useEffect(useCallback(() => {
-    (async function () {
-
-        const currentUser = await fetchCurrentUser(); 
-        if(currentUser===null){
-          setCurrentUser(null)
-        }
-        setCurrentUser(currentUser);
-    })();
-  },[]), [setCurrentUser])
-  
-  return null;
+  useEffect(()=>{
+    const fetch =async()=>{
+      const i  = await fetchCurrentUser(); 
+      setCurrentUser(i);
+    }
+    fetch()
+  }, [])
+  return null
 }
 
 function MyApp({ Component, pageProps }: AppProps) {
