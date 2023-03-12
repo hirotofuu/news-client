@@ -15,7 +15,7 @@ export const logout = () => {
 export const fetchCurrentUser = () => {
 
   const currentUser=axios
-        .get('/api/user')
+        .get('/api/userdayo')
         .then((response: AxiosResponse) => {
           console.log(response.data)
           return response.data
