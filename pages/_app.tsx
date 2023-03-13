@@ -8,31 +8,43 @@ import { useSetRecoilState, RecoilRoot, } from 'recoil';
 import {getIndexArticle} from '../libs/fetchFunction'
 import { currentUserState } from '../atoms/userAtom';
 import { fetchCurrentUser } from '../libs/account';
+import {useCurrentPass} from '../hooks/useCorrectPass'
 import NextNprogress from 'nextjs-progressbar'
 
 
 config.autoAddCss=false
-function AppInit() {
-  const setCurrentUser = useSetRecoilState(currentUserState);
-  useEffect(()=>{
-    const fetch =async()=>{
-      const i  = await fetchCurrentUser(); 
-      const a  = await getIndexArticle();
-      setCurrentUser(i);
-    }
-    fetch()
-  }, [])
-  return null
-}
+
 
 function MyApp({ Component, pageProps }: AppProps) {
+  function AppInit() {
+  const setCurrentUser = useSetRecoilState(currentUserState);
+  const {currentPass}=useCurrentPass()
+  useEffect(() => {
+    (async function () {
+
+        try {
+          const currentUser  = await fetchCurrentUser(currentPass); // サーバーへのリクエスト（未ログインの場合は401等を返すものとする）
+    // ログインユーザーの情報が取得できたのでグローバルステートにセット
+          setCurrentUser(currentUser);
+          return;
+        } catch {
+          // 未ログイン（未ログイン時のリダイレクト処理などをここに書いても良いかも）
+          setCurrentUser(null);
+        }
+
+    })();
+  },[])
+  
+  return null;
+}
+
   return (
     <>
         <RecoilRoot>  
           <NextNprogress/>
           <Header></Header>
           <Component {...pageProps} />
-          <AppInit />
+          <AppInit/>
         </RecoilRoot>
 
     </>

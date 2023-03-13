@@ -17,6 +17,7 @@ interface Props {
 }
 
 type InputType={
+  user_id: string
   comment: string;
   day_time: string;
   parent_id: string ;
@@ -35,6 +36,7 @@ const CommentChoice: React.FC<Props> =(props: Props)=>{
   const [replynumber, setReplynumber]=useState<number>(comment.child_number)
   const [isDelete, setIsDelete]=useState<boolean>(false);
   const [replyForm, setReplyForm]=useState<InputType>({
+    user_id: '',
     comment: '',
     day_time: `${new Date().getFullYear()}/${(new Date().getMonth() + 1)}/${new Date().getDate()}`,
     article_id: comment.article_id,
@@ -43,7 +45,7 @@ const CommentChoice: React.FC<Props> =(props: Props)=>{
 
 
   const updateCommentForm=(e: ChangeEvent<HTMLTextAreaElement>)=>{
-    setReplyForm({ ...replyForm, comment: e.target.value });
+    setReplyForm({ ...replyForm, comment: e.target.value, user_id:  currentUser.id});
   }
 
   const deposit=async()=>{
@@ -111,7 +113,6 @@ const CommentChoice: React.FC<Props> =(props: Props)=>{
 
 
 
-  if(isAuthChecking) return (<div>ログイン情報を確認中…</div>);
 
 
 

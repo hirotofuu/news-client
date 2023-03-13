@@ -107,6 +107,7 @@ const Create: NextPage = () => {
     formData.append("file", createForm.image_file);
     formData.append("comments_open", createForm.comments_open );
     formData.append("day_time", createForm.day_time );
+    formData.append("user_id ", currentUser.id );
     console.log(createForm);
         axios
           .post(`/api/create?api_token=${currentUser.api_token}`, formData,)

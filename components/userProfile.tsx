@@ -6,6 +6,8 @@ import {textToLink} from "../libs/textLink"
 import type {User} from "../types/user"
 import Link from "next/link";
 import { useCurrentUser } from "../hooks/useCurrentUser"
+import {useCurrentPass} from '../hooks/useCorrectPass'
+
 import {logout} from '../libs/account'
 import Avatar from "react-avatar";
 
@@ -16,6 +18,7 @@ interface Props {
 
 const UserProfile:React.FC<Props> =(props: Props)=>{
   const pro=props.info;
+  const {setCurrentPass, currentPass}=useCurrentPass();
   const { isAuthChecking, currentUser, setCurrentUser } = useCurrentUser();
   const router=useRouter();
   const [isFollow, setIsFollow]=useState<boolean>(false);
@@ -35,6 +38,7 @@ const UserProfile:React.FC<Props> =(props: Props)=>{
 
   const gologout=()=>{
     setCurrentUser(null)
+    setCurrentPass(null)
     logout()
   }
 

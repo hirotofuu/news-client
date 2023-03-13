@@ -67,14 +67,18 @@ const EditPro: NextPage = () => {
     (nextIcon: File | null) => {
       setIcon(nextIcon);
       
-
+      const config = {
+        headers: {
+        'content-type': 'multipart/form-data'
+        }
+      };
       const PicData = new FormData();
       PicData.append("file", nextIcon);
       PicData.append("id", String(currentUser.id));
 
 
           axios
-            .post(`/api/editProfile?api_token=${currentUser.api_token}`, PicData,)
+            .post(`/api/editProfile?api_token=${currentUser.api_token}`, PicData, config)
             .then((response: AxiosResponse) => {
               console.log("success")
               console.log(response.data)

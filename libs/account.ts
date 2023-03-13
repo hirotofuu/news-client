@@ -12,12 +12,11 @@ export const logout = () => {
         });
 };
 
-export const fetchCurrentUser = () => {
+export const fetchCurrentUser = (pass: string) => {
 
   const currentUser=axios
-        .get('/api/userdayo')
+        .get(`/api/userdayo/${pass}`)
         .then((response: AxiosResponse) => {
-          console.log(response.data.data)
           return response.data.data
       })
         .catch((err: AxiosError) => {

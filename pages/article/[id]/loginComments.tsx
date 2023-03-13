@@ -42,6 +42,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 type InputType={
+  user_id: string
   comment: string;
   day_time: string;
   article_id: string;
@@ -58,13 +59,14 @@ const Comment: NextPage = ({content}: any) => {
   const { isAuthChecking, currentUser } = useCurrentUser();
   
   const [commentForm, setCommentForm]=useState<InputType>({
+    user_id: '',
     comment: '',
     day_time: `${now.getFullYear()}/${(now.getMonth() + 1)}/${now.getDate()}`,
     article_id: content.id,
   })
 
   const updateCommentForm=(e: ChangeEvent<HTMLTextAreaElement>)=>{
-    setCommentForm({ ...commentForm, comment: e.target.value });
+    setCommentForm({ ...commentForm, comment: e.target.value, user_id:  currentUser.id });
   }
 
 
