@@ -4,17 +4,20 @@ import {useState, useEffect} from "react";
 import { useRouter } from 'next/router';
 import {textToLink} from "../libs/textLink"
 import type {User} from "../types/user"
+import {EvaluateType} from '../types/evaluate'
 import Link from "next/link";
 import { useCurrentUser } from "../hooks/useCurrentUser"
 import {useCurrentPass} from '../hooks/useCorrectPass'
-
 import {logout} from '../libs/account'
+import {destroyCookiee} from '../libs/cookie/set_cookie'
 import Avatar from "react-avatar";
 
 interface Props {
   info: User | null;
   mypage: boolean | null;
 }
+
+
 
 const UserProfile:React.FC<Props> =(props: Props)=>{
   const pro=props.info;
@@ -23,23 +26,27 @@ const UserProfile:React.FC<Props> =(props: Props)=>{
   const router=useRouter();
   const [isFollow, setIsFollow]=useState<boolean>(false);
   const [followed_number, setFollowed_number]=useState<number>(pro.follower_number)
+  const [goodInfo, setGoodInfo]=useState<EvaluateType>({
+    id: pro.id,
+    user_id: ''
+  })
 
   const Follow=async()=>{
     if(isFollow){
-      const b=await deleteFollow(pro.id, currentUser.api_token);
+      const b=await deleteFollow(goodInfo,  currentUser.api_token);
       setFollowed_number(followed_number-1);
       setIsFollow(false);
     }else{
-      const a=await getFollow(pro.id, currentUser.api_token);
+      const a=await getFollow(goodInfo,  currentUser.api_token);
       setFollowed_number(followed_number+1);
       setIsFollow(true);
     }
   }
 
   const gologout=()=>{
+    destroyCookiee()
     setCurrentUser(null)
     setCurrentPass(null)
-    logout()
   }
 
   const goLogin=()=>{
@@ -51,8 +58,14 @@ const UserProfile:React.FC<Props> =(props: Props)=>{
   }
 
   useEffect(()=>{
-    if(currentUser!==null && currentUser!==undefined){
-      console.log(currentUser)
+    if(currentUser && !isAuthChecking){
+      setGoodInfo({id: currentUser.id, user_id: pro.id})
+      pro.following.map((foll: string)=>{
+        if(currentUser.id===foll){
+          setIsFollow(true);
+          return;
+        }
+      })
     }
   }, [currentUser, isAuthChecking, pro.following])
 

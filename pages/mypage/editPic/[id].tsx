@@ -107,7 +107,7 @@ const Create: NextPage = ({article}: any) => {
       <div className="container mx-auto">
         <div className="w-full xl:w-1/2 lg:w-[600px] md:w-[600px] sm:w-full p-5 mx-auto xl:border-4 lg:border-4 md:border-4 my-2 xl:my-10 lg:my-10 md:my-10   bg-white rounded-md">
           <div className="text-center">
-            <h1 className="my-3 text-3xl font-semibold text-gray-700">Picture edit</h1>
+            <h1 className="my-3 text-3xl font-semibold text-gray-700">edit an article image</h1>
             <p className="text-gray-400 mb-6">Share knowledge, know the world</p>
           </div>
 
@@ -131,7 +131,7 @@ const Create: NextPage = ({article}: any) => {
               onChange={onFileInputChange}/>
 
 
-              <h1>selected pic</h1>
+              <h1>image preview</h1>
               <div className="relative w-full h-96">
                 <Image src={fileImage} alt="image" className="bg-gray-300" objectFit="cover" layout="fill" />
               </div>

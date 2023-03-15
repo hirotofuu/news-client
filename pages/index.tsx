@@ -18,7 +18,7 @@ import { useCurrentUser } from "../hooks/useCurrentUser"
 
 
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getStaticProps: GetStaticProps = async (context) => {
   const userArticle: Article[] | null=  await getIndexArticle() ;
   return{
     props: {

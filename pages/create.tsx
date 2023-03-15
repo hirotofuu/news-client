@@ -37,7 +37,7 @@ const Create: NextPage = () => {
     title: '',
     content: '',
     source: '',
-    category: '',
+    category: 'internet',
     image_file: null,
     comments_open: 'true',
     day_time: '',
@@ -142,13 +142,13 @@ const Create: NextPage = () => {
       <div className="container mx-auto">
         <div className="w-full xl:w-1/2 lg:w-[600px] md:w-[600px] sm:w-full p-5 mx-auto xl:border-4 lg:border-4 md:border-4 my-2 xl:my-10 lg:my-10 md:my-10   bg-white rounded-md">
           <div className="text-center">
-            <h1 className="my-3 text-3xl font-semibold text-gray-700">upload article</h1>
+            <h1 className="my-3 text-3xl font-semibold text-gray-700">upload an article</h1>
             <p className="text-gray-400 mb-6">Share knowledge, know the world</p>
           </div>
 
               <div className="mb-6">
                 <div className="flex gap-10 text-sm text-gray-600 mb-2">
-                  <label id="title" className="">title</label>
+                  <label id="title" className="">title (required)</label>
                   <h1 className={createForm.title.length>240? `text-red-500`: ''}>{`${createForm.title.length}/240`}</h1>
                 </div>
                 <input
@@ -164,7 +164,7 @@ const Create: NextPage = () => {
               </div>
               <div className="mb-6">
                 <div className="flex gap-10 text-sm text-gray-600 mb-2">
-                  <label id="title" className="">content</label>
+                  <label id="title" className="">content (required)</label>
                   <h1 className={createForm.content.length>10000? `text-red-500`: ''}>{`${createForm.content.length}/10000`}</h1>
                 </div>
                 <textarea
@@ -178,7 +178,7 @@ const Create: NextPage = () => {
               </div>
 
               <div className="mb-6">
-                <label id="category" className="block mb-2 text-sm text-gray-600">category</label>
+                <label id="category" className="block mb-2 text-sm text-gray-600">category (required)</label>
                 <select name="category" className=" border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 block w-full p-2.5 "
                 value={createForm.category}
                 onChange={updateSelectTextForm}
@@ -191,7 +191,7 @@ const Create: NextPage = () => {
                 {validation.category && (<p className="text-sm  text-red-500">{validation.category}</p>)}
               </div>
               <div>
-                <label id="image_file" className="block mb-2 text-sm text-gray-600">image</label>
+                <label id="image_file" className="block mb-2 text-sm text-gray-600">image (option)</label>
               </div>
               <div className="flex ">
                 <button className="block w-36 text-sm text-black rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300" 
@@ -211,14 +211,14 @@ const Create: NextPage = () => {
               onChange={onFileInputChange}/>
 
 
-              <h1>selected pic</h1>
+              <h1>image preview</h1>
               <div className="relative w-full h-96">
                 <Image src={fileImage} alt="image" className="bg-gray-300" objectFit="cover" layout="fill" />
               </div>
 
               <div className="mb-6 mt-6">
                 <div className="flex gap-10 text-sm text-gray-600 mb-2">
-                  <label id="source" className="">source</label>
+                  <label id="source" className="">source (option)</label>
                   <h1 className={createForm.source.length>1000? `text-red-500`: ''}>{`${createForm.source.length}/1000`}</h1>
                 </div>
                 <textarea

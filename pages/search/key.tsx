@@ -14,11 +14,13 @@ import NotFound from "../../components/notFound"
 import Users from "../../components_pro/users"
 import ArticlesPage from "../../components_pro/articlespage"
 
+
 export const getServerSideProps: GetServerSideProps= async (context) => {
   const QWord: string | string[]=context.query.q;
   const QType: string | string[]=context.query.type ? context.query.type : '';
   const SearchResult: Article[] | null=QType==='' ? await getSearchArticle(QWord) : [];
   const SearchUser: User[] | null = QType!=='' ? await getUserSearch(QWord) : [];
+
   return{
     props: {
       result:{SearchResult, SearchUser, QWord, QType},

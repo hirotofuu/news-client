@@ -1,4 +1,4 @@
-import {useState, useEffect, ChangeEvent} from 'react'
+import {useState, useEffect, ChangeEvent, useCallback} from 'react'
 import {goodFunc} from "../../libs/goodFunction"
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faThumbsUp, faTrashCan} from '@fortawesome/free-solid-svg-icons'
@@ -7,6 +7,7 @@ import { useCurrentUser } from "../../hooks/useCurrentUser"
 import {getReplyComments, replyComment} from '../../libs/commentFunction'
 import {DeleteComment} from '../../libs/commentFunction'
 import {Comment} from "../../types/comment"
+import {EvaluateType} from '../../types/evaluate'
 import CommentsPage from '../../components_pro/commentspage'
 import Avatar from 'react-avatar';
 import Link from 'next/link';
@@ -23,6 +24,8 @@ type InputType={
   parent_id: string ;
   article_id: string;
 }
+
+
 
 const CommentChoice: React.FC<Props> =(props: Props)=>{
   const comment=props.comment;
@@ -41,6 +44,10 @@ const CommentChoice: React.FC<Props> =(props: Props)=>{
     day_time: `${new Date().getFullYear()}/${(new Date().getMonth() + 1)}/${new Date().getDate()}`,
     article_id: comment.article_id,
     parent_id: comment.id,
+  })
+  const [goodInfo, setGoodInfo]=useState<EvaluateType>({
+    id: comment.id,
+    user_id: comment.user_id
   })
 
 
@@ -69,7 +76,7 @@ const CommentChoice: React.FC<Props> =(props: Props)=>{
 
 
   const clickGood=()=>{
-    goodFunc(isGood, comment.id, currentUser.api_token);
+    goodFunc(isGood, goodInfo, currentUser.api_token);
     if(isGood){
       setGoodNumber(GoodNumber-1);
       setIsGood(!isGood);
@@ -96,7 +103,7 @@ const CommentChoice: React.FC<Props> =(props: Props)=>{
       })
     }
     setIsReply(false)
-    }, [isAuthChecking, currentUser, comment.is_good, comment.article_id])
+    }, [isAuthChecking, currentUser, comment])
 
 
     const deleteComment=()=>{

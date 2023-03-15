@@ -1,32 +1,32 @@
 import axios from './axios';
 import { AxiosError, AxiosResponse } from 'axios';
+import {EvaluateType} from '../types/evaluate'
 
 
 
 
 // follow
-export async function getFollow($id: string, api_token: string){
+export async function getFollow(goodInfo: EvaluateType, api_token: string){
   const answer=await axios
-  .get(`/api/followSend/${$id}?api_token=${api_token}`)
+  .get(`/api/followSend/${goodInfo.user_id}/${goodInfo.id}?api_token=${api_token}`)
   .then((response: AxiosResponse) => {
   })
   .catch((err: AxiosError) => {
-
+    console.log(err)
   });
-  return answer;
 }
 
 // unfollow
-export async function deleteFollow($id: string, api_token: string){
+export async function deleteFollow(goodInfo: EvaluateType, api_token: string){
   const answer=await axios
-  .delete(`/api/unFollowSend/${$id}?api_token=${api_token}`)
+  .delete(`/api/unFollowSend/${goodInfo.user_id}/${goodInfo.id}?api_token=${api_token}`)
   .then((response: AxiosResponse) => {
     return;
   })
   .catch((err: AxiosError) => {
-
+    console.log(err)
   });
-  return answer;
+
 }
 
 // get following

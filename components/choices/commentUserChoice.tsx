@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import {DeleteComment} from '../../libs/commentFunction'
 import { useCurrentUser } from "../../hooks/useCurrentUser"
 import {Comment} from "../../types/comment"
+import {EvaluateType} from '../../types/evaluate'
 import Avatar from 'react-avatar';
 import Link from 'next/link';
 
@@ -22,8 +23,12 @@ const CommentUserChoice: React.FC<Props> =(props: Props)=>{
   const [isDelete, setIsDelete]=useState<boolean>(false);
   const [isGood, setIsGood]=useState<boolean>(false);
   const [GoodNumber, setGoodNumber]=useState<number>(comment.good_number);
+  const [goodInfo, setGoodInfo]=useState<EvaluateType>({
+    id: comment.id,
+    user_id: comment.user_id
+  })
   const clickGood=()=>{
-    goodFunc(isGood, comment.id, currentUser.api_token);
+    goodFunc(isGood, goodInfo, currentUser.api_token);
     if(isGood){
       setGoodNumber(GoodNumber-1);
       setIsGood(!isGood);
@@ -34,9 +39,9 @@ const CommentUserChoice: React.FC<Props> =(props: Props)=>{
   }
 
   useEffect(()=>{
-    if(!currentUser && !isAuthChecking){
+    if(currentUser && !isAuthChecking){
       comment.is_good.map((good :any)=>{
-        if(good===currentUser.id){  
+        if(good===currentUser.id){
           setIsGood(true);
           return;
         }
@@ -53,6 +58,8 @@ const CommentUserChoice: React.FC<Props> =(props: Props)=>{
   const login=()=>{
     router.push('/login');
   }
+
+
 
   if(isDelete)return(<></>);
 

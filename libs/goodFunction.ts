@@ -1,54 +1,54 @@
 import axios from './axios';
 import { AxiosError, AxiosResponse } from 'axios';
+import {EvaluateType} from '../types/evaluate'
 
 
 
-
-async function getGood($id: string, api_token: string){
+async function getGood(api_token: string, goodInfo: any){
 
   const answer=await axios
-    .get(`/api/goodSend/${$id}?api_token=${api_token}`)
+    .post(`/api/goodSend/${goodInfo.id}/${goodInfo.user_id}?api_token=${api_token}`)
     .then((response: AxiosResponse) => {
       return;
     })
     .catch((err: AxiosError) => {
-
+      console.log(err)
     });
-    return answer;
+    return answer
 }
 
 
 
 
-async function deleteGood($id: string, api_token: string){
+async function deleteGood(api_token: string, goodInfo: any){
 
   const answer=await axios
-    .delete(`/api/unGoodSend/${$id}?api_token=${api_token}`)
+    .delete(`/api/unGoodSend/${goodInfo.id}/${goodInfo.user_id}?api_token=${api_token}`)
     .then((response: AxiosResponse) => {
     })
     .catch((err: AxiosError) => {
-
+      console.log(err)
     });
-    return answer;
+    return answer
 }
 
 
 
-export async function goodFunc($bool: boolean, $id: string, api_token: string){
-  if($bool){
-    deleteGood($id, api_token);
+export async function goodFunc(bool: boolean, goodInfo: EvaluateType, api_token: string){
+  if(bool){
+    deleteGood(api_token, goodInfo);
     return ;
   }else{
-    getGood($id, api_token);
+    getGood(api_token, goodInfo);
     return ;
   }
 }
 
 // truth
-export async function getTruth($id: string, api_token: string){
+export async function getTruth($id: string, goodInfo: EvaluateType, api_token: string){
 
   const answer=await axios
-    .get(`/api/truthSend/${$id}?api_token=${api_token}`)
+    .get(`/api/truthSend/${goodInfo.id}/${goodInfo.user_id}?api_token=${api_token}`)
     .then((response: AxiosResponse) => {
     })
     .catch((err: AxiosError) => {
@@ -60,10 +60,10 @@ export async function getTruth($id: string, api_token: string){
 
 
 
-export async function deleteTruth($id: string, api_token: string){
+export async function deleteTruth($id: string,  goodInfo: EvaluateType,api_token: string){
 
     const answer=await axios
-    .delete(`/api/unTruthSend/${$id}?api_token=${api_token}`)
+    .delete(`/api/unTruthSend/${goodInfo.id}/${goodInfo.user_id}?api_token=${api_token}`)
     .then((response: AxiosResponse) => {
     })
     .catch((err: AxiosError) => {
@@ -73,10 +73,10 @@ export async function deleteTruth($id: string, api_token: string){
 }
 
 // fake
-export async function getFake($id: string, api_token: string){
+export async function getFake($id: string,  goodInfo: EvaluateType,api_token: string){
 
     const answer=await axios
-    .get(`/api/fakeSend/${$id}?api_token=${api_token}`)
+    .get(`/api/fakeSend/${goodInfo.id}/${goodInfo.user_id}?api_token=${api_token}`)
     .then((response: AxiosResponse) => {
     })
     .catch((err: AxiosError) => {
@@ -88,10 +88,10 @@ export async function getFake($id: string, api_token: string){
 
 
 
-export async function deleteFake($id: string, api_token: string){
+export async function deleteFake($id: string,  goodInfo: EvaluateType,api_token: string){
 
     const answer=await axios
-    .delete(`/api/unFakeSend/${$id}?api_token=${api_token}`)
+    .delete(`/api/unFakeSend/${goodInfo.id}/${goodInfo.user_id}?api_token=${api_token}`)
     .then((response: AxiosResponse) => {
     })
     .catch((err: AxiosError) => console.log(err.response));

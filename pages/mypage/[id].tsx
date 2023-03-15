@@ -23,6 +23,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       factor:{
         followingArticle,
         id,
+
       }
 
     },
@@ -32,8 +33,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 const Home: NextPage = ({factor}: any) => {
 
   useIsMyInfoPage(factor.id)
-
   return (
+    
       <>
             <Meta pageTitle={`following articles - newsbyte`} pageDesc={`you can check following user's articles`}></Meta>
           

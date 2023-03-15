@@ -3,6 +3,7 @@ import Image from "next/image";
 import {useState, useEffect} from 'react'
 import { useRouter } from 'next/router';
 import {Article} from "../types/article"
+import {EvaluateType} from '../types/evaluate'
 import {getTruth, deleteTruth, getFake, deleteFake} from "../libs/goodFunction"
 import {textToLink} from "../libs/textLink"
 import { useCurrentUser } from "../hooks/useCurrentUser"
@@ -10,6 +11,8 @@ import { useCurrentUser } from "../hooks/useCurrentUser"
 interface Props {
   content: Article | null;
 }
+
+
 
 const Content: React.FC<Props> =(props: Props)=>{
   const article=props.content;
@@ -19,25 +22,28 @@ const Content: React.FC<Props> =(props: Props)=>{
   const [isFake, setIsFake]=useState<boolean>(false);
   const [TruthNumber, setTruthNumber]=useState<number>(article.truth_number);
   const [FakeNumber, setFakeNumber]=useState<number>(article.fake_number);
-
+  const [goodInfo, setGoodInfo]=useState<EvaluateType>({
+    id: article.id,
+    user_id: article.user_id
+  })
   const goLogin=()=>{
     router.push("/login");
   }
 
   const truthClick= async ()=>{
       if(!isTruth && !isFake){
-        const a=await getTruth(article.id, currentUser.api_token);
+        const a=await getTruth(article.id, goodInfo, currentUser.api_token);
         setTruthNumber(TruthNumber+1);
         setIsTruth(true);
       }else if(!isTruth && isFake){
-        const a=await getTruth(article.id, currentUser.api_token);
-        const b=await deleteFake(article.id, currentUser.api_token);
+        const a=await getTruth(article.id, goodInfo, currentUser.api_token);
+        const b=await deleteFake(article.id, goodInfo, currentUser.api_token);
         setTruthNumber(TruthNumber+1);
         setIsTruth(true);
         setFakeNumber(FakeNumber-1);
         setIsFake(false);
       }else if(isTruth){
-        const b=await deleteTruth(article.id, currentUser.api_token);
+        const b=await deleteTruth(article.id, goodInfo, currentUser.api_token);
         setTruthNumber(TruthNumber-1);
         setIsTruth(false);
       }
@@ -46,18 +52,18 @@ const Content: React.FC<Props> =(props: Props)=>{
 
   const FakeClick= async ()=>{
       if(!isTruth && !isFake){
-        const a=await getFake(article.id, currentUser.api_token);
+        const a=await getFake(article.id, goodInfo, currentUser.api_token);
         setFakeNumber(FakeNumber+1);
         setIsFake(true);
       }else if(!isFake && isTruth){
-        const a=await getFake(article.id, currentUser.api_token);
-        const b=await deleteTruth(article.id, currentUser.api_token);
+        const a=await getFake(article.id, goodInfo, currentUser.api_token);
+        const b=await deleteTruth(article.id, goodInfo, currentUser.api_token);
         setFakeNumber(FakeNumber+1);
         setIsFake(true);
         setTruthNumber(TruthNumber-1);
         setIsTruth(false);
       }else if(isFake){
-        const b=await deleteFake(article.id, currentUser.api_token);
+        const b=await deleteFake(article.id, goodInfo, currentUser.api_token);
         setFakeNumber(FakeNumber-1);
         setIsFake(false);
       }

@@ -9,12 +9,16 @@ import {useEffect} from 'react'
 import {fetchCurrentUser} from '../../../libs/account'
 import {useCurrentPass} from "../../../hooks/useCorrectPass"
 import { useRouter } from 'next/router'
+import {setCookiee} from '../../../libs/cookie/set_cookie'
+import { parseCookies, nookies, destroyCookie } from 'nookies'
 
 
 
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const id: string | string[]=context.query.password ? context.query.password : '';
+  const cookie = parseCookies(context);
+  console.log()
   return{
     props: {
       factor:{

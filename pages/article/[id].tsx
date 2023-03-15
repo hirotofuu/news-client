@@ -17,12 +17,13 @@ import ArticlesUserPage from "../../components_pro/articlespage";
 import CommentsPage from '../../components_pro/commentspage'
 import {Article} from "../../types/article";
 import {Comment} from "../../types/comment"
-
+import {destroyCookiee} from '../../libs/cookie/set_cookie'
 export const  getStaticProps: GetStaticProps= async (context) => {
   const id=context.params.id;
   const IndexArticle: Article | null=await getShowArticle(id);
   const categoryArticle: Article[] | null=await getRecommendArticle(IndexArticle.category);
   const Commentarticle: Comment[] =await getComments(id);
+
 
   
   return{

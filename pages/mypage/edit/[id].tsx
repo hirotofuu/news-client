@@ -99,7 +99,7 @@ const Create: NextPage = ({article}: any) => {
       <div className="container mx-auto">
         <div className="-full xl:w-1/2 lg:w-[600px] md:w-[600px] sm:w-full p-5 mx-auto xl:border-4 lg:border-4 md:border-4 my-2 xl:my-10 lg:my-10 md:my-10   bg-white rounded-md">
           <div className="text-center">
-            <h1 className="my-3 text-3xl font-semibold text-gray-700">edit page</h1>
+            <h1 className="my-3 text-3xl font-semibold text-gray-700">edit an article</h1>
             <p className="text-gray-400 mb-6">Share knowledge, know the world</p>
           </div>
           <div>
@@ -151,7 +151,7 @@ const Create: NextPage = ({article}: any) => {
 
               <div className="mb-6 mt-6">
                 <div className="flex gap-10 text-sm text-gray-600 mb-2">
-                  <label id="source" className="">source</label>
+                  <label id="source" className="">source (option)</label>
                   {createForm.source!==null ? <h1 className={createForm.source.length>1000? `text-red-500`: ''}>{`${createForm.source.length}/1000`}</h1> : ''}
                 </div>
                 <textarea

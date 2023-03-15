@@ -10,8 +10,8 @@ import { currentUserState } from '../atoms/userAtom';
 import { fetchCurrentUser } from '../libs/account';
 import {useCurrentPass} from '../hooks/useCorrectPass'
 import NextNprogress from 'nextjs-progressbar'
-
-
+import {printCookie} from '../libs/cookie/tool'
+import {nookies} from 'nookies'
 config.autoAddCss=false
 
 
@@ -21,6 +21,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   const {currentPass}=useCurrentPass()
   useEffect(() => {
     (async function () {
+      printCookie()
 
         try {
           const currentUser  = await fetchCurrentUser(currentPass); // サーバーへのリクエスト（未ログインの場合は401等を返すものとする）
