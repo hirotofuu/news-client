@@ -6,11 +6,28 @@ import Axios from 'axios';
 import { AxiosError, AxiosResponse } from 'axios';
 import React, { ChangeEvent, useCallback, useRef, useState, useEffect } from 'react';
 import { useSetRecoilState } from 'recoil';
+import {useGetUserinfo} from '../../hooks/useGetUserinfo'
+import { GetServerSideProps } from 'next'
+import nookies from 'nookies'
 import { useCurrentUser } from "../../hooks/useCurrentUser"
 import { currentUserState } from '../../atoms/userAtom';
 import { useRouter } from 'next/router';
 import Avatar from 'react-avatar';
 import { IconEditor } from '../../components/IconEditor';
+
+
+
+export const getServerSideProps: GetServerSideProps= async (context) => {
+
+  const cookies = nookies.get(context)
+
+  return{
+    props: {
+      result:{cookies},
+    },
+  };
+}
+
 
 type CreateForm={
   id: any;
@@ -23,9 +40,10 @@ type Validation={
   profile?: string,
 };
 
-const EditPro: NextPage = () => {
+const EditPro: NextPage = ({result}:any) => {
   const router=useRouter()
   const { isAuthChecking, currentUser } = useCurrentUser();
+  const {getUserinfo}=useGetUserinfo()
   const setCurrentUser = useSetRecoilState(currentUserState);
   const [icon, setIcon] = useState<File | null>(null);
   const [previewIcon, setPreviewIcon] = useState<File | null>(null);
@@ -121,6 +139,8 @@ const EditPro: NextPage = () => {
       if(!isAuthChecking && currentUser)
       setEditForm({profile: currentUser.profile ? currentUser.profile : '', name: currentUser.name, id: currentUser.id});
     },[currentUser, isAuthChecking])
+
+    getUserinfo(result.cookies.accessToken)
 
     if(isAuthChecking) return (<div>ログイン情報を確認中…</div>);
   

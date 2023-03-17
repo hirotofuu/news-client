@@ -10,19 +10,21 @@ import {fetchCurrentUser} from '../../../libs/account'
 import {useCurrentPass} from "../../../hooks/useCorrectPass"
 import { useRouter } from 'next/router'
 import {setCookiee} from '../../../libs/cookie/set_cookie'
-import { parseCookies, nookies, destroyCookie } from 'nookies'
+import nookies from 'nookies'
 
 
 
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const id: string | string[]=context.query.password ? context.query.password : '';
-  const cookie = parseCookies(context);
+  setCookiee(context, id)
+  const cookies = nookies.get(context)
   console.log()
   return{
     props: {
       factor:{
         id,
+        cookies
       }
       
     },
@@ -34,9 +36,9 @@ const Home: NextPage = ({factor}: any) => {
   const {setCurrentUser, currentUser}=useCurrentUser();
   const {setCurrentPass, currentPass}=useCurrentPass();
   const number=factor.id
-
   useEffect(()=>{
-    setCurrentPass(`${factor.id}`)
+    console.log(factor.id)
+    console.log(factor.cookies.accessToken)
     const getAccount=async()=>{
       const userinfo=await fetchCurrentUser(factor.id)
       setCurrentUser(userinfo)

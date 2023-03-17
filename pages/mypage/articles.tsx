@@ -8,6 +8,12 @@ import Link from 'next/link'
 import { useRouter } from 'next/router';
 import type {User} from "../../types/user"
 import { useCurrentUser } from "../../hooks/useCurrentUser"
+import { currentUserState } from '../../atoms/userAtom';
+import { useSetRecoilState, RecoilRoot, } from 'recoil';
+import { fetchCurrentUser } from '../../libs/account';
+import { GetServerSideProps } from 'next'
+import {useGetUserinfo} from '../../hooks/useGetUserinfo'
+import nookies from 'nookies'
 import Meta from '../../components/meta'
 import Frame from "../../components/frame"
 import UserProfile from "../../components/userProfile"
@@ -15,10 +21,22 @@ import NotFound from "../../components/notFound"
 import ArticlesUserPage from "../../components_pro/articlesUserPage"
 
 
+export const getServerSideProps: GetServerSideProps= async (context) => {
 
+  const cookies = nookies.get(context)
 
-const User: NextPage = () => {
-  const router = useRouter();
+  return{
+    props: {
+      result:{cookies},
+    },
+  };
+}
+
+  const User: NextPage = ({result} : any) => {
+    console.log(result.cookies.accessToken)
+    const router = useRouter();
+    const {getUserinfo}=useGetUserinfo()
+
   const { isAuthChecking, currentUser } = useCurrentUser();
   const fetcher = (url: string) => axios.get(url).then(res => res.data.data);
   const { data: articles } = useSWR(currentUser ? `/api/fetchMyArticle/${currentUser.id}?api_token=${currentUser.api_token}`: null, fetcher
@@ -52,9 +70,9 @@ const User: NextPage = () => {
   }
 
 
-
-
-
+ 
+  getUserinfo(result.cookies.accessToken)
+  
     
   
   if(!currentUser) return (<div>ログインしていません</div>);

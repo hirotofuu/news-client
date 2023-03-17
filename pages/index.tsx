@@ -15,15 +15,18 @@ import Frame from "../components/frame"
 import CategoryBar from "../components/categoryBar"
 import ArticlesPage from "../components_pro/articlespage"
 import { useCurrentUser } from "../hooks/useCurrentUser"
+import nookies from 'nookies'
 
 
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const userArticle: Article[] | null=  await getIndexArticle() ;
+  const cookies = nookies.get(context)
   return{
     props: {
       factor:{
         userArticle,
+
 
       }
     },
@@ -33,7 +36,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
 const Home: NextPage = ({factor}: any) => {
   const { isAuthChecking, currentUser } = useCurrentUser();
-
 
   
   return (

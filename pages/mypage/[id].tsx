@@ -5,6 +5,8 @@ import styles from '../styles/Home.module.css'
 import Link from 'next/link'
 import {getTimelineArticle} from "../../libs/fetchFunction"
 import { GetServerSideProps } from 'next'
+import {useGetUserinfo} from '../../hooks/useGetUserinfo'
+import nookies from 'nookies'
 import type {Article} from "../../types/article"
 import Meta from '../../components/meta'
 import NotFound from "../../components/notFound"
@@ -18,12 +20,13 @@ import { useIsMyInfoPage } from "../../hooks/useMypageRoute"
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const id: string | string[]=context.query.id ? context.query.id : '';
   const followingArticle: Article[] | null= await getTimelineArticle(id);
+  const cookies = nookies.get(context)
   return{
     props: {
       factor:{
         followingArticle,
         id,
-
+        cookies,
       }
 
     },
@@ -31,7 +34,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 }
 
 const Home: NextPage = ({factor}: any) => {
-
+  console.log(factor.cookies.accessToken)
+  const {getUserinfo}=useGetUserinfo()
+  getUserinfo(factor.cookies.accessToken)
   useIsMyInfoPage(factor.id)
   return (
     

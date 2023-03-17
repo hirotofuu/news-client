@@ -13,6 +13,7 @@ import CategoryBar from "../../components/categoryBar"
 import NotFound from "../../components/notFound"
 import Users from "../../components_pro/users"
 import ArticlesPage from "../../components_pro/articlespage"
+import nookies from 'nookies'
 
 
 export const getServerSideProps: GetServerSideProps= async (context) => {
@@ -20,10 +21,11 @@ export const getServerSideProps: GetServerSideProps= async (context) => {
   const QType: string | string[]=context.query.type ? context.query.type : '';
   const SearchResult: Article[] | null=QType==='' ? await getSearchArticle(QWord) : [];
   const SearchUser: User[] | null = QType!=='' ? await getUserSearch(QWord) : [];
+  const cookies = nookies.get(context)
 
   return{
     props: {
-      result:{SearchResult, SearchUser, QWord, QType},
+      result:{SearchResult, SearchUser, QWord, QType, cookies},
     },
   };
 }
@@ -31,7 +33,7 @@ export const getServerSideProps: GetServerSideProps= async (context) => {
 
 const Search: NextPage = ({result}: any) => {
   const router = useRouter();
-
+  console.log(result.cookies)
 
   const a=result.SearchResult.length ? <ArticlesPage articles={result.SearchResult}></ArticlesPage> : <NotFound>{`we couldn’t find any results for “${result.QWord}”`}</NotFound>;
   const u=result.SearchUser.length?<Users users={result.SearchUser}></Users>: <NotFound>{`we couldn’t find any results for “${result.QWord}”`}</NotFound>;

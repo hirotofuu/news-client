@@ -30,7 +30,7 @@ export const  getStaticProps: GetStaticProps= async (context) => {
     props: {
       factor: {id, IndexArticle, Commentarticle, categoryArticle}
     },
-    revalidate: 600,
+    revalidate: 30,
   };
 }
 
@@ -49,21 +49,6 @@ const Comment: NextPage = ({factor}: any) => {
   const [article, setArticle] = useState<Article>(factor.IndexArticle)
   const isMine =currentUser && currentUser.id === factor.IndexArticle.user_id;
 
-  useEffect(()=>{
-    const reFetchArticle=async()=>{
-      try {
-        const data = await getShowArticle(factor.id);
-        console.log(data)
-        setArticle(data);
-      } catch (err) {
-        console.log(err)
-      }
-    }
-    if(isMine===true){
-      reFetchArticle();
-      return
-    }
-  }, [factor.id, isMine])
 
 
   return (

@@ -4,7 +4,7 @@ import { GetServerSidePropsContext } from 'next';
 export function setCookiee(ctx?: GetServerSidePropsContext, pass?: string | string[]) {
   setCookie(ctx, 'accessToken', pass, {
     maxAge: 30 * 24 * 60 * 60,
-    sameSite:'lax',
+    sameSite:'strict',
     httpOnly:true,
     path: '/',
   })

@@ -4,9 +4,11 @@ import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import axios from '../../libs/axios'
 import useSWR from "swr";
-import { useRouter } from 'next/router';
-import type {User} from "../../types/user"
 import { useCurrentUser } from "../../hooks/useCurrentUser"
+import { useRouter } from 'next/router';
+import {useGetUserinfo} from '../../hooks/useGetUserinfo'
+import { GetServerSideProps } from 'next'
+import nookies from 'nookies'
 import Meta from "../../components/meta"
 import Frame from "../../components/frame"
 import UserProfile from "../../components/userProfile"
@@ -14,11 +16,21 @@ import NotFound from "../../components/notFound"
 import CommentsUserPage from "../../components_pro/commentUserPage"
 
 
+export const getServerSideProps: GetServerSideProps= async (context) => {
 
+  const cookies = nookies.get(context)
 
-const Comment: NextPage = () => {
+  return{
+    props: {
+      result:{cookies},
+    },
+  };
+}
+
+const Comment: NextPage = ({result}: any) => {
   const router = useRouter();
   const { isAuthChecking, currentUser } = useCurrentUser();
+  const {getUserinfo}=useGetUserinfo()
   const fetcher = (url: string) => axios.get(url).then(res => res.data.data);
   const { data: comments } = useSWR(currentUser ? `/api/fetchMyComments/${currentUser.id}?api_token=${currentUser.api_token}`: null, fetcher
   );
@@ -49,7 +61,7 @@ const Comment: NextPage = () => {
 
 
 
-
+  getUserinfo(result.cookies.accessToken)
 
     
   if(isAuthChecking) return (<div>ログイン情報を確認中…</div>);
