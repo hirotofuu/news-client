@@ -1,4 +1,6 @@
-import type {  NextPage, GetStaticPaths, GetStaticProps  } from 'next'
+import type {  NextPage, GetServerSideProps  } from 'next'
+import {useGetUserinfo} from '../../../hooks/useGetUserinfo'
+import nookies from 'nookies'
 import Frame from "../../../components/frame"
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faComment, faRotateRight} from '@fortawesome/free-solid-svg-icons'
@@ -18,28 +20,22 @@ import NotFound from "../../../components/notFound"
 
 
 
-export const getStaticProps: GetStaticProps= async (context) => {
+export const getServerSideProps: GetServerSideProps= async (context) => {
   const id=context.params.id;
   const getArticle: Article=await getTitleArticle(id);
   const comments : Comment[]=await getComments(id);
   const commentsNumber: number=comments.length;
-
+  const cookies = nookies.get(context)
 
   return{
     props: {
-      content:{id , comments, getArticle, commentsNumber},
+      content:{id , comments, getArticle, commentsNumber, cookies},
 
     },
-    revalidate: 60,
   };
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  return {
-    paths: [],
-    fallback: 'blocking',
-  };
-};
+
 
 type InputType={
   user_id: string
@@ -94,9 +90,8 @@ const Comment: NextPage = ({content}: any) => {
   }
   
 
-
-
-
+  const {getUserinfo}=useGetUserinfo()
+  getUserinfo(content.cookies.uid)
 
 
 

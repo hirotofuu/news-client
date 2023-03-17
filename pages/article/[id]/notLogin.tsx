@@ -1,38 +1,45 @@
-
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import Link from 'next/link'
-import Frame from "../../components/frame"
-import CategoryBar from "../../components/categoryBar"
-import {getShowArticle, getRecommendArticle} from "../../libs/fetchFunction"
-import { NextPage, GetServerSideProps } from 'next'
-import {useGetUserinfo} from '../../hooks/useGetUserinfo'
-import nookies from 'nookies'
-import { useCurrentUser } from "../../hooks/useCurrentUser"
-import {getComments} from '../../libs/commentFunction'
+import Frame from "../../../components/frame"
+import CategoryBar from "../../../components/categoryBar"
+import {getShowArticle, getRecommendArticle} from "../../../libs/fetchFunction"
+import { NextPage, GetStaticPaths, GetStaticProps } from 'next'
+import { useCurrentUser } from "../../../hooks/useCurrentUser"
+import {getComments} from '../../../libs/commentFunction'
 import {useEffect, useState} from 'react'
-import Meta from '../../components/meta'
-import Content from "../../components/content"
-import Title from "../../components/title"
-import ArticlesUserPage from "../../components_pro/articlespage";
-import CommentsPage from '../../components_pro/commentspage'
-import {Article} from "../../types/article";
-import {Comment} from "../../types/comment"
-export const  getServerSideProps: GetServerSideProps= async (context) => {
+import Meta from '../../../components/meta'
+import Content from "../../../components/content"
+import Title from "../../../components/title"
+import ArticlesUserPage from "../../../components_pro/articlespage";
+import CommentsPage from '../../../components_pro/commentspage'
+import {Article} from "../../../types/article";
+import {Comment} from "../../../types/comment"
+
+
+export const  getStaticProps: GetStaticProps= async (context) => {
   const id=context.params.id;
   const IndexArticle: Article | null=await getShowArticle(id);
   const categoryArticle: Article[] | null=await getRecommendArticle(IndexArticle.category);
   const Commentarticle: Comment[] =await getComments(id);
-  const cookies = nookies.get(context)
+
+
+  
   return{
     props: {
-      factor: {id, IndexArticle, Commentarticle, categoryArticle,  cookies}
+      factor: {id, IndexArticle, Commentarticle, categoryArticle}
     },
+    revalidate: 600,
   };
 }
 
-
+export const getStaticPaths: GetStaticPaths = async () => {
+  return {
+    paths: [],
+    fallback: 'blocking',
+  };
+};
 
 
 
@@ -40,8 +47,7 @@ const Comment: NextPage = ({factor}: any) => {
 
   const { isAuthChecking, currentUser } = useCurrentUser();
   const [article, setArticle] = useState<Article>(factor.IndexArticle)
-  const {getUserinfo}=useGetUserinfo()
-  getUserinfo(factor.cookies.uid)
+  const isMine =currentUser && currentUser.id === factor.IndexArticle.user_id;
 
 
 
@@ -54,7 +60,7 @@ const Comment: NextPage = ({factor}: any) => {
           <Content content={article}  ></Content>
           <div className="flex justify-between bg-white border-t-2">
             <h1 className=" bg-white pt-4 pl-3 text-lg font-medium">comments ({factor.Commentarticle.length})</h1>
-            <Link href={currentUser ? `/article/${factor.id}/loginComments` : `/article/${factor.id}/comments`}><a className="mt-4 mr-4 border-2 px-2 p-1 rounded-lg rounded-l-full rounded-r-full text-blue-500">write!!</a></Link>
+            <Link href={`/article/${factor.id}/comments`}><a className="mt-4 mr-4 border-2 px-2 p-1 rounded-lg rounded-l-full rounded-r-full text-blue-500">write!!</a></Link>
           </div>
             {factor.Commentarticle.length!==0?
             <>

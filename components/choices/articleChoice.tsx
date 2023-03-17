@@ -3,6 +3,7 @@ import Image from "next/image";
 import noImage from "../../images/no_image_square.jpg"
 import Avatar from "react-avatar";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import { useCurrentUser } from "../../hooks/useCurrentUser"
 import {faEye, faCalendarDays} from '@fortawesome/free-solid-svg-icons'
 import type {Article} from "../../types/article"
 
@@ -12,9 +13,10 @@ interface Props {
 
 const ArticleChoice: React.FC<Props> =(props: Props)=>{
   const kiji=props.article;
+  const { currentUser } = useCurrentUser();
   return(
     <>
-      <Link href={`/article/${kiji.id}`} key={`${kiji.id}`}><a>
+      <Link href={currentUser ? `/article/${kiji.id}` : `/article/${kiji.id}/notLogin`} key={`${kiji.id}`}><a>
         <div className="group hover:bg-gray-100 flex p-3 border-b bg-white"  key={kiji.id}>
           <div className="">
             <Image className="" alt="article image" src={kiji.image_file ? `https://s3.us-east-1.amazonaws.com/newsbyte/${kiji.image_file}` : noImage} layout="fixed" objectFit="cover" width={110} height={110} unoptimized/>

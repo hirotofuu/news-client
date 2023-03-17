@@ -1,4 +1,4 @@
-import type { NextPage } from 'next'
+import type { NextPage, GetServerSideProps } from 'next'
 import axios from '../libs/axios';
 import Axios from 'axios';
 import { AxiosError, AxiosResponse } from 'axios';
@@ -6,11 +6,23 @@ import { ChangeEvent, useState, useEffect, useRef} from 'react';
 import { useRequireLogin } from "../hooks/useRequireLogin"
 import {category_contents} from "../libs/category_contents"
 import { useCurrentUser } from "../hooks/useCurrentUser"
+import {useGetUserinfo} from '../hooks/useGetUserinfo'
+import nookies from 'nookies'
 import Meta from '../components/meta'
 import Image from 'next/image'
 import { useRouter } from 'next/router';
 
+export const getServerSideProps: GetServerSideProps= async (context) => {
+  const QWord: string | string[]=context.query.q;
+  const QType: string | string[]=context.query.type ? context.query.type : '';
+  const cookies = nookies.get(context)
 
+  return{
+    props: {
+      result:{cookies},
+    },
+  };
+}
 
 type CreateForm={
   title: string;
@@ -30,8 +42,9 @@ type Validation={
   category?: string, 
 };
 
-const Create: NextPage = () => {
+const Create: NextPage = ({result}: any) => {
   const router = useRouter();
+  const {getUserinfo}=useGetUserinfo()
   const { isAuthChecking, currentUser } = useCurrentUser();
   const [createForm, setCreateForm]=useState<CreateForm>({
     title: '',
@@ -132,8 +145,7 @@ const Create: NextPage = () => {
   };
 
 
-
-  useRequireLogin()
+  getUserinfo(result.cookies.uid)
 
   return (
     <>

@@ -44,9 +44,8 @@ const UserProfile:React.FC<Props> =(props: Props)=>{
   }
 
   const gologout=()=>{
-    destroyCookiee()
     setCurrentUser(null)
-    setCurrentPass(null)
+    router.push('/mypage/login/logout')
   }
 
   const goLogin=()=>{

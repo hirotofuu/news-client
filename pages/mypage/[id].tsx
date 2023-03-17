@@ -36,7 +36,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 const Home: NextPage = ({factor}: any) => {
   console.log(factor.cookies.accessToken)
   const {getUserinfo}=useGetUserinfo()
-  getUserinfo(factor.cookies.accessToken)
+  getUserinfo(factor.cookies.uid)
   useIsMyInfoPage(factor.id)
   return (
     

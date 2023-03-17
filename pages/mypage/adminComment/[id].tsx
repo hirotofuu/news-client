@@ -7,13 +7,15 @@ import Frame from "../../../components/frame"
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faComment} from '@fortawesome/free-solid-svg-icons'
 import {GetServerSideProps} from 'next'
+import {useGetUserinfo} from '../../../hooks/useGetUserinfo'
+import nookies from 'nookies'
 import {getComments} from '../../../libs/commentFunction'
 import {getShowArticle} from '../../../libs/fetchFunction'
 import {Comment} from "../../../types/comment"
 import CommentTitle from "../../../components/commentTitle"
 import NotFound from "../../../components/notFound"
 import CommentsPage from '../../../components_pro/commentspage'
-import { useIsMyInfoPage,  } from "../../../hooks/useMypageRoute"
+import { useIsMyInfoPage} from "../../../hooks/useMypageRoute"
 import Meta from '../../../components/meta'
 
 
@@ -29,10 +31,10 @@ export const getServerSideProps: GetServerSideProps= async (context) => {
   const getArticle: InputType=await getShowArticle(id);
   const comments : Comment[]=await getComments(id);
   const commentsNumber: number=comments.length;
-  
+  const cookies = nookies.get(context)
   return{
     props: {
-      content:{id, comments, getArticle, commentsNumber},
+      content:{id, comments, getArticle, commentsNumber, cookies},
 
     },
   };
@@ -40,6 +42,8 @@ export const getServerSideProps: GetServerSideProps= async (context) => {
 
 
 const AdminComment: NextPage = ({content}: any) => {
+  const {getUserinfo}=useGetUserinfo()
+  getUserinfo(content.cookies.uid)
   useIsMyInfoPage(content.getArticle.user_id)
 
 

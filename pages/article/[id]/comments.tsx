@@ -34,7 +34,7 @@ export const getStaticProps: GetStaticProps= async (context) => {
       content:{id, user_id, comments, getArticle, commentsNumber},
 
     },
-    revalidate: 60,
+    revalidate: 300,
   };
 }
 

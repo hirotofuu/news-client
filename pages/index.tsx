@@ -1,4 +1,4 @@
-import type { NextPage } from 'next'
+import type { NextPage, GetServerSideProps } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
@@ -7,7 +7,7 @@ import axios from '../libs/axios'
 import useSWR from 'swr'
 import { useRouter } from 'next/router';
 import {getIndexArticle} from "../libs/fetchFunction"
-import { GetStaticProps, GetStaticPaths } from 'next'
+import {useGetUserinfo} from '../hooks/useGetUserinfo'
 import type {Article} from "../types/article"
 import Meta from "../components/meta"
 import NotFound from "../components/notFound"
@@ -19,25 +19,24 @@ import nookies from 'nookies'
 
 
 
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const userArticle: Article[] | null=  await getIndexArticle() ;
   const cookies = nookies.get(context)
   return{
     props: {
       factor:{
         userArticle,
-
+        cookies
 
       }
     },
-    revalidate: 150,
   };
 }
 
 const Home: NextPage = ({factor}: any) => {
   const { isAuthChecking, currentUser } = useCurrentUser();
-
-  
+  const {getUserinfo}=useGetUserinfo()
+  getUserinfo(factor.cookies.uid)  
   return (
       <>
           

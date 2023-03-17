@@ -8,9 +8,6 @@ import Link from 'next/link'
 import { useRouter } from 'next/router';
 import type {User} from "../../types/user"
 import { useCurrentUser } from "../../hooks/useCurrentUser"
-import { currentUserState } from '../../atoms/userAtom';
-import { useSetRecoilState, RecoilRoot, } from 'recoil';
-import { fetchCurrentUser } from '../../libs/account';
 import { GetServerSideProps } from 'next'
 import {useGetUserinfo} from '../../hooks/useGetUserinfo'
 import nookies from 'nookies'
@@ -33,7 +30,7 @@ export const getServerSideProps: GetServerSideProps= async (context) => {
 }
 
   const User: NextPage = ({result} : any) => {
-    console.log(result.cookies.accessToken)
+    console.log(result.cookies.uid)
     const router = useRouter();
     const {getUserinfo}=useGetUserinfo()
 
@@ -71,7 +68,7 @@ export const getServerSideProps: GetServerSideProps= async (context) => {
 
 
  
-  getUserinfo(result.cookies.accessToken)
+  getUserinfo(result.cookies.uid)
   
     
   

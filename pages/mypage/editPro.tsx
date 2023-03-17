@@ -6,8 +6,8 @@ import Axios from 'axios';
 import { AxiosError, AxiosResponse } from 'axios';
 import React, { ChangeEvent, useCallback, useRef, useState, useEffect } from 'react';
 import { useSetRecoilState } from 'recoil';
-import {useGetUserinfo} from '../../hooks/useGetUserinfo'
 import { GetServerSideProps } from 'next'
+import {useGetUserinfo} from '../../hooks/useGetUserinfo'
 import nookies from 'nookies'
 import { useCurrentUser } from "../../hooks/useCurrentUser"
 import { currentUserState } from '../../atoms/userAtom';
@@ -140,7 +140,7 @@ const EditPro: NextPage = ({result}:any) => {
       setEditForm({profile: currentUser.profile ? currentUser.profile : '', name: currentUser.name, id: currentUser.id});
     },[currentUser, isAuthChecking])
 
-    getUserinfo(result.cookies.accessToken)
+    getUserinfo(result.cookies.uid)
 
     if(isAuthChecking) return (<div>ログイン情報を確認中…</div>);
   

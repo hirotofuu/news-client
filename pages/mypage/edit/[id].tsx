@@ -7,6 +7,8 @@ import { useRouter } from 'next/router';
 import { useCurrentUser } from "../../../hooks/useCurrentUser"
 import { getEditTextArticle} from "../../../libs/fetchFunction";
 import {GetServerSideProps} from 'next'
+import {useGetUserinfo} from '../../../hooks/useGetUserinfo'
+import nookies from 'nookies'
 import type {Article} from "../../../types/article"
 import { useIsMyInfoPage } from "../../../hooks/useMypageRoute"
 import {category_contents} from "../../../libs/category_contents"
@@ -15,10 +17,10 @@ import Meta from '../../../components/meta'
 export const getServerSideProps: GetServerSideProps= async (context) => {
   const id=context.params.id;
   const IndexArticle: Article | null=await getEditTextArticle(id);
-
+  const cookies = nookies.get(context)
   return{
     props: {
-     article: {id, IndexArticle}
+     article: {id, IndexArticle, cookies}
     },
   };
 }
@@ -36,6 +38,7 @@ const Create: NextPage = ({article}: any) => {
   const factor=article.IndexArticle
   const router=useRouter()
   const { currentUser } = useCurrentUser();
+  const {getUserinfo}=useGetUserinfo()
   const [createForm, setCreateForm]=useState<CreateForm>({
     id: article.id,
     title: factor.title,
@@ -88,7 +91,7 @@ const Create: NextPage = ({article}: any) => {
   
   
   
-  
+  getUserinfo(article.cookies.uid)
   useIsMyInfoPage(factor.user_id)
 
 

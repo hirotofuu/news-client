@@ -61,7 +61,7 @@ const Comment: NextPage = ({result}: any) => {
 
 
 
-  getUserinfo(result.cookies.accessToken)
+  getUserinfo(result.cookies.uid)
 
     
   if(isAuthChecking) return (<div>ログイン情報を確認中…</div>);

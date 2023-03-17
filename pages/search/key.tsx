@@ -13,6 +13,7 @@ import CategoryBar from "../../components/categoryBar"
 import NotFound from "../../components/notFound"
 import Users from "../../components_pro/users"
 import ArticlesPage from "../../components_pro/articlespage"
+import {useGetUserinfo} from '../../hooks/useGetUserinfo'
 import nookies from 'nookies'
 
 
@@ -33,6 +34,7 @@ export const getServerSideProps: GetServerSideProps= async (context) => {
 
 const Search: NextPage = ({result}: any) => {
   const router = useRouter();
+  const {getUserinfo}=useGetUserinfo()
   console.log(result.cookies)
 
   const a=result.SearchResult.length ? <ArticlesPage articles={result.SearchResult}></ArticlesPage> : <NotFound>{`we couldn’t find any results for “${result.QWord}”`}</NotFound>;
@@ -51,6 +53,8 @@ const Search: NextPage = ({result}: any) => {
       query: {q: result.QWord}
     });
   }
+
+  getUserinfo(result.cookies.uid)
 
   return (
       <>
